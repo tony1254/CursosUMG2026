@@ -3,158 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Día 3: Estructura Formal y Lenguaje Lógico</title>
+    <title>Día 3: Estructura Formal y Compiladores Lógicos</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Paleta del Día 2 (Regreso al estilo académico limpio) */
-            --primary-hue: 260;
-            --primary: hsl(var(--primary-hue), 60%, 40%); /* Índigo */
-            --primary-light: hsl(var(--primary-hue), 60%, 95%);
-            --secondary: #34495e;
-            --accent: #00b894; /* Verde menta para conceptos correctos */
-            --warning: #fdcb6e;
-            --danger: #d63031;
-            --text-dark: #2d3436;
-            --border-radius: 12px;
+            /* Paleta Académica (Estilo Día 2) */
+            --primary-color: #2c3e50; /* Dark Slate */
+            --accent-color: #4834d4;  /* Deep Indigo */
+            --accent-light: #eaddff;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --code-bg: #2d3436;
+            --light-bg: #f8f9fa;
         }
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-            color: var(--text-dark);
+            background-color: var(--light-bg);
+            color: #333;
             line-height: 1.7;
-            padding-bottom: 80px;
+            padding-bottom: 100px;
         }
 
-        h1, h2, h3, h4, h5 {
+        h1, h2, h3, h4 {
             font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
         }
 
         .font-code {
             font-family: 'Fira Code', monospace;
         }
 
-        /* --- HERO SECTION --- */
+        /* --- Header Hero --- */
         .hero-section {
-            background: linear-gradient(135deg, var(--primary) 0%, #4834d4 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
             color: white;
-            padding: 3.5rem 1rem;
+            padding: 4rem 1rem;
             margin-bottom: 3rem;
-            border-radius: 0 0 30px 30px;
-            box-shadow: 0 10px 30px rgba(72, 52, 212, 0.2);
+            border-radius: 0 0 40px 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
-        /* --- CARDS PEDAGÓGICAS --- */
-        .card-concept {
+        /* --- Cards --- */
+        .edu-card {
             background: white;
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s;
             height: 100%;
             overflow: hidden;
-            border-top: 5px solid var(--primary);
+            border-top: 4px solid var(--accent-color);
         }
-        .card-concept:hover {
+        .edu-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
         }
 
-        /* --- ARBOL SINTÁCTICO --- */
-        .tree-wrapper {
-            background: white;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            border: 1px solid #dfe6e9;
-            text-align: center;
-            overflow-x: auto;
+        /* --- Tree Diagram Visuals --- */
+        .tree-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
         }
         .tree-node {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
             width: 50px; height: 50px;
             border-radius: 50%;
             background: white;
-            border: 2px solid var(--secondary);
-            font-weight: bold;
-            font-family: 'Fira Code', monospace;
-            position: relative;
-            z-index: 2;
-            transition: all 0.3s;
-        }
-        .tree-node.main { border-color: var(--primary); background: var(--primary-light); color: var(--primary); box-shadow: 0 0 10px rgba(72, 52, 212, 0.2); }
-        .tree-node.leaf { border-color: var(--accent); color: var(--text-dark); }
-        
-        .tree-connector {
-            position: relative;
-            height: 40px;
-            width: 2px;
-            background: #b2bec3;
-            margin: 0 auto;
-            z-index: 1;
-        }
-
-        /* --- DEFINICIONES PROFUNDAS --- */
-        .deep-dive-box {
-            background-color: #fff;
-            border-left: 4px solid var(--secondary);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        /* --- JERARQUÍA --- */
-        .hierarchy-list .list-group-item {
-            border: none;
-            border-left: 3px solid transparent;
-            margin-bottom: 5px;
-            background: #fdfdfd;
-        }
-        .hierarchy-list .list-group-item:hover {
-            border-left-color: var(--primary);
-            background: #f1f2f6;
-        }
-        .badge-priority {
-            background: var(--secondary);
-            color: white;
-            width: 25px; height: 25px;
-            border-radius: 50%;
-            display: inline-flex;
+            border: 2px solid var(--accent-color);
+            display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 10px;
-            font-size: 0.8rem;
+            font-weight: bold;
+            font-family: 'Fira Code', monospace;
+            z-index: 2;
+            position: relative;
+            transition: all 0.3s;
         }
-
-        /* --- PROLOG CONSOLE --- */
-        .prolog-console {
-            background: #2d3436;
+        .tree-node.root { background: var(--accent-color); color: white; transform: scale(1.1); }
+        .tree-node.leaf { border-color: var(--success-color); color: var(--success-color); }
+        
+        .connector-line {
+            width: 2px;
+            background-color: #ccc;
+            height: 30px; /* Longitud de conectores verticales */
+            margin: 0 auto;
+        }
+        
+        /* --- Console Simulator --- */
+        .console-container {
+            background-color: var(--code-bg);
+            border-radius: 8px;
+            padding: 20px;
             color: #dfe6e9;
             font-family: 'Fira Code', monospace;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 5px solid var(--warning);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-        .prolog-query { color: var(--warning); }
-        .prolog-true { color: var(--accent); }
-
+        .token-box {
+            display: inline-block;
+            padding: 2px 8px;
+            margin: 2px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.85rem;
+        }
+        .token-type { color: #81ecec; font-size: 0.7rem; display: block; }
+        
+        /* --- Callouts --- */
+        .callout {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--accent-color);
+            background-color: #fff;
+            border-radius: 0 8px 8px 0;
+        }
     </style>
 </head>
 <body>
 
     <header class="hero-section text-center">
         <div class="container">
-            <span class="badge bg-white text-primary mb-3 px-3 py-2 fw-bold rounded-pill shadow-sm">DÍA 3: FORMALIZACIÓN</span>
-            <h1 class="display-5 fw-bold mb-3">Sintaxis, Semántica y Árboles Lógicos</h1>
-            <p class="lead mx-auto opacity-90" style="max-width: 800px;">
-                Abandonamos la ambigüedad del lenguaje natural. Hoy aprenderemos a estructurar el pensamiento como lo hace un compilador: mediante <strong>jerarquías estrictas, análisis sintáctico y grafos de árbol</strong>.
+            <span class="badge bg-white text-dark mb-3 px-3 py-2 rounded-pill fw-bold border">DÍA 3: FORMALIZACIÓN & COMPILACIÓN</span>
+            <h1 class="display-4 mb-3">Lógica Formal y Estructura de Datos</h1>
+            <p class="lead mx-auto" style="max-width: 800px;">
+                Hoy transformamos el pensamiento en estructuras matemáticas rigurosas. Entenderemos cómo una computadora "lee" la lógica a través del análisis léxico, sintáctico y semántico.
             </p>
         </div>
     </header>
@@ -162,267 +143,241 @@
     <div class="container">
 
         <section class="mb-5">
-            <div class="d-flex align-items-center mb-4">
-                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                    <i class="bi bi-fonts fs-4"></i>
-                </div>
-                <h2 class="m-0 text-primary">1. El Alfabeto Proposicional</h2>
-            </div>
-            
-            <p class="text-muted mb-4">
-                Todo lenguaje formal ($\Sigma$) necesita un conjunto finito de piezas para construir expresiones. En Lógica Proposicional, dividimos estas piezas en tres categorías estrictas.
+            <h2 class="section-title text-primary border-bottom pb-2 mb-4">
+                <i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal ($\Sigma$)
+            </h2>
+            <p class="mb-4">
+                Para que la lógica sea computable, debe definirse como un lenguaje formal con un alfabeto finito y reglas estrictas. Agrupamos los símbolos según su función y su <strong>aridad</strong> (número de argumentos que requieren).
             </p>
 
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="card-concept p-4 h-100">
-                        <h5 class="fw-bold text-dark mb-3"><i class="bi bi-tag-fill me-2 text-primary"></i>Variables Proposicionales</h5>
-                        <p class="small text-muted">Son los átomos. Representan hechos indivisibles que pueden ser $V$ o $F$.</p>
-                        <hr>
-                        <div class="font-code text-center fs-5 text-secondary">
-                            p, q, r, s...<br>
-                            <span class="fs-6 text-muted">p<sub>1</sub>, p<sub>2</sub>, ... (Conjunto Infinito)</span>
+                    <div class="edu-card p-4">
+                        <div class="text-center mb-3">
+                            <i class="bi bi-chat-square-text fs-1 text-success"></i>
+                        </div>
+                        <h5 class="fw-bold text-center">A. Proposiciones</h5>
+                        <p class="small text-muted text-center">Variables que almacenan valores de verdad (True/False).</p>
+                        <div class="alert alert-light border text-center font-code">
+                            p, q, r, s...
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card-concept p-4 h-100" style="border-top-color: var(--accent);">
-                        <h5 class="fw-bold text-dark mb-3"><i class="bi bi-bezier2 me-2" style="color: var(--accent);"></i>Conectivos y Aridad</h5>
-                        <p class="small text-muted">La <strong>aridad</strong> es el número de operandos que requiere un operador.</p>
-                        
-                        <ul class="list-unstyled small">
-                            <li class="mb-3 p-2 bg-light rounded border-start border-3 border-warning">
-                                <strong>Unario (Aridad 1):</strong> <span class="font-code fs-5">¬</span><br>
-                                Actúa sobre 1 variable. (Ej: $\neg p$)
-                            </li>
-                            <li class="p-2 bg-light rounded border-start border-3 border-success">
-                                <strong>Binario (Aridad 2):</strong> <span class="font-code fs-5">∧ ∨ → ↔</span><br>
-                                Unen 2 variables. (Ej: $p \land q$)
-                            </li>
-                        </ul>
+                    <div class="edu-card p-4">
+                        <div class="text-center mb-3">
+                            <i class="bi bi-1-circle fs-1 text-warning"></i>
+                        </div>
+                        <h5 class="fw-bold text-center">B. Conectivos Unarios</h5>
+                        <p class="small text-muted text-center">Aridad = 1. Operan sobre <strong>una sola</strong> proposición.</p>
+                        <div class="alert alert-light border text-center font-code">
+                            ¬ (Negación)
+                        </div>
+                        <div class="text-center small text-secondary">Ejemplo: ¬p</div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card-concept p-4 h-100" style="border-top-color: var(--secondary);">
-                        <h5 class="fw-bold text-dark mb-3"><i class="bi bi-brackets me-2 text-secondary"></i>Símbolos Auxiliares</h5>
-                        <p class="small text-muted">Signos de puntuación que definen el alcance y eliminan la ambigüedad.</p>
-                        <hr>
-                        <div class="text-center">
-                            <span class="display-6 font-code">( )</span>
-                            <div class="mt-2 badge bg-secondary">Paréntesis</div>
+                    <div class="edu-card p-4">
+                        <div class="text-center mb-3">
+                            <i class="bi bi-2-circle fs-1 text-primary"></i>
                         </div>
-                        <p class="small mt-3 fst-italic">Sin ellos, no sabríamos qué operación ejecutar primero.</p>
+                        <h5 class="fw-bold text-center">C. Conectivos Binarios</h5>
+                        <p class="small text-muted text-center">Aridad = 2. Enlazan <strong>dos</strong> proposiciones.</p>
+                        <div class="alert alert-light border text-center font-code">
+                            ∧, ∨, →, ↔
+                        </div>
+                        <div class="text-center small text-secondary">Ejemplo: p ∧ q</div>
                     </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-secondary mt-3 d-flex align-items-center">
+                <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+                <div>
+                    <strong>Símbolos Auxiliares:</strong> Los paréntesis <code>( )</code> son signos de puntuación vitales. No tienen valor de verdad, pero definen el <strong>alcance</strong> y la jerarquía.
                 </div>
             </div>
         </section>
 
         <section class="mb-5">
-            <h2 class="text-primary mb-4"><i class="bi bi-sort-numeric-down me-2"></i>2. Jerarquía de Operadores</h2>
+            <h2 class="section-title text-primary border-bottom pb-2 mb-4">
+                <i class="bi bi-sort-numeric-down me-2"></i>2. Jerarquía de Operadores
+            </h2>
             
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <div class="deep-dive-box">
-                        <h5 class="fw-bold">Implícito vs. Explícito</h5>
-                        <p>
-                            En el lenguaje natural decimos "No voy al cine y estudio". ¿El "No" afecta a ir al cine, o afecta a todo?
-                        </p>
-                        <ul class="list-unstyled font-code small bg-light p-3 rounded">
-                            <li class="mb-2 text-danger"><i class="bi bi-x-circle me-2"></i>¬ p ∧ q (Ambigua sin reglas)</li>
-                            <li class="text-success"><i class="bi bi-check-circle me-2"></i>(¬ p) ∧ q (Explícita)</li>
-                        </ul>
-                        <p class="mb-0 mt-3 small">
-                            Para evitar escribir paréntesis infinitos, acordamos un <strong>Orden de Precedencia</strong> (como el PEMDAS en matemáticas).
-                        </p>
+                    <div class="callout">
+                        <h4 class="fw-bold">Implícito vs. Explícito</h4>
+                        <p>En el lenguaje natural somos ambiguos. En lógica formal, la jerarquía elimina la ambigüedad.</p>
+                        
+                        <table class="table table-bordered bg-white small mt-3">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th>Expresión</th>
+                                    <th>Interpretación de la Máquina</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted">Ambigüo</td>
+                                    <td class="font-code text-danger">p ∧ q → r</td>
+                                    <td>¿Primero el AND o el Condicional?</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Implícito</td>
+                                    <td class="font-code text-primary">p ∧ q → r</td>
+                                    <td>(p ∧ q) → r <br><small class="text-muted text-fst-italic">El AND gana por jerarquía.</small></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Explícito</td>
+                                    <td class="font-code text-success">(p ∧ q) → r</td>
+                                    <td>Claridad total mediante paréntesis.</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
+                
                 <div class="col-lg-6">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-dark text-white fw-bold">
-                            Reglas de Prioridad (De mayor a menor fuerza)
-                        </div>
-                        <ul class="list-group list-group-flush hierarchy-list">
-                            <li class="list-group-item">
-                                <span class="badge-priority">1</span> <strong>( ) Paréntesis</strong> <span class="text-muted ms-2 small">- Rompen cualquier regla.</span>
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge-priority">2</span> <strong>¬ Negación</strong> <span class="text-muted ms-2 small">- Se pega inmediatamente a la variable.</span>
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge-priority">3</span> <strong>∧ Conjunción (Y)</strong>
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge-priority">4</span> <strong>∨ Disyunción (O)</strong>
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge-priority">5</span> <strong>→ Condicional</strong>
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge-priority">6</span> <strong>↔ Bicondicional</strong> <span class="text-muted ms-2 small">- El enlace más débil.</span>
-                            </li>
+                    <div class="card bg-dark text-white p-4 rounded-3 shadow">
+                        <h5 class="mb-3 border-bottom border-secondary pb-2">Pirámide de Precedencia</h5>
+                        <ul class="list-unstyled font-code">
+                            <li class="mb-2 text-warning"><i class="bi bi-caret-right-fill"></i> 1. ( ) Paréntesis <span class="text-white-50 ms-2">// Máxima prioridad</span></li>
+                            <li class="mb-2"><i class="bi bi-caret-right-fill"></i> 2. ¬ Negación <span class="text-white-50 ms-2">// Se pega a la variable</span></li>
+                            <li class="mb-2"><i class="bi bi-caret-right-fill"></i> 3. ∧ Conjunción (AND)</li>
+                            <li class="mb-2"><i class="bi bi-caret-right-fill"></i> 4. ∨ Disyunción (OR)</li>
+                            <li class="mb-2"><i class="bi bi-caret-right-fill"></i> 5. → Condicional</li>
+                            <li class="mb-2 text-white-50"><i class="bi bi-caret-right-fill"></i> 6. ↔ Bicondicional <span class="ms-2">// Mínima prioridad</span></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <hr class="my-5 opacity-25">
-
         <section class="mb-5">
-            <div class="d-flex justify-content-between align-items-end mb-4">
-                <div>
-                    <h2 class="text-primary m-0"><i class="bi bi-diagram-3 me-2"></i>3. Árboles de Formación (Sintaxis)</h2>
-                    <p class="text-muted mb-0 mt-2">La estructura interna de una fórmula. Cada nodo es una <strong>subfórmula</strong>.</p>
+            <h2 class="section-title text-primary border-bottom pb-2 mb-4">
+                <i class="bi bi-diagram-3 me-2"></i>3. Árboles Sintácticos (Grafos)
+            </h2>
+            <p>
+                Una fórmula lógica es lineal (texto), pero su estructura real es un <strong>Árbol Binario</strong>. 
+                <br>La "Raíz" es el conectivo principal. Las "Hojas" son las proposiciones simples.
+            </p>
+
+            <div class="tree-diagram shadow-sm position-relative">
+                <span class="badge bg-light text-dark border mb-4 font-code fs-5">Fórmula: ¬(p ∨ q)</span>
+
+                <div class="tree-node root" data-bs-toggle="tooltip" title="Raíz: Conectivo Principal">¬</div>
+                
+                <div class="connector-line"></div>
+
+                <div class="tree-node" style="border-color: #3498db; color: #3498db;">∨</div>
+
+                <div style="display: flex; justify-content: space-between; width: 100px; height: 20px; border-top: 2px solid #ccc; margin-top: -10px;">
+                    <div style="width: 50%; border-right: 1px solid transparent;"></div> </div>
+                <div style="display: flex; justify-content: space-between; width: 120px;">
+                    <div style="width: 1px; height: 15px; background: #ccc;"></div>
+                    <div style="width: 1px; height: 15px; background: #ccc;"></div>
+                </div>
+
+                <div class="d-flex gap-5 mt-1">
+                    <div class="tree-node leaf">p</div>
+                    <div class="tree-node leaf">q</div>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <small class="text-muted d-block"><i class="bi bi-arrow-down"></i> <strong>Desarrollo Top-Down:</strong> Análisis sintáctico (descomposición).</small>
+                    <small class="text-muted d-block"><i class="bi bi-arrow-up"></i> <strong>Desarrollo Bottom-Up:</strong> Evaluación de verdad (semántica).</small>
                 </div>
             </div>
+        </section>
 
-            <div class="tree-wrapper shadow">
-                <h5 class="text-muted mb-4 font-code">Fórmula: ¬(p ∨ q) → (¬r ∧ s)</h5>
+        <section class="mb-5">
+            <h2 class="section-title text-primary border-bottom pb-2 mb-4">
+                <i class="bi bi-cpu me-2"></i>4. El Pipeline del Lenguaje Lógico
+            </h2>
+            <p class="mb-4">
+                Tanto en Prolog como en compiladores (Java, C++), el código pasa por tres fases. 
+                Aquí usamos <strong>Expresiones Regulares</strong> para el análisis léxico.
+            </p>
 
-                <div class="d-flex justify-content-center position-relative">
-                    <div>
-                        <div class="tree-node main" data-bs-toggle="tooltip" title="Conectivo Principal (Raíz)">→</div>
-                        <div class="small text-primary fw-bold mt-1">RAÍZ</div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-center my-2 text-secondary opacity-25">
-                    <i class="bi bi-arrow-down-left fs-3 me-5"></i>
-                    <i class="bi bi-arrow-down-right fs-3 ms-5"></i>
-                </div>
-
-                <div class="d-flex justify-content-center gap-5 mb-3">
-                    <div class="mx-5 text-center">
-                        <div class="tree-node" style="border-color: #d63031; color: #d63031;">¬</div>
-                        <div class="small text-muted mt-1">Rama Izq</div>
-                    </div>
-                    <div class="mx-5 text-center">
-                        <div class="tree-node" style="border-color: #00b894; color: #00b894;">∧</div>
-                        <div class="small text-muted mt-1">Rama Der</div>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-center my-2 text-secondary opacity-25">
-                    <div class="me-5 pe-4"><i class="bi bi-arrow-down"></i></div> <div class="ms-5 ps-4">
-                        <i class="bi bi-arrow-down-left me-2"></i>
-                        <i class="bi bi-arrow-down-right ms-2"></i>
-                    </div>
-                </div>
-
-                <div class="d-flex justify-content-center gap-4 mb-3">
-                    <div class="me-5 text-center">
-                        <div class="tree-node">∨</div>
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="list-group">
+                        <div class="list-group-item list-group-item-action active" id="step1-desc">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">1. Análisis Léxico</h5>
+                                <small>Scanner</small>
+                            </div>
+                            <p class="mb-1 small">Rompe el texto en <strong>Tokens</strong> usando Expresiones Regulares. Identifica qué es variable y qué es operador.</p>
+                        </div>
+                        <div class="list-group-item list-group-item-action" id="step2-desc">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">2. Análisis Sintáctico</h5>
+                                <small>Parser</small>
+                            </div>
+                            <p class="mb-1 small">Verifica la gramática y construye el <strong>Árbol de Derivación</strong>. Revisa balanceo de paréntesis.</p>
+                        </div>
+                        <div class="list-group-item list-group-item-action" id="step3-desc">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">3. Análisis Semántico</h5>
+                                <small>Evaluator</small>
+                            </div>
+                            <p class="mb-1 small">Evalúa el <strong>Significado</strong> (Verdad o Falsedad) de la afirmación.</p>
+                        </div>
                     </div>
                     
-                    <div class="ms-5 d-flex gap-4">
-                        <div class="tree-node">¬</div>
-                        <div class="tree-node leaf">s</div>
-                    </div>
+                    <button class="btn btn-dark w-100 mt-3 py-3 fw-bold shadow" onclick="simulateCompiler()">
+                        <i class="bi bi-play-fill me-2"></i> Ejecutar Análisis de: (p ∧ q)
+                    </button>
                 </div>
 
-                <div class="d-flex justify-content-center gap-5 mt-4">
-                    <div class="me-5 pe-3 d-flex gap-3">
-                        <div class="tree-node leaf">p</div>
-                        <div class="tree-node leaf">q</div>
-                    </div>
-                    <div class="ms-3 ps-5">
-                        <div class="tree-node leaf">r</div>
-                    </div>
-                </div>
-
-                <div class="mt-4 pt-3 border-top d-flex justify-content-between text-muted small">
-                    <span><i class="bi bi-arrow-up"></i> <strong>Ascendente (Bottom-Up):</strong> Construcción de la fórmula.</span>
-                    <span><strong>Descendente (Top-Down):</strong> Análisis sintáctico. <i class="bi bi-arrow-down"></i></span>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-5">
-            <h2 class="text-primary mb-4"><i class="bi bi-cpu me-2"></i>4. El Proceso Computacional</h2>
-            <p class="text-muted">Cuando escribes código o lógica, la computadora realiza tres análisis secuenciales.</p>
-
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center">
-                            <div class="mb-3 text-secondary"><i class="bi bi-braces fs-1"></i></div>
-                            <h5 class="card-title fw-bold">1. Análisis Léxico</h5>
-                            <h6 class="text-muted small text-uppercase mb-3">Tokenización</h6>
-                            <p class="card-text small">Divide la cadena de texto en piezas conocidas (tokens).</p>
-                            <div class="alert alert-light border font-code small">
-                                Input: "p & q"<br>
-                                Output: [VAR:p, OP:&, VAR:q]
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100 border-primary shadow">
-                        <div class="card-body text-center">
-                            <div class="mb-3 text-primary"><i class="bi bi-diagram-2 fs-1"></i></div>
-                            <h5 class="card-title fw-bold text-primary">2. Análisis Sintáctico</h5>
-                            <h6 class="text-muted small text-uppercase mb-3">Gramática</h6>
-                            <p class="card-text small">Verifica si el orden es válido. Construye el árbol.</p>
-                            <div class="alert alert-primary bg-opacity-10 border-0 small">
-                                ¿Faltan paréntesis?<br>
-                                ¿Hay dos operadores juntos?<br>
-                                <strong class="text-success">Resultado: Árbol válido.</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center">
-                            <div class="mb-3 text-success"><i class="bi bi-lightbulb fs-1"></i></div>
-                            <h5 class="card-title fw-bold">3. Análisis Semántico</h5>
-                            <h6 class="text-muted small text-uppercase mb-3">Significado</h6>
-                            <p class="card-text small">Evalúa si la afirmación es Verdadera o Falsa.</p>
-                            <div class="alert alert-light border font-code small">
-                                if (p=True, q=False)<br>
-                                Result = <span class="text-danger">False</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-5">
-            <h2 class="text-primary mb-4"><i class="bi bi-database-gear me-2"></i>5. Razonamiento Silogístico y Prolog</h2>
-            
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="deep-dive-box h-100">
-                        <h5 class="fw-bold">Base de Conocimiento (BC)</h5>
-                        <p class="small">
-                            En IA, no programamos "pasos" (imperativo), sino que declaramos "hechos" y "reglas". Esto forma la BC.
-                        </p>
-                        <ul class="list-unstyled small mt-3">
-                            <li class="mb-2"><i class="bi bi-check-square-fill text-primary me-2"></i><strong>Hechos (Asertos):</strong> Verdades absolutas (ej. "Sócrates es humano").</li>
-                            <li class="mb-2"><i class="bi bi-share-fill text-primary me-2"></i><strong>Reglas:</strong> Relaciones lógicas (ej. "Si X es humano, entonces X es mortal").</li>
-                            <li><i class="bi bi-question-circle-fill text-warning me-2"></i><strong>Consulta (Query):</strong> Preguntamos al sistema si una conclusión se deriva de la BC.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="prolog-console shadow mt-3 mt-lg-0">
-                        <div class="text-muted border-bottom border-secondary mb-3 pb-2 small">
-                            TERMINAL: SWI-Prolog
-                        </div>
+                <div class="col-lg-7 mt-3 mt-lg-0">
+                    <div class="console-container h-100 position-relative">
+                        <div class="badge bg-secondary mb-2">OUTPUT CONSOLE</div>
                         
-                        <span class="text-muted">% 1. Definimos la BC</span><br>
-                        humano(socrates).<br>
-                        mortal(X) :- humano(X).<br>
-                        <br>
-                        <span class="text-muted">% 2. Hacemos la Consulta (¿Es Sócrates mortal?)</span><br>
-                        <span class="prolog-query">?- mortal(socrates).</span><br>
-                        <br>
-                        <span class="text-muted">% 3. El motor de inferencia responde:</span><br>
-                        <span class="prolog-true fw-bold">true.</span>
+                        <div id="consoleOutput">
+                            <span class="text-secondary">> Esperando entrada...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="section-title text-primary border-bottom pb-2 mb-4">
+                <i class="bi bi-diagram-2 me-2"></i>5. Razonamiento Silogístico y BC
+            </h2>
+            
+            <div class="bg-white p-4 rounded border-start border-5 border-success shadow-sm">
+                <h5 class="fw-bold">Base de Conocimiento (BC) y Prolog</h5>
+                <p>
+                    El razonamiento automático consiste en decidir si una afirmación <strong>A</strong> es verdadera dado un conjunto de hechos previos <strong>BC</strong>.
+                </p>
+                <hr>
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="p-2 bg-light border rounded">
+                            <strong>Hechos</strong><br>
+                            <span class="font-code small text-muted">humano(socrates).</span>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-plus-lg text-secondary"></i>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-2 bg-light border rounded">
+                            <strong>Reglas</strong><br>
+                            <span class="font-code small text-muted">mortal(x) :- humano(x).</span>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-arrow-right text-success"></i>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-center justify-content-center">
+                        <div class="badge bg-success p-2">INFERENCIA</div>
                     </div>
                 </div>
             </div>
@@ -430,22 +385,63 @@
 
     </div>
 
-    <footer class="bg-white border-top py-4 mt-5 text-center text-muted">
+    <footer class="bg-dark text-white py-4 text-center mt-5">
         <div class="container">
-            <small>Lógica Informática &bull; Día 3 &bull; Estructuras Formales</small>
-            <p class="mb-0 mt-2 small text-primary">
-                Próximo paso: <strong>Semántica y Tablas de Verdad</strong> (El motor de cálculo).
-            </p>
+            <small class="text-white-50">Lógica Informática &bull; Día 3</small>
+            <p class="mb-0 mt-2">Próximo Tema: <strong>Tablas de Verdad y Evaluación Semántica</strong></p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
-        // Activar tooltips para explicar nodos del árbol
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-          return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+        function simulateCompiler() {
+            const output = document.getElementById('consoleOutput');
+            output.innerHTML = ''; // Limpiar
+
+            // Paso 1: Lexical
+            setTimeout(() => {
+                output.innerHTML += `
+                    <div class='mb-2'>
+                        <span class='text-warning'>[1] ANÁLISIS LÉXICO (RegEx)...</span><br>
+                        <span class='text-secondary'>Input: "(p ∧ q)"</span><br>
+                        <div class='mt-1'>
+                            <span class='token-box'><span class='token-type'>AUX</span>(</span>
+                            <span class='token-box'><span class='token-type'>VAR</span>p</span>
+                            <span class='token-box'><span class='token-type'>OP_BIN</span>∧</span>
+                            <span class='token-box'><span class='token-type'>VAR</span>q</span>
+                            <span class='token-box'><span class='token-type'>AUX</span>)</span>
+                        </div>
+                    </div>
+                `;
+            }, 500);
+
+            // Paso 2: Sintáctico
+            setTimeout(() => {
+                output.innerHTML += `
+                    <div class='mb-2 border-top border-secondary pt-2'>
+                        <span class='text-info'>[2] ANÁLISIS SINTÁCTICO (Parser)...</span><br>
+                        <span class='text-success'>✓ Estructura balanceada</span><br>
+                        <span class='text-secondary font-code'>
+                           &nbsp;&nbsp;∧ (Raíz)<br>
+                           &nbsp;↙&nbsp;&nbsp;↘<br>
+                           p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q
+                        </span>
+                    </div>
+                `;
+            }, 2000);
+
+            // Paso 3: Semántico
+            setTimeout(() => {
+                output.innerHTML += `
+                    <div class='mb-2 border-top border-secondary pt-2'>
+                        <span class='text-danger'>[3] ANÁLISIS SEMÁNTICO...</span><br>
+                        <span class='text-secondary'>Evaluando valores de verdad...</span><br>
+                        <span class='text-white bg-success px-2 rounded small'>LISTO PARA TABLA DE VERDAD</span>
+                    </div>
+                `;
+            }, 3500);
+        }
     </script>
 </body>
 </html>

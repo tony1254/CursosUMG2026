@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Día 2: Estructura, Razonamiento y Simbolización</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-hue: 260; /* Indigo/Purple para Formalismo */
+            --primary: hsl(var(--primary-hue), 60%, 40%);
+            --primary-light: hsl(var(--primary-hue), 60%, 95%);
+            --accent: #00d2d3;
+            --dark-text: #2d3436;
+            --code-bg: #2d3436;
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark-text);
+            padding-bottom: 80px;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* --- UI Components --- */
+        
+        /* Header Hero */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, #4834d4 100%);
+            color: white;
+            padding: 3rem 1rem;
+            margin-bottom: 3rem;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 10px 30px rgba(72, 52, 212, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-pattern {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.5;
+        }
+
+        /* Concept Cards */
+        .concept-card {
+            background: white;
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-decoration-top {
+            height: 6px;
+            width: 100%;
+            background: var(--accent);
+        }
+
+        /* Tree Diagram Visuals */
+        .tree-connector {
+            border-left: 2px dashed #b2bec3;
+            margin-left: 20px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .tree-node::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 15px;
+            width: 15px;
+            height: 2px;
+            background: #b2bec3;
+        }
+
+        /* Syllogism Machine */
+        .machine-container {
+            background: #dfe6e9;
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid #b2bec3;
+            position: relative;
+        }
+        
+        .premise-slot {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 5px solid var(--primary);
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.5s ease;
+        }
+
+        .inference-zone {
+            height: 0;
+            overflow: hidden;
+            transition: height 0.5s ease;
+            text-align: center;
+            opacity: 0;
+        }
+
+        .conclusion-box {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: bold;
+            display: none; /* Controlled by JS */
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Symbol Tables */
+        .symbol-table th {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .symbol-row:hover {
+            background-color: #f1f2f6;
+            cursor: default;
+        }
+        .symbol-glyph {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Definition Box */
+        .def-box {
+            background-color: #fff;
+            border-left: 4px solid #fdcb6e;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        /* Floating Action Button for Next Step */
+        .fab-next {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 1000;
+            text-decoration: none;
+        }
+        .fab-next:hover {
+            transform: scale(1.1);
+            background: #3c2bb3;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="hero-section text-center">
+        <div class="hero-pattern"></div>
+        <div class="container position-relative">
+            <span class="badge bg-info text-dark mb-3 px-3 py-2 fw-bold rounded-pill">DÍA 2: PROFUNDIZACIÓN</span>
+            <h1 class="display-4 fw-bold mb-3">Estructura del Razonamiento y Simbolización</h1>
+            <p class="lead mx-auto" style="max-width: 700px; opacity: 0.9;">
+                Desde la estructura atómica de una idea hasta la formalización matemática. 
+                Entendiendo cómo las premisas construyen la verdad.
+            </p>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <section class="mb-5">
+            <div class="d-flex align-items-center mb-4">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                    <i class="bi bi-diagram-3-fill fs-4"></i>
+                </div>
+                <h2 class="m-0 text-primary">1. Anatomía de la Proposición</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="concept-card p-4 h-100">
+                        <div class="card-decoration-top mb-3" style="background: #0984e3;"></div>
+                        <h4 class="fw-bold text-primary mb-3">Proposiciones Simples</h4>
+                        <p class="text-muted">El átomo del pensamiento. Expresan una sola idea indivisible.</p>
+                        
+                        <div class="alert alert-light border">
+                            <h6 class="fw-bold small text-uppercase text-secondary mb-2"><i class="bi bi-chat-square-quote me-1"></i> Principio Cartesiano</h6>
+                            <p class="mb-0 fst-italic small">"Naturalezas simples: Claras y Distintas."</p>
+                            <hr>
+                            <ul class="mb-0 small ps-3">
+                                <li><strong>Clara:</strong> Se entiende sin confusión.</li>
+                                <li><strong>Distinta:</strong> No se mezcla con otras ideas.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-light p-2 rounded font-code text-center border">
+                            let p = "El número 2 es par";
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="concept-card p-4 h-100">
+                        <div class="card-decoration-top mb-3" style="background: #d63031;"></div>
+                        <h4 class="fw-bold text-danger mb-3">Proposiciones Compuestas</h4>
+                        <p class="text-muted">Moléculas lógicas. Formadas por varias simples + conectivos.</p>
+
+                        <div class="tree-connector">
+                            <div class="mb-3 tree-node">
+                                <strong>Premisas:</strong> Proposiciones que aportan información base.
+                            </div>
+                            <div class="mb-3 tree-node">
+                                <strong>Inferencia:</strong> <span class="badge bg-warning text-dark">Proceso Mental</span> que conecta premisas.
+                            </div>
+                            <div class="tree-node">
+                                <strong>Conclusión:</strong> Resultado lógico. No añade info nueva, explicita lo oculto.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="my-5 border-secondary opacity-25">
+
+        <section class="mb-5">
+            <div class="d-flex align-items-center mb-4">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                    <i class="bi bi-cpu-fill fs-4"></i>
+                </div>
+                <h2 class="m-0 text-primary">2. El Motor Lógico: Silogismos</h2>
+            </div>
+
+            <p class="lead mb-4">Un silogismo es la forma clásica del razonamiento: <strong>P + P = C</strong></p>
+
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-4 mb-lg-0">
+                    <div class="def-box shadow-sm">
+                        <h5>¿Qué es razonar?</h5>
+                        <p class="mb-0">Es el proceso algorítmico mediante el cual la mente combina proposiciones (inputs) para obtener una conclusión válida (output).</p>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <strong>Nota:</strong> Si las premisas son verdaderas y la estructura es válida, la conclusión <em>debe</em> ser verdadera.
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="machine-container shadow text-center">
+                        <div class="d-flex justify-content-between mb-2 text-muted small fw-bold">
+                            <span>INPUTS (Premisas)</span>
+                            <span>PROCESO</span>
+                        </div>
+                        
+                        <div id="premise1" class="premise-slot text-start">
+                            <span class="badge bg-secondary me-2">P1</span> Todos los humanos son mortales.
+                        </div>
+                        <div id="premise2" class="premise-slot text-start">
+                            <span class="badge bg-secondary me-2">P2</span> Sócrates es humano.
+                        </div>
+
+                        <div id="inferenceZone" class="inference-zone py-3">
+                            <i class="bi bi-gear-wide-connected fs-1 text-primary fa-spin"></i>
+                            <div class="small text-primary fw-bold mt-1">INFERENCIA EN PROCESO...</div>
+                            <div class="small text-muted">Conectando "Sócrates" con "Mortal"</div>
+                        </div>
+
+                        <div id="conclusion" class="conclusion-box">
+                            <span class="badge bg-light text-dark me-2">C</span> SÓCRATES ES MORTAL.
+                        </div>
+
+                        <button id="btnReason" class="btn btn-dark w-100 mt-3 py-2 rounded-pill fw-bold" onclick="runSyllogism()">
+                            <i class="bi bi-play-fill me-2"></i> EJECUTAR RAZONAMIENTO
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5 bg-white p-4 rounded-4 shadow-sm border border-light">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center">
+                    <img src="https://ui-avatars.com/api/?name=Rene+Descartes&background=2d3436&color=fff&size=128&rounded=true" alt="Descartes" class="mb-3 shadow">
+                    <div class="small text-muted fw-bold">René Descartes</div>
+                </div>
+                <div class="col-md-9">
+                    <h3 class="fw-bold mb-3"><i class="bi bi-quote fs-1 text-muted opacity-25"></i>El Método</h3>
+                    <figure>
+                        <blockquote class="blockquote">
+                            <p>"Dividir cada una de las dificultades que examinas en tantas partes como sea posible y como sea necesario para su mejor solución."</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer">
+                            Descartes en <cite title="Source Title">El Discurso del Método</cite>
+                        </figcaption>
+                    </figure>
+                    <p>
+                        Este es el nacimiento de la <strong>Descomposición Algorítmica</strong> y la <strong>Lógica Simbólica</strong>. 
+                        Para evitar las trampas del lenguaje humano, convertimos las ideas en símbolos matemáticos precisos.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-primary mb-4"><i class="bi bi-translate me-2"></i>Diccionario Lógico-Matemático</h2>
+            
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-dark text-white fw-bold">
+                            <i class="bi bi-braces me-2"></i> Conectivos Lógicos
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0 symbol-table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Símbolo</th>
+                                        <th>Nombre</th>
+                                        <th>Lectura</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="symbol-row">
+                                        <td class="symbol-glyph font-code">&not;</td>
+                                        <td>Negación</td>
+                                        <td>"No es cierto que..."</td>
+                                    </tr>
+                                    <tr class="symbol-row">
+                                        <td class="symbol-glyph font-code">&and;</td>
+                                        <td>Conjunción</td>
+                                        <td>"... y ..."</td>
+                                    </tr>
+                                    <tr class="symbol-row">
+                                        <td class="symbol-glyph font-code">&lor;</td>
+                                        <td>Disyunción</td>
+                                        <td>"... o ..."</td>
+                                    </tr>
+                                    <tr class="symbol-row">
+                                        <td class="symbol-glyph font-code">&rarr;</td>
+                                        <td>Condicional</td>
+                                        <td>"Si... entonces..."</td>
+                                    </tr>
+                                    <tr class="symbol-row">
+                                        <td class="symbol-glyph font-code">&harr;</td>
+                                        <td>Bicondicional</td>
+                                        <td>"... si y solo si ..."</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-primary text-white fw-bold">
+                            <i class="bi bi-calculator me-2"></i> Cuantificadores y Conjuntos
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0 symbol-table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Símbolo</th>
+                                        <th>Nombre</th>
+                                        <th>Lectura</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="symbol-row">
+                                        <td class="symbol-glyph font-code">&forall;</td>
+                                        <td>Cuantificador Universal</td>
+                                        <td>"Para todo..."</td>
+                                    </tr>
+                                    <tr class="symbol-row">
+                                        <td class="symbol-glyph font-code">&exist;</td>
+                                        <td>Cuantificador Existencial</td>
+                                        <td>"Existe al menos un..."</td>
+                                    </tr>
+                                    <tr class="symbol-row">
+                                        <td class="symbol-glyph font-code">&in;</td>
+                                        <td>Pertenencia</td>
+                                        <td>"... pertenece a ..."</td>
+                                    </tr>
+                                    <tr class="symbol-row">
+                                        <td class="symbol-glyph font-code">/</td>
+                                        <td>Condición</td>
+                                        <td>"... tal que ..."</td>
+                                    </tr>
+                                    <tr class="symbol-row">
+                                        <td class="symbol-glyph font-code">=</td>
+                                        <td>Igualdad</td>
+                                        <td>"... es igual a ..."</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="text-primary mb-4">3. Traducción y Axiomas</h2>
+            <div class="row g-4">
+                
+                <div class="col-md-4">
+                    <div class="card bg-dark text-white border-0 shadow h-100">
+                        <div class="card-body font-code">
+                            <div class="text-secondary small mb-2 text-uppercase">Ejemplo 1 (Naturales)</div>
+                            <h4 class="text-warning mb-3">&forall;x &in; &Nopf; : x > 0</h4>
+                            <div class="p-3 bg-secondary bg-opacity-25 rounded small text-white-50">
+                                "Para todo x que pertenece a los números naturales, x es mayor que cero."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card bg-dark text-white border-0 shadow h-100">
+                        <div class="card-body font-code">
+                            <div class="text-secondary small mb-2 text-uppercase">Ejemplo 2 (Existencial)</div>
+                            <h4 class="text-info mb-3">&exist;x &in; &Ropf; : x² = 4</h4>
+                            <div class="p-3 bg-secondary bg-opacity-25 rounded small text-white-50">
+                                "Existe un número real x tal que x al cuadrado es igual a 4."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card bg-dark text-white border-0 shadow h-100">
+                        <div class="card-body font-code">
+                            <div class="text-secondary small mb-2 text-uppercase">Ejemplo 3 (Implicación)</div>
+                            <h4 class="text-success mb-3">&forall;x (x &in; A &rarr; x &in; B)</h4>
+                            <div class="p-3 bg-secondary bg-opacity-25 rounded small text-white-50">
+                                "Para todo x, si x pertenece al conjunto A, entonces pertenece al conjunto B."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="row mt-4 g-3">
+                <div class="col-md-6">
+                    <div class="alert alert-warning d-flex align-items-start h-100">
+                        <i class="bi bi-bookmark-star-fill fs-3 me-3"></i>
+                        <div>
+                            <h5 class="alert-heading fw-bold">Axioma</h5>
+                            <p class="mb-0 small">Verdad evidente que <strong>no necesita demostración</strong>. Es el punto de partida (ej. "El todo es mayor que la parte").</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="alert alert-secondary d-flex align-items-start h-100">
+                        <i class="bi bi-compass-fill fs-3 me-3"></i>
+                        <div>
+                            <h5 class="alert-heading fw-bold">Máxima</h5>
+                            <p class="mb-0 small">Principio general subjetivo o práctico que guía la conducta o el razonamiento, aunque no siempre sea una ley formal.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="text-center text-muted py-4 border-top mt-5">
+        <small>Lógica Informática &bull; Día 2 &bull; Profundización Formal</small>
+        <div class="mt-2 text-primary" style="font-size: 0.8rem;">Siguiente paso: Tablas de Verdad</div>
+    </footer>
+
+    <a href="#" class="fab-next" title="Ir al Cierre" onclick="alert('¡Excelente progreso! En la próxima sesión (Día 3) usaremos estos símbolos para construir TABLAS DE VERDAD y evaluar si un razonamiento es válido o falaz matemáticamente.')">
+        <i class="bi bi-arrow-right fs-4"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Lógica del Simulador de Silogismos
+        function runSyllogism() {
+            const btn = document.getElementById('btnReason');
+            const zone = document.getElementById('inferenceZone');
+            const conc = document.getElementById('conclusion');
+            const p1 = document.getElementById('premise1');
+            const p2 = document.getElementById('premise2');
+
+            // Reset state
+            conc.style.display = 'none';
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...';
+
+            // Animación visual de "fusión"
+            p1.style.transform = "translateY(10px) scale(0.98)";
+            p2.style.transform = "translateY(-10px) scale(0.98)";
+            p1.style.background = "#dfe6e9";
+            p2.style.background = "#dfe6e9";
+
+            // Mostrar zona de inferencia
+            zone.style.height = '100px';
+            zone.style.opacity = '1';
+
+            setTimeout(() => {
+                // Ocultar proceso y mostrar resultado
+                zone.style.height = '0';
+                zone.style.opacity = '0';
+                
+                conc.style.display = 'block';
+                
+                // Restaurar premisas visualmente
+                p1.style.transform = "none";
+                p2.style.transform = "none";
+                p1.style.background = "white";
+                p2.style.background = "white";
+
+                btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> Lógica Validada';
+                btn.classList.remove('btn-dark');
+                btn.classList.add('btn-success');
+
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-arrow-counterclockwise me-2"></i> Reiniciar';
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-outline-dark');
+                    btn.setAttribute('onclick', 'resetSyllogism()');
+                }, 1500);
+
+            }, 2000); // 2 segundos de "pensamiento"
+        }
+
+        function resetSyllogism() {
+            const btn = document.getElementById('btnReason');
+            const conc = document.getElementById('conclusion');
+            
+            conc.style.display = 'none';
+            btn.innerHTML = '<i class="bi bi-play-fill me-2"></i> EJECUTAR RAZONAMIENTO';
+            btn.classList.remove('btn-outline-dark');
+            btn.classList.add('btn-dark');
+            btn.setAttribute('onclick', 'runSyllogism()');
+        }
+    </script>
+</body>
+</html>

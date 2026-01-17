@@ -109,32 +109,9 @@
 
     <div class="container mt-5">
 
-        <section id="alfabeto" class="mb-5 animate__animated animate__fadeInUp">
-            <h2 class="section-title"><i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal Σ</h2>
-            <p>Un lenguaje formal se construye a partir de un conjunto finito de piezas bien definidas. En Lógica Proposicional, este alfabeto se compone de tres categorías estrictas:</p>
-            <div class="row g-4 mt-2">
-                <div class="col-md-4">
-                    <div class="concept-card">
-                        <h5 class="fw-bold">A. Proposiciones ($V_P$)</h5>
-                        <p class="small text-muted">Afirmaciones que pueden ser Verdaderas o Falsas (p, q, r, s).</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="concept-card">
-                        <h5 class="fw-bold">B. Conectivos y Aridad</h5>
-                        <p class="small text-muted">Unaria (¬) y Binarias (∧, ∨, →, ↔). Define cuántos argumentos necesitan.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="concept-card">
-                        <h5 class="fw-bold">C. Auxiliares</h5>
-                        <p class="small text-muted">Paréntesis ( ) que rompen la jerarquía y definen el alcance.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        
 <section id="alfabeto" class="mb-5 animate__animated animate__fadeInUp">
-            <h2 class="section-title"><i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal $\Sigma$</h2>
+            <h2 class="section-title"><i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal Σ</h2>
             <p class="mb-4">
                 Un lenguaje formal no deja nada a la interpretación. Se construye a partir de un conjunto finito de piezas bien definidas. En Lógica Proposicional, este alfabeto se compone de tres categorías estrictas.
             </p>
@@ -265,7 +242,7 @@
         </section>
 
         <section id="analisis" class="mb-5 animate__animated animate__fadeInUp">
-            <h2 class="section-title"><i class="bi bi-cpu me-2"></i>3. Análisis Computacional (Compiladores)</h2>
+            <h2 class="section-title"><i class="bi bi-cpu me-2"></i>4. Análisis Computacional (Compiladores)</h2>
             <p class="mb-4">Para que una computadora entienda una fórmula como <code class="font-code">¬(p ∨ q)</code>, debe pasar por un proceso de traducción estricto:</p>
 
             <div class="row g-4">
@@ -309,7 +286,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                                    4. Análisis Semántico (Interpreter)
+                                    3. Análisis Semántico (Interpreter)
                                 </button>
                             </h2>
                             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionAnalisis">
@@ -340,7 +317,31 @@
                 </div>
             </div>
         </section>
-
+<section id="silogismo" class="mb-5 animate__animated animate__fadeInUp">
+            <h2 class="section-title"><i class="bi bi-diagram-2 me-2"></i>5. Razonamiento Silogístico</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="p-4 bg-white rounded shadow-sm h-100 border-start border-4 border-primary">
+                        <h6 class="fw-bold text-primary mb-3">Lógica Clásica</h6>
+                        <ul class="list-unstyled font-code small">
+                            <li><strong>P1:</strong> Humanos son mortales.</li>
+                            <li><strong>P2:</strong> Sócrates es humano.</li>
+                            <li class="border-top mt-2 pt-2"><strong>Conclusión:</strong> Sócrates es mortal.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-4 bg-dark text-white rounded shadow-sm h-100 font-code">
+                        <h6 class="fw-bold text-warning mb-3">Lógica Computacional</h6>
+                        <div class="small">
+                            mortal(X) :- humano(X).<br>
+                            humano(socrates).<br>
+                            <span class="success">true.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <footer class="bg-dark text-white-50 text-center py-5 mt-5">

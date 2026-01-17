@@ -19,23 +19,24 @@
             --success-green: #2ecc71;
             --warning-yellow: #f1c40f;
             --danger-red: #e74c3c;
+            --glass-bg: rgba(255, 255, 255, 0.9);
         }
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f8fafc;
-            color: #334155;
+            background-color: #f1f5f9;
+            color: #1e293b;
             overflow-x: hidden;
         }
 
-        /* Barra de Progreso Superior */
+        /* Barra de Progreso Dinámica */
         #scrollProgressContainer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 6px;
-            background: #e2e8f0;
+            background: #cbd5e1;
             z-index: 10000;
         }
 
@@ -43,123 +44,107 @@
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
-            transition: width 0.1s ease-out;
+            box-shadow: 0 0 10px var(--accent-cyan);
         }
 
         /* Hero Section System-Elite */
         .hero-section {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             color: white;
-            padding: 100px 0 60px 0;
+            padding: 120px 0 80px 0;
             border-bottom: 5px solid var(--accent-purple);
-            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
         }
 
         .badge-clase {
-            letter-spacing: 2px;
-            font-weight: 700;
-            background: rgba(139, 92, 246, 0.2);
-            border: 1px solid var(--accent-purple);
-            padding: 8px 20px;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            padding: 10px 25px;
             border-radius: 50px;
-            text-transform: uppercase;
+            font-weight: 800;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
         }
 
         .master-icon {
             font-size: 5rem;
-            color: var(--accent-cyan);
-            filter: drop-shadow(0 0 15px var(--accent-cyan));
+            color: white;
+            text-shadow: 0 0 20px var(--accent-cyan);
         }
 
         /* Cards e Interactividad */
-        .card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .card-educativa {
             background: white;
-            overflow: hidden;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+            border-bottom: 4px solid transparent;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+        .card-educativa:hover {
+            transform: translateY(-8px);
+            border-bottom: 4px solid var(--accent-cyan);
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.1);
         }
 
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            border-left: 5px solid var(--accent-cyan);
-            padding-left: 20px;
+        /* Consola / Bloques de Código */
+        .logic-terminal {
+            background: #1e1e1e;
+            color: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Source Code Pro', monospace;
+            border-left: 8px solid var(--success-green);
         }
 
         /* Estilo de Tablas */
-        .table-logic {
-            border-radius: 10px;
+        .table-custom {
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .table-custom thead {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .table-custom td {
+            font-weight: 600;
             border: 1px solid #e2e8f0;
         }
 
-        .table-logic thead {
-            background-color: var(--primary-dark);
+        /* Botones de Revelación */
+        .btn-reveal {
+            background: var(--secondary-dark);
             color: white;
-            text-align: center;
+            border-radius: 50px;
+            padding: 10px 25px;
+            transition: 0.3s;
+            border: 2px solid var(--accent-purple);
         }
 
-        .table-logic td {
-            text-align: center;
-            font-family: 'Source Code Pro', monospace;
-            font-weight: 600;
+        .btn-reveal:hover {
+            background: var(--accent-purple);
+            color: white;
+            transform: scale(1.05);
         }
 
-        /* Componente de Alerta Estilo Callout */
-        .callout {
-            padding: 20px;
-            margin: 20px 0;
-            border-left: 5px solid;
-            border-radius: 0 10px 10px 0;
-            background: white;
-        }
-        .callout-info { border-left-color: var(--accent-cyan); background: #f0f9ff; }
-        .callout-warning { border-left-color: var(--warning-yellow); background: #fffbeb; }
-
-        /* Diagrama de Flujo CSS */
-        .flow-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            padding: 20px;
+        /* Animación de Latido para Puntos Clave */
+        .pulse-focus {
+            animation: pulse-animation 2s infinite;
         }
 
-        .flow-node {
-            padding: 15px;
-            border: 2px solid var(--accent-cyan);
-            border-radius: 10px;
-            background: white;
-            position: relative;
-            min-width: 150px;
-            text-align: center;
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0px rgba(6, 182, 212, 0.4); }
+            100% { box-shadow: 0 0 0 20px rgba(6, 182, 212, 0); }
         }
 
-        /* Footer Mandatorio */
         footer {
-            background: #0f172a;
+            background: var(--primary-dark);
             color: white;
-            padding: 50px 0;
-            margin-top: 80px;
+            padding: 60px 0;
             border-top: 5px solid var(--accent-purple);
-        }
-
-        .symbol-box {
-            font-family: 'Source Code Pro', monospace;
-            background: #1e1e1e;
-            color: #2ecc71;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -168,371 +153,239 @@
     <div id="scrollProgressContainer"><div id="scrollProgress"></div></div>
 
     <header class="hero-section text-center">
-        <div class="container animate__animated animate__fadeIn">
-            <span class="badge-clase mb-4 d-inline-block">DÍA 4: MÓDULO 1 · INGENIERÍA DE SISTEMAS</span>
-            <div class="master-icon mb-4 animate__animated animate__pulse animate__infinite">
-                <i class="bi bi-cpu-fill"></i>
+        <div class="container animate__animated animate__zoomIn">
+            <span class="badge-clase mb-4 d-inline-block">MÓDULO 1 · DÍA 4</span>
+            <div class="master-icon mb-3 animate__animated animate__pulse animate__infinite">
+                <i class="bi bi-diagram-3-fill"></i>
             </div>
-            <h1 class="display-3 fw-bold">Tablas de Verdad y Formalización</h1>
-            <p class="lead text-info fs-4">Dominio de la Lógica Proposicional y Álgebra Booleana</p>
+            <h1 class="display-3 fw-bold">Tablas de Verdad & Formalización</h1>
+            <p class="lead fs-3 opacity-90">Ingeniería de Sistemas: De la lógica humana al binario computacional</p>
         </div>
     </header>
 
     <main class="container py-5">
 
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <div class="section-header">
-                <i class="bi bi-journal-text fs-2 text-cyan"></i>
-                <h2 class="m-0">1. Introducción y Continuidad</h2>
-            </div>
-            <div class="card p-4">
-                <p class="fs-5">En esta clase se profundiza en la <strong>lógica proposicional</strong>, retomando conceptos vistos previamente: proposiciones, conectores lógicos, razonamiento y silogismos. El objetivo central es aprender a construir e interpretar tablas de verdad, usando la notación de <strong>1 y 0 (verdadero/falso)</strong>, como en electrónica digital y álgebra booleana, pero aplicadas a la lógica.</p>
+        <section class="mb-5">
+            <div class="card-educativa p-5 animate__animated animate__fadeInLeft">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="bi bi-book-half fs-1 text-primary me-3"></i>
+                    <h2 class="m-0">1. Introducción y Continuidad</h2>
+                </div>
+                <p class="fs-5 lh-lg">
+                    En esta clase fundamental, profundizaremos en la <strong>lógica proposicional</strong>. No es un tema aislado; es la evolución natural de los conceptos que ya hemos analizado: <em>proposiciones, conectores lógicos, razonamiento y silogismos</em>. 
+                    <br><br>
+                    <strong>¿Cuál es el objetivo académico?</strong> Aprender a construir e interpretar tablas de verdad utilizando la notación de <strong>1 y 0</strong>. Este lenguaje es el puente directo con la electrónica digital y el álgebra booleana. Aquí, la lógica deja de ser solo filosofía para convertirse en la estructura técnica que permite que una computadora "piense" y tome decisiones.
+                </p>
             </div>
         </section>
 
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <div class="section-header">
-                <i class="bi bi-binary fs-2 text-cyan"></i>
-                <h2 class="m-0">2. Valores de Verdad</h2>
+        <section class="mb-5">
+            <div class="row g-4 text-center">
+                <div class="col-md-6">
+                    <div class="card-educativa p-4 animate__animated animate__fadeInUp pulse-focus">
+                        <h2 class="text-success display-4 fw-bold">1</h2>
+                        <h3 class="fw-bold">Verdadero (V)</h3>
+                        <p class="text-muted">Estado de alta tensión o señal activa.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-educativa p-4 animate__animated animate__fadeInUp">
+                        <h2 class="text-danger display-4 fw-bold">0</h2>
+                        <h3 class="fw-bold">Falso (F)</h3>
+                        <p class="text-muted">Estado de baja tensión o ausencia de señal.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <div class="section-title mb-4">
+                <h2 class="fw-bold border-bottom border-primary border-3 d-inline-block pb-2">3. El Sistema Binario y Estructura</h2>
             </div>
             <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="card bg-success text-white p-4 text-center h-100 shadow-sm">
-                        <i class="bi bi-check-circle-fill display-4 mb-2"></i>
-                        <h3>1: Verdadero (V)</h3>
+                <div class="col-lg-7">
+                    <div class="card-educativa p-4 h-100">
+                        <h4>3.1 Base de la Computación</h4>
+                        <p>Las tablas de verdad emplean el sistema binario (0 y 1). Este sistema no es una elección al azar: es la base de la <strong>electrónica digital</strong>. En lógica, cada proposición simple se comporta como un bit: solo puede estar en un estado a la vez.</p>
+                        
+                        <h4 class="mt-4">3.2 Cálculo de Filas (Fórmula $2^n$)</h4>
+                        <p>Para determinar cuántas combinaciones posibles existen, usamos la potencia de 2 elevada al número de proposiciones distintas (n).</p>
+                        <div class="logic-terminal mt-3 shadow">
+                            # Si n = 1 (p)    => 2^1 = 2 filas<br>
+                            # Si n = 2 (p, q) => 2^2 = 4 filas<br>
+                            # Si n = 3 (p, q, r) => 2^3 = 8 filas
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card bg-danger text-white p-4 text-center h-100 shadow-sm">
-                        <i class="bi bi-x-circle-fill display-4 mb-2"></i>
-                        <h3>0: Falso (F)</h3>
+                <div class="col-lg-5">
+                    <div class="card-educativa p-4 h-100 bg-dark text-white shadow-lg">
+                        <h4 class="text-cyan"><i class="bi bi-gear-fill me-2"></i>3.3 Método de las Mitades</h4>
+                        <p class="small opacity-75">Técnica para no olvidar ninguna combinación:</p>
+                        <ul class="list-group list-group-flush bg-transparent">
+                            <li class="list-group-item bg-transparent text-white border-secondary">
+                                <strong>Columna 1:</strong> Cambia cada mitad de la tabla.
+                            </li>
+                            <li class="list-group-item bg-transparent text-white border-secondary">
+                                <strong>Columna 2:</strong> Cambia cada mitad de la anterior.
+                            </li>
+                            <li class="list-group-item bg-transparent text-white border-secondary">
+                                <strong>Columna 3:</strong> Alterna 0 y 1 individualmente.
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-            <div class="callout callout-info mt-4 shadow-sm">
-                <p class="m-0 fw-bold"><i class="bi bi-info-circle me-2"></i>Toda proposición simple solo puede tomar uno de estos dos valores.</p>
             </div>
         </section>
 
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <div class="section-header">
-                <i class="bi bi-diagram-3 fs-2 text-cyan"></i>
-                <h2 class="m-0">3. Conectores Lógicos (Repaso)</h2>
-            </div>
-            <p>Antes de trabajar con tablas de verdad, es importante recordar que los conectores lógicos permiten construir proposiciones compuestas a partir de proposiciones simples. Cada conector tiene una forma precisa de evaluarse y esa evaluación se reflejará posteriormente en las tablas de verdad.</p>
+        <section class="mb-5">
+            <h2 class="fw-bold mb-4">4. Tablas de Verdad Básicas</h2>
+            <p class="mb-4">Haz clic en cada conector para ver su comportamiento lógico y explicación técnica.</p>
             
-            <div class="table-responsive shadow-sm">
-                <table class="table table-logic table-hover align-middle">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Símbolo</th>
-                            <th>Lectura</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="animate__animated animate__fadeInLeft">
-                            <td>Negación</td>
-                            <td><span class="symbol-box">¬p</span></td>
-                            <td>no p</td>
-                        </tr>
-                        <tr class="animate__animated animate__fadeInLeft" style="animation-delay: 0.1s">
-                            <td>Conjunción</td>
-                            <td><span class="symbol-box">p ∧ q</span></td>
-                            <td>p y q</td>
-                        </tr>
-                        <tr class="animate__animated animate__fadeInLeft" style="animation-delay: 0.2s">
-                            <td>Disyunción</td>
-                            <td><span class="symbol-box">p ∨ q</span></td>
-                            <td>p o q</td>
-                        </tr>
-                        <tr class="animate__animated animate__fadeInLeft" style="animation-delay: 0.3s">
-                            <td>Condicional</td>
-                            <td><span class="symbol-box">p → q</span></td>
-                            <td>si p, entonces q</td>
-                        </tr>
-                        <tr class="animate__animated animate__fadeInLeft" style="animation-delay: 0.4s">
-                            <td>Bicondicional</td>
-                            <td><span class="symbol-box">p ↔ q</span></td>
-                            <td>p si y solo si q</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <div class="section-header">
-                <i class="bi bi-calculator fs-2 text-cyan"></i>
-                <h2 class="m-0">Arquitectura Lógica</h2>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="card p-4 h-100">
-                        <h3>3.1 El sistema binario</h3>
-                        <p>Las tablas de verdad se construyen utilizando el sistema binario, el cual emplea únicamente dos símbolos: 0 y 1. El 0 representa el valor falso y el 1 representa el valor verdadero. Este sistema es la base de la computación y de la electrónica digital. En lógica proposicional se adopta exactamente el mismo principio: cada proposición solo puede tomar uno de dos valores posibles.</p>
+            <div class="accordion shadow" id="accordionLógica">
+                <div class="accordion-item border-0 mb-3 rounded-4 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            <i class="bi bi-toggle-on me-3 text-primary"></i> 4.1 Negación (¬p) - El Inversor
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionLógica">
+                        <div class="accordion-body bg-white text-dark">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <table class="table table-custom text-center">
+                                        <thead><tr><th>p</th><th>¬p</th></tr></thead>
+                                        <tbody><tr><td>0</td><td class="text-success">1</td></tr><tr><td>1</td><td class="text-danger">0</td></tr></tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>La negación es un conector de <strong>aridad unaria</strong>. Su única función es invertir el estado lógico. Si entra falso (0), sale verdadero (1). En electrónica, esto se conoce como una compuerta NOT.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card p-4 h-100 border-start border-primary border-5">
-                        <h3>3.2 Número de filas (2^n)</h3>
-                        <p>Si una expresión lógica contiene <strong>n</strong> proposiciones distintas, entonces la tabla de verdad correspondiente tendrá <strong>2<sup>n</sup></strong> filas.</p>
-                        <div class="bg-dark text-cyan p-3 rounded font-monospace mt-2">
-                            1 proposición (p) → 2<sup>1</sup> = 2 filas<br>
-                            2 proposiciones (p, q) → 2<sup>2</sup> = 4 filas<br>
-                            3 proposiciones (p, q, r) → 2<sup>3</sup> = 8 filas
+
+                <div class="accordion-item border-0 mb-3 rounded-4 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            <i class="bi bi-intersect me-3 text-primary"></i> 4.2 Conjunción (p ∧ q) - AND Lógico
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionLógica">
+                        <div class="accordion-body bg-white text-dark">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <table class="table table-custom text-center">
+                                        <thead><tr><th>p</th><th>q</th><th>p ∧ q</th></tr></thead>
+                                        <tbody>
+                                            <tr><td>0</td><td>0</td><td>0</td></tr>
+                                            <tr><td>0</td><td>1</td><td>0</td></tr>
+                                            <tr><td>1</td><td>0</td><td>0</td></tr>
+                                            <tr class="table-success"><td>1</td><td>1</td><td>1</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>Une dos proposiciones y <strong>solo es verdadera cuando ambas son verdaderas</strong> simultáneamente. Basta que una sea falsa (0) para que todo el sistema caiga en falso. Es el equivalente a un circuito en serie.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 rounded-4 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                            <i class="bi bi-arrow-right-circle me-3 text-primary"></i> 4.4 Condicional (p → q) - Implicación
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionLógica">
+                        <div class="accordion-body bg-white text-dark">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <table class="table table-custom text-center">
+                                        <thead><tr><th>p</th><th>q</th><th>p → q</th></tr></thead>
+                                        <tbody>
+                                            <tr><td>0</td><td>0</td><td>1</td></tr>
+                                            <tr><td>0</td><td>1</td><td>1</td></tr>
+                                            <tr class="table-warning"><td>1</td><td>0</td><td>0</td></tr>
+                                            <tr><td>1</td><td>1</td><td>1</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>Expresa causa y efecto. El <strong>único caso falso</strong> es cuando se da la causa (p=1) pero no se cumple el efecto (q=0). Si la causa no ocurre (p=0), el sistema se considera verdadero por defecto.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <div class="section-header">
-                <i class="bi bi-grid-3x3-gap fs-2 text-cyan"></i>
-                <h2 class="m-0">3.3 Método de las Mitades</h2>
-            </div>
-            <div class="card p-4">
-                <p>Para llenar correctamente una tabla de verdad se utiliza el llamado método de las mitades, ampliamente usado también en electrónica digital. La idea es la siguiente:</p>
-                <div class="flow-container">
-                    <div class="flow-node animate__animated animate__bounceIn" style="animation-delay: 0.5s">
-                        <span class="badge bg-primary mb-2">Paso 1</span><br>
-                        1ra Proposición: cambia cada mitad.
-                    </div>
-                    <div class="flow-node animate__animated animate__bounceIn" style="animation-delay: 0.7s">
-                        <span class="badge bg-primary mb-2">Paso 2</span><br>
-                        2da Proposición: cambia cada mitad de la mitad.
-                    </div>
-                    <div class="flow-node animate__animated animate__bounceIn" style="animation-delay: 0.9s">
-                        <span class="badge bg-primary mb-2">Paso 3</span><br>
-                        3ra Proposición: mitad de la mitad de la mitad.
-                    </div>
-                </div>
-                <p class="mt-3">Siempre se comienza con el valor 0 y luego se pasa al 1, respetando el orden binario.</p>
-            </div>
-        </section>
-
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <div class="section-header">
-                <i class="bi bi-table fs-2 text-cyan"></i>
-                <h2 class="m-0">4. Tablas de Verdad Básicas</h2>
-            </div>
-            <p>El procedimiento es análogo al que se utiliza en electrónica digital, donde se trabaja con valores binarios (0 y 1). Por esta razón, en este curso utilizaremos el mismo orden que en electrónica: comenzando siempre por 0 y finalizando en 1.</p>
-            
+        <section class="mb-5">
+            <h2 class="fw-bold mb-4">5. Tautología, Contradicción y Contingencia</h2>
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-top border-primary border-4">
-                        <div class="card-body">
-                            <h5 class="fw-bold">4.1 Negación</h5>
-                            <table class="table table-sm table-bordered mt-2">
-                                <thead class="table-dark"><tr><th>p</th><th>¬p</th></tr></thead>
-                                <tbody><tr><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td></tr></tbody>
-                            </table>
-                            <p class="small text-muted">Invierte el valor de verdad.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-top border-primary border-4">
-                        <div class="card-body">
-                            <h5 class="fw-bold">4.2 Conjunción (AND)</h5>
-                            <table class="table table-sm table-bordered mt-2">
-                                <thead class="table-dark"><tr><th>p</th><th>q</th><th>p ∧ q</th></tr></thead>
-                                <tbody>
-                                    <tr><td>0</td><td>0</td><td>0</td></tr>
-                                    <tr><td>0</td><td>1</td><td>0</td></tr>
-                                    <tr><td>1</td><td>0</td><td>0</td></tr>
-                                    <tr><td>1</td><td>1</td><td class="bg-success text-white">1</td></tr>
-                                </tbody>
-                            </table>
-                            <p class="small text-muted">Solo es 1 si ambos son 1.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-top border-primary border-4">
-                        <div class="card-body">
-                            <h5 class="fw-bold">4.3 Disyunción (OR)</h5>
-                            <table class="table table-sm table-bordered mt-2">
-                                <thead class="table-dark"><tr><th>p</th><th>q</th><th>p ∨ q</th></tr></thead>
-                                <tbody>
-                                    <tr><td>0</td><td>0</td><td class="bg-danger text-white">0</td></tr>
-                                    <tr><td>0</td><td>1</td><td>1</td></tr>
-                                    <tr><td>1</td><td>0</td><td>1</td></tr>
-                                    <tr><td>1</td><td>1</td><td>1</td></tr>
-                                </tbody>
-                            </table>
-                            <p class="small text-muted">Es 1 si al menos uno es 1.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card h-100 shadow-sm border-top border-primary border-4">
-                        <div class="card-body">
-                            <h5 class="fw-bold">4.4 Condicional (Implicación)</h5>
-                            <table class="table table-sm table-bordered mt-2 text-center">
-                                <thead class="table-dark"><tr><th>p</th><th>q</th><th>p → q</th></tr></thead>
-                                <tbody>
-                                    <tr><td>0</td><td>0</td><td>1</td></tr>
-                                    <tr><td>0</td><td>1</td><td>1</td></tr>
-                                    <tr><td>1</td><td>0</td><td class="bg-warning text-dark">0</td></tr>
-                                    <tr><td>1</td><td>1</td><td>1</td></tr>
-                                </tbody>
-                            </table>
-                            <p class="small text-muted">Único caso falso: causa (1) ocurre pero efecto (0) no.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card h-100 shadow-sm border-top border-primary border-4">
-                        <div class="card-body">
-                            <h5 class="fw-bold">4.5 Bicondicional</h5>
-                            <table class="table table-sm table-bordered mt-2 text-center">
-                                <thead class="table-dark"><tr><th>p</th><th>q</th><th>p ↔ q</th></tr></thead>
-                                <tbody>
-                                    <tr><td>0</td><td>0</td><td class="bg-info">1</td></tr>
-                                    <tr><td>0</td><td>1</td><td>0</td></tr>
-                                    <tr><td>1</td><td>0</td><td>0</td></tr>
-                                    <tr><td>1</td><td>1</td><td class="bg-info">1</td></tr>
-                                </tbody>
-                            </table>
-                            <p class="small text-muted">Verdadero si ambos son iguales.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <div class="section-header">
-                <i class="bi bi-diagram-2 fs-2 text-cyan"></i>
-                <h2 class="m-0">5 y 6. Clasificación y Leyes</h2>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card p-3 bg-light border-0 h-100">
+                    <div class="card-educativa p-4 border-top border-success border-5">
                         <h4 class="text-success fw-bold">Tautología</h4>
-                        <p>Siempre vale 1. Ejemplo: <span class="fw-bold">p ∨ ¬p</span> (Tercero excluido)</p>
+                        <p>Resultado final siempre <strong>1</strong>. Es una verdad universal dentro del sistema.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card p-3 bg-light border-0 h-100">
+                    <div class="card-educativa p-4 border-top border-danger border-5">
                         <h4 class="text-danger fw-bold">Contradicción</h4>
-                        <p>Siempre vale 0. Ejemplo: <span class="fw-bold">p ∧ ¬p</span> (No contradicción)</p>
+                        <p>Resultado final siempre <strong>0</strong>. Representa un error lógico o sistema imposible.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card p-3 bg-light border-0 h-100">
+                    <div class="card-educativa p-4 border-top border-warning border-5">
                         <h4 class="text-warning fw-bold">Contingencia</h4>
-                        <p>A veces 1, a veces 0. Ejemplo: <span class="fw-bold">p → q</span></p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card mt-4 p-4 border-start border-5 border-info">
-                <h3>Tautologías especiales importantes</h3>
-                <ul class="fs-5 list-unstyled">
-                    <li><i class="bi bi-star-fill text-warning me-2"></i>¬(p ∧ ¬p) (Ley de no contradicción)</li>
-                    <li><i class="bi bi-star-fill text-warning me-2"></i>(p ∧ q) → p</li>
-                    <li><i class="bi bi-star-fill text-warning me-2"></i>p → (p ∨ q)</li>
-                    <li><i class="bi bi-star-fill text-warning me-2"></i>[(p → q) ∧ p] → q (Modus Ponens)</li>
-                    <li><i class="bi bi-star-fill text-warning me-2"></i>[(p → q) ∧ ¬q] → ¬p (Modus Tollens)</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <div class="section-header">
-                <i class="bi bi-lightbulb-fill fs-2 text-cyan"></i>
-                <h2 class="m-0">7. Ejercicios Resueltos</h2>
-            </div>
-            <div class="card p-4 mb-4">
-                <h4 class="text-primary">Ejemplo 1: ( p ∨ q ) → ( q ∨ p )</h4>
-                <div class="table-responsive mt-3">
-                    <table class="table table-bordered text-center">
-                        <thead class="table-dark">
-                            <tr><th>p</th><th>q</th><th>p ∨ q</th><th>q ∨ p</th><th>Resultado</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td class="fw-bold">1</td></tr>
-                            <tr><td>0</td><td>1</td><td>1</td><td>1</td><td class="fw-bold">1</td></tr>
-                            <tr><td>1</td><td>0</td><td>1</td><td>1</td><td class="fw-bold">1</td></tr>
-                            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td class="fw-bold">1</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="mb-0"><strong>Conclusión:</strong> Tautología. Observación didáctica: se construye comenzando por el caso binario 00 hasta el 11.</p>
-            </div>
-            
-            <div class="card p-4">
-                <h4 class="text-primary">Ejemplo 2: [(p → q) ∧ (q → r)] → (p → r)</h4>
-                <p>Se construye la tabla respetando la jerarquía: p → q, q → r, (p → q) ∧ (q → r), p → r, y el condicional final.</p>
-                <div class="bg-dark text-white p-3 rounded text-center">
-                    <i class="bi bi-check-all text-success me-2"></i><strong>Resultado: Tautología</strong>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <div class="section-header">
-                <i class="bi bi-braces fs-2 text-cyan"></i>
-                <h2 class="m-0">9 y 10. Formalización de Argumentos</h2>
-            </div>
-            <div class="card p-4 bg-light border-0">
-                <p><strong>Concepto:</strong> Formalizar es traducir el lenguaje natural al lenguaje simbólico, usando proposiciones y conectores. Un argumento es válido si, dadas las premisas verdaderas, la conclusión no puede ser falsa.</p>
-                <hr>
-                <h4 class="text-primary">Ejemplo resuelto:</h4>
-                <p class="fst-italic">"En los polos el frío es intenso únicamente si los planetas giran en torno al sol."</p>
-                <p><strong>p:</strong> en los polos el frío es intenso<br><strong>q:</strong> los planetas giran en torno al sol</p>
-                <div class="alert alert-info d-inline-block">Formalización: <strong>p → q</strong></div>
-            </div>
-        </section>
-
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <div class="section-header">
-                <i class="bi bi-pencil-square fs-2 text-cyan"></i>
-                <h2 class="m-0">8 y 11. Ejercicios Propuestos (Resolver a mano)</h2>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="card h-100 p-4 border-2 border-primary">
-                        <h4 class="mb-3"><i class="bi bi-list-task me-2 text-primary"></i>Tablas de Verdad</h4>
-                        <ol class="list-group list-group-numbered list-group-flush">
-                            <li class="list-group-item">[(p → ¬q) ∧ (¬p → ¬r) ∧ (¬r → s)] → s</li>
-                            <li class="list-group-item">[(¬p ∨ q) ∨ (p ∧ q)] → [(¬p ∨ q) ∨ ¬p]</li>
-                            <li class="list-group-item">(p ∧ q → p ∨ ¬r) → ¬(¬q ∨ ¬r) ∧ r</li>
-                            <li class="list-group-item">(¬p ∧ q → p ∨ r) ↔ ¬(¬q ∨ ¬r) ∧ r</li>
-                            <li class="list-group-item">(¬p ↔ q ∨ ¬r) ∧ ¬(¬p ↔ q ∨ ¬r)</li>
-                        </ol>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card h-100 p-4 border-2 border-primary">
-                        <h4 class="mb-3"><i class="bi bi-translate me-2 text-primary"></i>Formalización (Clase 4.01 - 4.14)</h4>
-                        <ol class="list-group list-group-flush">
-                            <li class="list-group-item">1. Identificar proposiciones simples</li>
-                            <li class="list-group-item">2. Asignar símbolos (p, q, r...)</li>
-                            <li class="list-group-item">3. Traducir con conectores lógicos</li>
-                            <li class="list-group-item">4. Determinar validez mediante tabla de verdad</li>
-                        </ol>
-                        <div class="alert alert-warning mt-3 small">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i>Justificar cada conclusión.
-                        </div>
+                        <p>Resultados mezclados. La verdad depende de los valores de entrada.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <div class="card p-4 bg-dark text-white border-0 shadow">
-                <h3><i class="bi bi-info-square me-3 text-info"></i>12. Indicaciones Finales</h3>
-                <div class="row mt-3">
-                    <div class="col-md-4"><i class="bi bi-hand-index-thumb me-2 text-info"></i>Las tablas deben realizarse a mano.</div>
-                    <div class="col-md-4"><i class="bi bi-laptop me-2 text-info"></i>Apoyo computacional solo para teoría.</div>
-                    <div class="col-md-4"><i class="bi bi-sort-numeric-down me-2 text-info"></i>Respetar jerarquía de operaciones.</div>
+        <section class="mb-5">
+            <div class="card bg-primary text-white p-5 rounded-5 shadow-lg animate__animated animate__pulse animate__infinite animate__slow">
+                <h2 class="mb-4 text-white"><i class="bi bi-pencil-fill me-3"></i>8. Taller de Aplicación (A mano)</h2>
+                <p class="fs-5">Copia estos ejercicios en tu cuaderno. Recuerda resolver respetando la jerarquía de los paréntesis.</p>
+                <div class="bg-white text-dark p-4 rounded-4 shadow-inner">
+                    <ul class="list-group list-group-flush fs-5">
+                        <li class="list-group-item">1. [(p → ¬q) ∧ (¬p → ¬r) ∧ (¬r → s)] → s</li>
+                        <li class="list-group-item">2. [(¬p ∨ q) ∨ (p ∧ q)] → [(¬p ∨ q) ∨ ¬p]</li>
+                        <li class="list-group-item">3. (p ∧ q → p ∨ ¬r) → ¬(¬q ∨ ¬r) ∧ r</li>
+                        <li class="list-group-item">4. (¬p ∧ q → p ∨ r) ↔ ¬(¬q ∨ ¬r) ∧ r</li>
+                    </ul>
                 </div>
-                <p class="mt-4 text-center opacity-75 fs-6">Este contenido forma la base para silogismos, razonamientos formales y lógica simbólica avanzada.</p>
+                
+                <div class="mt-4 text-center">
+                    <button class="btn btn-reveal" onclick="alert('Instrucción: 1. Identifica proposiciones. 2. Tabla de 2^n filas. 3. Resuelve paréntesis internos primero.')">
+                        Ver Consejos de Resolución
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="fw-bold mb-4">9 y 10. Formalización de Argumentos</h2>
+            <div class="card-educativa p-4 bg-light border-start border-5 border-primary">
+                <p><strong>¿Qué es formalizar?</strong> Es el arte de traducir el lenguaje humano (impreciso) al lenguaje simbólico (exacto).</p>
+                <div class="logic-terminal mt-3 text-white">
+                    EJEMPLO:<br>
+                    "En los polos el frío es intenso únicamente si los planetas giran en torno al sol."<br><br>
+                    p = El frío es intenso<br>
+                    q = Planetas giran al sol<br>
+                    TRADUCCIÓN: p → q
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5 text-center">
+            <div class="alert alert-warning p-4 rounded-4 shadow">
+                <h3><i class="bi bi-exclamation-triangle-fill me-2"></i>12. Indicaciones Finales</h3>
+                <p class="fs-5 m-0">Las tablas deben realizarse <strong>a mano</strong> para fijar el conocimiento. Respeta la jerarquía y justifica cada resultado (Tautología, Contradicción o Contingencia).</p>
             </div>
         </section>
 
@@ -540,13 +393,17 @@
 
     <footer>
         <div class="container text-center">
-            <i class="bi bi-mortarboard-fill mb-3 d-block" style="font-size: 3rem;"></i>
-            <h4 class="mb-1">Luis Garcia 2026</h4>
-            <p class="mb-0 text-info fw-bold">Material Educativo - Ingeniería de Sistemas</p>
-            <div class="mt-4 opacity-50 small">© Prohibida su reproducción sin fines académicos</div>
+            <div class="animate__animated animate__bounce animate__infinite mb-4">
+                <i class="bi bi-mortarboard-fill fs-1 text-cyan"></i>
+            </div>
+            <h3 class="fw-bold">Luis Garcia 2026</h3>
+            <p class="opacity-75">Material Educativo - Ingeniería de Sistemas</p>
+            <hr class="w-25 mx-auto border-secondary">
+            <p class="small opacity-50 mt-4">Diseñado para la formación de élite en lógica computacional.</p>
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Barra de progreso de lectura
         window.onscroll = function() {
@@ -556,17 +413,16 @@
             document.getElementById("scrollProgress").style.width = scrolled + "%";
         };
 
-        // Animación de entrada para tablas
-        const observerOptions = { threshold: 0.1 };
+        // Activación de animaciones al scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('animate__animated', 'animate__fadeIn');
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('table, .card').forEach(el => observer.observe(el));
+        document.querySelectorAll('section, .card-educativa').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>

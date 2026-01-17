@@ -133,9 +133,96 @@
                 </div>
             </div>
         </section>
+<section id="alfabeto" class="mb-5 animate__animated animate__fadeInUp">
+            <h2 class="section-title"><i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal $\Sigma$</h2>
+            <p class="mb-4">
+                Un lenguaje formal no deja nada a la interpretación. Se construye a partir de un conjunto finito de piezas bien definidas. En Lógica Proposicional, este alfabeto se compone de tres categorías estrictas.
+            </p>
 
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="concept-card">
+                        <i class="bi bi-chat-left-text card-icon"></i>
+                        <h5 class="fw-bold">A. Proposiciones ($V_P$)</h5>
+                        <p class="small text-muted mb-3">
+                            Son afirmaciones que poseen la propiedad fundamental de ser <strong>Verdaderas</strong> o <strong>Falsas</strong>. Son los "datos" del sistema.
+                        </p>
+                        <div class="alert alert-light border font-code text-center">p, q, r, s, ...</div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="concept-card">
+                        <i class="bi bi-diagram-2 card-icon"></i>
+                        <h5 class="fw-bold">B. Conectivos y Aridad</h5>
+                        <p class="small text-muted mb-3">
+                            Operadores que estructuran la lógica. Se agrupan según su <strong>Aridad</strong> (número de argumentos que requieren).
+                        </p>
+                        <ul class="list-unstyled small font-code">
+                            <li class="mb-2"><strong class="text-danger">Unaria (1):</strong> ¬ (Negación)<br><span class="text-muted" style="font-size: 0.8em;">Opera sobre 1 variable (ej. ¬p)</span></li>
+                            <li><strong class="text-primary">Binaria (2):</strong> ∧, ∨, →, ↔<br><span class="text-muted" style="font-size: 0.8em;">Opera sobre 2 variables (ej. p ∧ q)</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="concept-card">
+                        <i class="bi bi-brackets card-icon"></i>
+                        <h5 class="fw-bold">C. Símbolos Auxiliares</h5>
+                        <p class="small text-muted mb-3">
+                            Signos de puntuación vitales. No tienen valor de verdad, pero definen el <strong>alcance</strong> y rompen la jerarquía por defecto.
+                        </p>
+                        <div class="text-center display-6 font-code my-2">( )</div>
+                        <p class="small mb-0 text-center">Paréntesis Izquierdo / Derecho</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="jerarquia" class="mb-5 animate__animated animate__fadeInUp">
+            <h2 class="section-title"><i class="bi bi-sort-numeric-down me-2"></i>2. Jerarquía de Signos</h2>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card p-4 border-0 shadow-sm h-100">
+                        <h5 class="fw-bold text-primary mb-3">Orden de Precedencia</h5>
+                        <p class="small text-muted">Igual que en matemáticas ($5 + 2 \times 3$), la lógica tiene un orden estricto de evaluación para evitar ambigüedades.</p>
+                        <table class="table table-hover font-code small align-middle">
+                            <thead class="table-dark">
+                                <tr><th>Prioridad</th><th>Símbolo</th><th>Operación</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-warning fw-bold"><td>1 (Máx)</td><td>( )</td><td>Agrupación</td></tr>
+                                <tr><td>2</td><td>¬</td><td>Negación</td></tr>
+                                <tr><td>3</td><td>∧</td><td>Conjunción (Y)</td></tr>
+                                <tr><td>4</td><td>∨</td><td>Disyunción (O)</td></tr>
+                                <tr><td>5</td><td>→</td><td>Condicional</td></tr>
+                                <tr><td>6 (Mín)</td><td>↔</td><td>Bicondicional</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card p-4 border-0 shadow-sm h-100 bg-light border-start border-4 border-warning">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-eye-slash me-2"></i>Concepto Implícito vs. Explícito</h5>
+                        <p class="small">
+                            <strong>Implícito:</strong> La estructura asumida por la máquina siguiendo la jerarquía.<br>
+                            <strong>Explícito:</strong> La estructura visible escrita con paréntesis.
+                        </p>
+                        <div class="card mt-3 border-0 shadow-sm">
+                            <div class="card-body">
+                                <h6 class="text-muted text-uppercase small">Ejemplo de Ambigüedad Resuelta</h6>
+                                <p class="mb-1">Expresión cruda: <code class="fs-5 text-dark">¬p ∨ q ∧ r</code></p>
+                                <hr>
+                                <p class="mb-1">Interpretación Correcta: <code class="fs-5 text-primary">(¬p) ∨ (q ∧ r)</code></p>
+                                <p class="small text-muted mt-2 mb-0">1. Negación se pega a 'p'. | 2. Conjunción une 'q' y 'r'. | 3. Disyunción une los bloques.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section id="arboles" class="mb-5 animate__animated animate__fadeInUp">
-            <h2 class="section-title"><i class="bi bi-diagram-3 me-2"></i>2. Árboles de Formación (Estructura Interna)</h2>
+            <h2 class="section-title"><i class="bi bi-diagram-3 me-2"></i>3. Árboles de Formación (Estructura Interna)</h2>
             <div class="card p-4 border-0 shadow-sm overflow-hidden">
                 <div class="text-center mb-4">
                     <span class="badge bg-dark font-code p-2">¬(¬(p ∨ q) → (¬r ∧ s))</span>
@@ -222,7 +309,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                                    3. Análisis Semántico (Interpreter)
+                                    4. Análisis Semántico (Interpreter)
                                 </button>
                             </h2>
                             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionAnalisis">

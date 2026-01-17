@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Día 3: Lógica Formal y Compilación (Completo)</title>
+    <title>Día 3: Lógica Formal y Compilación</title>
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -43,10 +43,19 @@
         .hero-section {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             color: white;
-            padding: 90px 0 70px;
+            padding: 100px 0 80px;
             position: relative;
             overflow: hidden;
             border-bottom: 5px solid var(--accent-purple);
+        }
+
+        .hero-icon {
+            font-size: 4rem;
+            background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            display: block;
         }
 
         .section-title {
@@ -63,7 +72,21 @@
             padding: 25px;
             height: 100%;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .concept-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 35px rgba(139, 92, 246, 0.15);
+            border-color: var(--accent-purple);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--accent-purple);
+            margin-bottom: 15px;
+            display: inline-block;
         }
 
         .console-container { background: var(--code-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
@@ -82,7 +105,9 @@
             width: 45px; height: 45px; border-radius: 50%; background: white;
             border: 2px solid var(--dark-blue); display: flex; align-items: center;
             justify-content: center; font-weight: bold; z-index: 2;
+            transition: all 0.3s ease;
         }
+        .node-circle:hover { transform: scale(1.2); background: var(--accent-cyan); color: white; }
         .node-circle.root { background: var(--dark-blue); color: white; border-color: var(--accent-cyan); }
         .node-circle.leaf { border-color: var(--accent-purple); background: #f5f3ff; color: var(--accent-purple); }
         
@@ -91,6 +116,26 @@
         .success { color: #2ecc71; }
         .error { color: #e74c3c; }
         .regex-badge { background: #2d3436; color: #fab1a0; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code'; }
+
+        .btn-simulate {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-simulate:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+        }
+
+        /* Animación de pulso para el botón */
+        .pulse-animation {
+            animation: pulse-purple 2s infinite;
+        }
+        @keyframes pulse-purple {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
     </style>
 </head>
 <body>
@@ -99,7 +144,8 @@
 
     <header class="hero-section animate__animated animate__fadeIn">
         <div class="container text-center">
-            <span class="badge bg-primary mb-3 px-3 py-2 rounded-pill">DÍA 03 - CONTENIDO COMPLETO</span>
+            <i class="bi bi-cpu-fill hero-icon animate__animated animate__pulse animate__infinite"></i>
+            <span class="badge bg-primary mb-3 px-3 py-2 rounded-pill">DÍA 03 - Logica Formal y Compilacion</span>
             <h1 class="display-4 fw-bold mb-2">Lógica Formal, Estructura y Compilación</h1>
             <p class="lead opacity-75 mx-auto" style="max-width: 850px;">
                 Alfabeto Formal Σ, Jerarquía de Operadores y el Proceso de Compilación.
@@ -109,8 +155,7 @@
 
     <div class="container mt-5">
 
-        
-<section id="alfabeto" class="mb-5 animate__animated animate__fadeInUp">
+        <section id="alfabeto" class="mb-5 animate__animated animate__fadeInUp">
             <h2 class="section-title"><i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal Σ</h2>
             <p class="mb-4">
                 Un lenguaje formal no deja nada a la interpretación. Se construye a partir de un conjunto finito de piezas bien definidas. En Lógica Proposicional, este alfabeto se compone de tres categorías estrictas.
@@ -119,7 +164,7 @@
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="concept-card">
-                        <i class="bi bi-chat-left-text card-icon"></i>
+                        <i class="bi bi-chat-left-dots card-icon"></i>
                         <h5 class="fw-bold">A. Proposiciones ($V_P$)</h5>
                         <p class="small text-muted mb-3">
                             Son afirmaciones que poseen la propiedad fundamental de ser <strong>Verdaderas</strong> o <strong>Falsas</strong>. Son los "datos" del sistema.
@@ -130,7 +175,7 @@
 
                 <div class="col-md-4">
                     <div class="concept-card">
-                        <i class="bi bi-diagram-2 card-icon"></i>
+                        <i class="bi bi-diagram-2-fill card-icon"></i>
                         <h5 class="fw-bold">B. Conectivos y Aridad</h5>
                         <p class="small text-muted mb-3">
                             Operadores que estructuran la lógica. Se agrupan según su <strong>Aridad</strong> (número de argumentos que requieren).
@@ -144,7 +189,7 @@
 
                 <div class="col-md-4">
                     <div class="concept-card">
-                        <i class="bi bi-brackets card-icon"></i>
+                        <i class="bi bi-brackets-angle card-icon"></i>
                         <h5 class="fw-bold">C. Símbolos Auxiliares</h5>
                         <p class="small text-muted mb-3">
                             Signos de puntuación vitales. No tienen valor de verdad, pero definen el <strong>alcance</strong> y rompen la jerarquía por defecto.
@@ -161,7 +206,7 @@
             <div class="row g-4">
                 <div class="col-lg-6">
                     <div class="card p-4 border-0 shadow-sm h-100">
-                        <h5 class="fw-bold text-primary mb-3">Orden de Precedencia</h5>
+                        <h5 class="fw-bold text-primary mb-3"><i class="bi bi-list-ol me-2"></i>Orden de Precedencia</h5>
                         <p class="small text-muted">Igual que en matemáticas ($5 + 2 \times 3$), la lógica tiene un orden estricto de evaluación para evitar ambigüedades.</p>
                         <table class="table table-hover font-code small align-middle">
                             <thead class="table-dark">
@@ -180,12 +225,12 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="card p-4 border-0 shadow-sm h-100 bg-light border-start border-4 border-warning">
-                        <h5 class="fw-bold mb-3"><i class="bi bi-eye-slash me-2"></i>Concepto Implícito vs. Explícito</h5>
+                        <h5 class="fw-bold mb-3"><i class="bi bi-incognito me-2"></i>Concepto Implícito vs. Explícito</h5>
                         <p class="small">
                             <strong>Implícito:</strong> La estructura asumida por la máquina siguiendo la jerarquía.<br>
                             <strong>Explícito:</strong> La estructura visible escrita con paréntesis.
                         </p>
-                        <div class="card mt-3 border-0 shadow-sm">
+                        <div class="card mt-3 border-0 shadow-sm animate__animated animate__pulse animate__infinite animate__slow">
                             <div class="card-body">
                                 <h6 class="text-muted text-uppercase small">Ejemplo de Ambigüedad Resuelta</h6>
                                 <p class="mb-1">Expresión cruda: <code class="fs-5 text-dark">¬p ∨ q ∧ r</code></p>
@@ -198,39 +243,40 @@
                 </div>
             </div>
         </section>
+
         <section id="arboles" class="mb-5 animate__animated animate__fadeInUp">
-            <h2 class="section-title"><i class="bi bi-diagram-3 me-2"></i>3. Árboles de Formación (Estructura Interna)</h2>
-            <div class="card p-4 border-0 shadow-sm overflow-hidden">
+            <h2 class="section-title"><i class="bi bi-diagram-3-fill me-2"></i>3. Árboles de Formación (Estructura Interna)</h2>
+            <div class="card p-4 border-0 shadow-sm overflow-hidden bg-white">
                 <div class="text-center mb-4">
-                    <span class="badge bg-dark font-code p-2">¬(¬(p ∨ q) → (¬r ∧ s))</span>
+                    <span class="badge bg-dark font-code p-2 fs-6 shadow">¬(¬(p ∨ q) → (¬r ∧ s))</span>
                 </div>
                 <div class="tree-wrapper">
                     <div class="tree-node">
-                        <div class="node-circle root">¬</div>
+                        <div class="node-circle root shadow">¬</div>
                         <div class="tree-children">
                             <div class="tree-node">
-                                <div class="node-circle">→</div>
+                                <div class="node-circle shadow">→</div>
                                 <div class="tree-children" style="gap: 60px;">
                                     <div class="tree-node">
-                                        <div class="node-circle">¬</div>
+                                        <div class="node-circle shadow">¬</div>
                                         <div class="tree-children">
                                             <div class="tree-node">
-                                                <div class="node-circle">∨</div>
+                                                <div class="node-circle shadow">∨</div>
                                                 <div class="tree-children" style="gap: 20px;">
-                                                    <div class="node-circle leaf">p</div>
-                                                    <div class="node-circle leaf">q</div>
+                                                    <div class="node-circle leaf shadow">p</div>
+                                                    <div class="node-circle leaf shadow">q</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="tree-node">
-                                        <div class="node-circle">∧</div>
+                                        <div class="node-circle shadow">∧</div>
                                         <div class="tree-children" style="gap: 20px;">
                                             <div class="tree-node">
-                                                <div class="node-circle">¬</div>
-                                                <div class="tree-children"><div class="node-circle leaf">r</div></div>
+                                                <div class="node-circle shadow">¬</div>
+                                                <div class="tree-children"><div class="node-circle leaf shadow">r</div></div>
                                             </div>
-                                            <div class="node-circle leaf">s</div>
+                                            <div class="node-circle leaf shadow">s</div>
                                         </div>
                                     </div>
                                 </div>
@@ -242,16 +288,16 @@
         </section>
 
         <section id="analisis" class="mb-5 animate__animated animate__fadeInUp">
-            <h2 class="section-title"><i class="bi bi-cpu me-2"></i>4. Análisis Computacional (Compiladores)</h2>
+            <h2 class="section-title"><i class="bi bi-terminal-fill me-2"></i>4. Análisis Computacional (Compiladores)</h2>
             <p class="mb-4">Para que una computadora entienda una fórmula como <code class="font-code">¬(p ∨ q)</code>, debe pasar por un proceso de traducción estricto:</p>
 
             <div class="row g-4">
                  <div class="col-lg-5">
-                    <div class="accordion" id="accordionAnalisis">
+                    <div class="accordion shadow-sm" id="accordionAnalisis">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                                    1. Análisis Léxico (Scanner & Regex)
+                                    <i class="bi bi-search me-2"></i> 1. Análisis Léxico (Scanner & Regex)
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionAnalisis">
@@ -268,7 +314,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
-                                    2. Análisis Sintáctico (Parser)
+                                    <i class="bi bi-ギア me-2"></i> 2. Análisis Sintáctico (Parser)
                                 </button>
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionAnalisis">
@@ -286,7 +332,7 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                                    3. Análisis Semántico (Interpreter)
+                                    <i class="bi bi-check-all me-2"></i> 3. Análisis Semántico (Interpreter)
                                 </button>
                             </h2>
                             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionAnalisis">
@@ -301,13 +347,13 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-dark w-100 mt-4 py-3 shadow" onclick="runSimulation()">
-                        <i class="bi bi-play-fill me-2"></i> INICIAR COMPILACIÓN COMPLETA
+                    <button class="btn btn-dark w-100 mt-4 py-3 shadow btn-simulate pulse-animation" onclick="runSimulation()">
+                        <i class="bi bi-play-circle-fill me-2"></i> INICIAR COMPILACIÓN COMPLETA
                     </button>
                 </div>
 
                 <div class="col-lg-7">
-                    <div class="console-container">
+                    <div class="console-container animate__animated animate__fadeInRight">
                         <div class="console-header">
                             <div class="dot bg-danger"></div><div class="dot bg-warning"></div><div class="dot bg-success"></div>
                             <small class="text-white-50 ms-2 font-code">compiler_engine_v3.log</small>
@@ -317,10 +363,11 @@
                 </div>
             </div>
         </section>
-<section id="silogismo" class="mb-5">
-            <h2 class="section-title"><i class="bi bi-diagram-2 me-2"></i>5. Razonamiento Silogístico y BC</h2>
+
+        <section id="silogismo" class="mb-5 animate__animated animate__fadeInUp">
+            <h2 class="section-title"><i class="bi bi-lightbulb-fill me-2"></i>5. Razonamiento Silogístico y BC</h2>
             <div class="alert alert-info border-0 shadow-sm bg-white mb-4">
-                <h5 class="fw-bold text-dark">Definición</h5>
+                <h5 class="fw-bold text-dark"><i class="bi bi-info-circle-fill me-2 text-info"></i>Definición</h5>
                 <p class="mb-0 text-muted">
                     Dado un conjunto de asertos (BC = Base de Conocimiento) y una afirmación nueva (A), el problema es decidir si A es necesariamente cierta suponiendo que BC es verdadera.
                 </p>
@@ -328,19 +375,19 @@
 
             <div class="row g-4">
                 <div class="col-md-6">
-                    <div class="p-4 bg-white rounded shadow-sm h-100 border-start border-4 border-primary">
-                        <h6 class="fw-bold text-primary mb-3">Lógica Clásica (Sócrates)</h6>
+                    <div class="concept-card border-start border-4 border-primary">
+                        <h6 class="fw-bold text-primary mb-3"><i class="bi bi-person-workspace me-2"></i>Lógica Clásica (Sócrates)</h6>
                         <ul class="list-unstyled font-code small">
                             <li><strong>P1:</strong> Todos los humanos son mortales.</li>
                             <li><strong>P2:</strong> Sócrates es humano.</li>
-                            <li class="border-top mt-2 pt-2"><strong>Conclusión:</strong> Sócrates es mortal.</li>
+                            <li class="border-top mt-2 pt-2 text-dark fw-bold"><strong>Conclusión:</strong> Sócrates es mortal.</li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="p-4 bg-dark text-white rounded shadow-sm h-100 font-code">
-                        <h6 class="fw-bold text-warning mb-3">Lógica Computacional (Prolog)</h6>
-                        <div class="small">
+                    <div class="concept-card bg-dark text-white border-start border-4 border-warning">
+                        <h6 class="fw-bold text-warning mb-3"><i class="bi bi-code-slash me-2"></i>Lógica Computacional (Prolog)</h6>
+                        <div class="font-code small">
                             <span class="text-white-50">% Base de Conocimiento</span><br>
                             mortal(X) :- humano(X).<br>
                             humano(socrates).<br><br>
@@ -355,7 +402,10 @@
     </div>
 
     <footer class="bg-dark text-white-50 text-center py-5 mt-5">
-        <div class="container"><p class="small mb-0">Día 3 - Ingeniería de Lenguajes | Material Docente 2024</p></div>
+        <div class="container">
+            <i class="bi bi-mortarboard-fill fs-2 mb-3 d-block"></i>
+            <p class="small mb-0">Día 3 - Ingeniería de Lenguajes | Material Docente 2024</p>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

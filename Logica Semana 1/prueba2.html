@@ -117,7 +117,7 @@
             <span class="badge bg-primary mb-3 px-3 py-2 rounded-pill">DÍA 03</span>
             <h1 class="display-4 fw-bold mb-2">Lógica Formal, Estructura y Compilación</h1>
             <p class="lead opacity-75 mx-auto" style="max-width: 850px;">
-                Alfabeto Formal Σ, Jerarquía y Compilación (Análisis Léxico, Sintáctico y Semántico).
+                Alfabeto Formal $\Sigma$, Jerarquía y Compilación (Análisis Léxico, Sintáctico y Semántico).
             </p>
         </div>
     </header>
@@ -125,7 +125,7 @@
     <div class="container mt-5">
 
         <section id="alfabeto" class="mb-5 animate__animated animate__fadeInUp">
-            <h2 class="section-title"><i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal Σ</h2>
+            <h2 class="section-title"><i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal $\Sigma$</h2>
             <p class="mb-4">
                 Un lenguaje formal no deja nada a la interpretación. Se construye a partir de un conjunto finito de piezas bien definidas. En Lógica Proposicional, este alfabeto se compone de tres categorías estrictas.
             </p>
@@ -170,7 +170,7 @@
             </div>
         </section>
 
-        <section id="jerarquia" class="mb-5">
+        <section id="jerarquia" class="mb-5 animate__animated animate__fadeInUp">
             <h2 class="section-title"><i class="bi bi-sort-numeric-down me-2"></i>2. Jerarquía de Signos</h2>
             <div class="row g-4">
                 <div class="col-lg-6">
@@ -213,7 +213,7 @@
             </div>
         </section>
 
-        <section id="arboles" class="mb-5">
+        <section id="arboles" class="mb-5 animate__animated animate__fadeInUp">
             <h2 class="section-title"><i class="bi bi-diagram-3 me-2"></i>3. Árboles de Formación (Grafos Binarios)</h2>
             <p>
                 Toda expresión lógica bien formada es lineal en texto, pero estructuralmente es un <strong>Árbol Binario</strong>. Las hojas son proposiciones y los nodos internos son conectivos.
@@ -261,16 +261,16 @@
                     </div>
                 </div>
                 <div class="row mt-4 text-center small text-muted">
-                    <div class="col-6 border-end"><strong>Bottom-Up:</strong> Cómo se construye la fórmula.</div>
-                    <div class="col-6"><strong>Top-Down:</strong> Cómo se calcula la verdad (Semántica).</div>
+                    <div class="col-6 border-end"><strong>Bottom-Up:</strong> Construcción.</div>
+                    <div class="col-6"><strong>Top-Down:</strong> Evaluación Semántica.</div>
                 </div>
             </div>
         </section>
 
-        <section id="analisis" class="mb-5">
+        <section id="analisis" class="mb-5 animate__animated animate__fadeInUp">
             <h2 class="section-title"><i class="bi bi-cpu me-2"></i>4. Análisis Computacional (Compiladores)</h2>
             <p class="mb-4">
-                En computación e IA, un lenguaje lógico se procesa en tres fases críticas. El siguiente simulador muestra cómo el texto se convierte en estructura y luego en significado.
+                En computación e IA, un lenguaje lógico se procesa en tres fases críticas.
             </p>
 
             <div class="row g-4">
@@ -278,14 +278,14 @@
                     <div class="accordion" id="accordionAnalisis">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true">
+                                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
                                     1. Análisis Léxico (Scanner)
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionAnalisis">
                                 <div class="accordion-body small">
                                     <p>Divide la cadena de texto en <strong>Tokens</strong>.</p>
-                                    <p>Utiliza <strong>Expresiones Regulares (Regex)</strong> para identificar patrones válidos (qué es una variable, qué es un operador).</p>
+                                    <p>Utiliza <strong>Regex</strong> para identificar patrones válidos.</p>
                                 </div>
                             </div>
                         </div>
@@ -297,8 +297,7 @@
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionAnalisis">
                                 <div class="accordion-body small">
-                                    <p>Verifica la estructura gramatical.</p>
-                                    <p>Construye el <strong>Árbol de Derivación</strong> y comprueba reglas como el balanceo de paréntesis y la aridad correcta de los operadores.</p>
+                                    <p>Verifica la estructura gramatical y construye el <strong>AST</strong>.</p>
                                 </div>
                             </div>
                         </div>
@@ -311,13 +310,12 @@
                             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionAnalisis">
                                 <div class="accordion-body small">
                                     <p>Evalúa el <strong>Significado</strong> (Verdad).</p>
-                                    <p>Asigna valores a las variables ($p=V, q=F$) y calcula el resultado final recorriendo el árbol.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <button class="btn btn-dark w-100 mt-4 py-3 shadow" onclick="runSimulation()">
-                        <i class="bi bi-play-fill me-2"></i> EJECUTAR SIMULACIÓN DE ANÁLISIS
+                        <i class="bi bi-play-fill me-2"></i> EJECUTAR SIMULACIÓN
                     </button>
                 </div>
 
@@ -327,30 +325,20 @@
                             <div class="dot bg-danger"></div><div class="dot bg-warning"></div><div class="dot bg-success"></div>
                             <small class="text-white-50 ms-2 font-code">compiler_output.log</small>
                         </div>
-                        <div class="console-box" id="consoleOutput">
-// Esperando entrada del usuario...
-// Presione 'Ejecutar Simulación' para procesar ¬(p ∨ q)
-                        </div>
+                        <div class="console-box" id="consoleOutput">// Esperando...</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="silogismo" class="mb-5">
-            <h2 class="section-title"><i class="bi bi-diagram-2 me-2"></i>5. Razonamiento Silogístico y BC</h2>
-            <div class="alert alert-info border-0 shadow-sm bg-white mb-4">
-                <h5 class="fw-bold text-dark">Definición</h5>
-                <p class="mb-0 text-muted">
-                    Dado un conjunto de asertos (BC = Base de Conocimiento) y una afirmación nueva (A), el problema es decidir si A es necesariamente cierta suponiendo que BC es verdadera.
-                </p>
-            </div>
-
+        <section id="silogismo" class="mb-5 animate__animated animate__fadeInUp">
+            <h2 class="section-title"><i class="bi bi-diagram-2 me-2"></i>5. Razonamiento Silogístico</h2>
             <div class="row g-4">
                 <div class="col-md-6">
                     <div class="p-4 bg-white rounded shadow-sm h-100 border-start border-4 border-primary">
-                        <h6 class="fw-bold text-primary mb-3">Lógica Clásica (Sócrates)</h6>
+                        <h6 class="fw-bold text-primary mb-3">Lógica Clásica</h6>
                         <ul class="list-unstyled font-code small">
-                            <li><strong>P1:</strong> Todos los humanos son mortales.</li>
+                            <li><strong>P1:</strong> Humanos son mortales.</li>
                             <li><strong>P2:</strong> Sócrates es humano.</li>
                             <li class="border-top mt-2 pt-2"><strong>Conclusión:</strong> Sócrates es mortal.</li>
                         </ul>
@@ -358,27 +346,23 @@
                 </div>
                 <div class="col-md-6">
                     <div class="p-4 bg-dark text-white rounded shadow-sm h-100 font-code">
-                        <h6 class="fw-bold text-warning mb-3">Lógica Computacional (Prolog)</h6>
+                        <h6 class="fw-bold text-warning mb-3">Lógica Computacional</h6>
                         <div class="small">
-                            <span class="text-white-50">% Base de Conocimiento</span><br>
                             mortal(X) :- humano(X).<br>
-                            humano(socrates).<br><br>
-                            <span class="text-white-50">% Consulta</span><br>
-                            <span class="keyword">?-</span> mortal(socrates).<br>
+                            humano(socrates).<br>
                             <span class="success">true.</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </div>
 
-    <footer class="bg-dark text-white-50 text-center py-5 mt-5 border-top border-secondary">
-        <div class="container">
-            <p class="small mb-0">Día 3 - Ingeniería de Lenguajes y Lógica Formal | © 2024</p>
-        </div>
+    <footer class="bg-dark text-white-50 text-center py-5 mt-5">
+        <p class="small mb-0">Día 3 - Ingeniería de Lenguajes | © 2024</p>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         function runSimulation() {
@@ -387,19 +371,10 @@
             const lines = [
                 { t: ">>> [Fase 1] Análisis Léxico...", c: "keyword" },
                 { t: "TOKEN 1: [NOT] -> '¬'", c: "token" },
-                { t: "TOKEN 2: [L_PAREN] -> '('", c: "token" },
-                { t: "TOKEN 3: [VAR] -> 'p'", c: "token" },
-                { t: "TOKEN 4: [OR] -> '∨'", c: "token" },
-                { t: "TOKEN 5: [VAR] -> 'q'", c: "token" },
-                { t: "TOKEN 6: [R_PAREN] -> ')'", c: "token" },
-                { t: " ", t_m: 200 },
-                { t: ">>> [Fase 2] Análisis Sintáctico (AST)...", c: "keyword" },
-                { t: "      [¬] \n       | \n      [∨] \n     /   \\ \n   [p]   [q]", c: "text-warning" },
-                { t: ">>> [Fase 3] Análisis Semántico...", c: "keyword" },
-                { t: "Asignando: p=TRUE, q=FALSE", c: "text-white-50" },
-                { t: "Evaluando sub-árbol (p ∨ q) -> TRUE", c: "text-white" },
-                { t: "Evaluando raíz ¬(TRUE) -> FALSE", c: "text-white" },
-                { t: "RESULTADO FINAL: FALSE", c: "error fw-bold" }
+                { t: "TOKEN 2: [VAR] -> 'p'", c: "token" },
+                { t: ">>> [Fase 2] Análisis Sintáctico...", c: "keyword" },
+                { t: "      [¬] \n       | \n      [p]", c: "text-warning" },
+                { t: "RESULTADO: PROCESADO", c: "success fw-bold" }
             ];
 
             let delay = 0;
@@ -411,7 +386,7 @@
                     out.appendChild(d);
                     out.scrollTop = out.scrollHeight;
                 }, delay);
-                delay += (l.t_m || 250);
+                delay += 250;
             });
         }
 
@@ -424,4 +399,3 @@
     </script>
 </body>
 </html>
-

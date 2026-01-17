@@ -317,14 +317,21 @@
                 </div>
             </div>
         </section>
-<section id="silogismo" class="mb-5 animate__animated animate__fadeInUp">
-            <h2 class="section-title"><i class="bi bi-diagram-2 me-2"></i>5. Razonamiento Silogístico</h2>
+<section id="silogismo" class="mb-5">
+            <h2 class="section-title"><i class="bi bi-diagram-2 me-2"></i>5. Razonamiento Silogístico y BC</h2>
+            <div class="alert alert-info border-0 shadow-sm bg-white mb-4">
+                <h5 class="fw-bold text-dark">Definición</h5>
+                <p class="mb-0 text-muted">
+                    Dado un conjunto de asertos (BC = Base de Conocimiento) y una afirmación nueva (A), el problema es decidir si A es necesariamente cierta suponiendo que BC es verdadera.
+                </p>
+            </div>
+
             <div class="row g-4">
                 <div class="col-md-6">
                     <div class="p-4 bg-white rounded shadow-sm h-100 border-start border-4 border-primary">
-                        <h6 class="fw-bold text-primary mb-3">Lógica Clásica</h6>
+                        <h6 class="fw-bold text-primary mb-3">Lógica Clásica (Sócrates)</h6>
                         <ul class="list-unstyled font-code small">
-                            <li><strong>P1:</strong> Humanos son mortales.</li>
+                            <li><strong>P1:</strong> Todos los humanos son mortales.</li>
                             <li><strong>P2:</strong> Sócrates es humano.</li>
                             <li class="border-top mt-2 pt-2"><strong>Conclusión:</strong> Sócrates es mortal.</li>
                         </ul>
@@ -332,10 +339,13 @@
                 </div>
                 <div class="col-md-6">
                     <div class="p-4 bg-dark text-white rounded shadow-sm h-100 font-code">
-                        <h6 class="fw-bold text-warning mb-3">Lógica Computacional</h6>
+                        <h6 class="fw-bold text-warning mb-3">Lógica Computacional (Prolog)</h6>
                         <div class="small">
+                            <span class="text-white-50">% Base de Conocimiento</span><br>
                             mortal(X) :- humano(X).<br>
-                            humano(socrates).<br>
+                            humano(socrates).<br><br>
+                            <span class="text-white-50">% Consulta</span><br>
+                            <span class="keyword">?-</span> mortal(socrates).<br>
                             <span class="success">true.</span>
                         </div>
                     </div>
@@ -355,26 +365,21 @@
             const out = document.getElementById('consoleOutput');
             out.innerHTML = '';
             const lines = [
-                { t: ">>> INICIANDO SCANNER (Análisis Léxico)...", c: "keyword" },
-                { t: "Regex Match: /¬/ -> TOKEN[NOT]", c: "token" },
-                { t: "Regex Match: /\(/ -> TOKEN[L_PAREN]", c: "token" },
-                { t: "Regex Match: /[p,q]/ -> TOKEN[VAR]", c: "token" },
-                { t: "Análisis Léxico completado. 14 tokens generados.", c: "success" },
-                { t: " ", t_m: 300 },
-                { t: ">>> INICIANDO PARSER (Análisis Sintáctico)...", c: "keyword" },
-                { t: "Verificando balance de paréntesis... OK", c: "" },
-                { t: "Construyendo Árbol de Sintaxis Abstracta (AST)...", c: "" },
-                { t: "      [¬]  <-- Raíz (Operador Principal)\n       | \n      [→] \n     /   \\ \n   [¬]   [∧] \n    |    /  \\ \n   [∨] [¬]  [s] \n  / \\   | \n [p][q][r]", c: "text-warning" },
-                { t: "Estructura válida. No se detectaron errores sintácticos.", c: "success" },
-                { t: " ", t_m: 300 },
-                { t: ">>> INICIANDO INTERPRETER (Análisis Semántico)...", c: "keyword" },
-                { t: "Valores base: p=V, q=F, r=V, s=V", c: "text-white-50" },
-                { t: "Paso 1: Evaluar (p ∨ q) -> V ∨ F = V", c: "" },
-                { t: "Paso 2: Evaluar ¬(V) -> F", c: "" },
-                { t: "Paso 3: Evaluar (¬r ∧ s) -> F ∧ V = F", c: "" },
-                { t: "Paso 4: Evaluar F → F = V", c: "" },
-                { t: "Paso 5: Evaluar ¬(V) final", c: "" },
-                { t: ">>> RESULTADO SEMÁNTICO FINAL: FALSE", c: "error fw-bold" }
+                { t: ">>> [Fase 1] Análisis Léxico...", c: "keyword" },
+                { t: "TOKEN 1: [NOT] -> '¬'", c: "token" },
+                { t: "TOKEN 2: [L_PAREN] -> '('", c: "token" },
+                { t: "TOKEN 3: [VAR] -> 'p'", c: "token" },
+                { t: "TOKEN 4: [OR] -> '∨'", c: "token" },
+                { t: "TOKEN 5: [VAR] -> 'q'", c: "token" },
+                { t: "TOKEN 6: [R_PAREN] -> ')'", c: "token" },
+                { t: " ", t_m: 200 },
+                { t: ">>> [Fase 2] Análisis Sintáctico (AST)...", c: "keyword" },
+                { t: "      [¬] \n       | \n      [∨] \n     /   \\ \n   [p]   [q]", c: "text-warning" },
+                { t: ">>> [Fase 3] Análisis Semántico...", c: "keyword" },
+                { t: "Asignando: p=TRUE, q=FALSE", c: "text-white-50" },
+                { t: "Evaluando sub-árbol (p ∨ q) -> TRUE", c: "text-white" },
+                { t: "Evaluando raíz ¬(TRUE) -> FALSE", c: "text-white" },
+                { t: "RESULTADO FINAL: FALSE", c: "error fw-bold" }
             ];
 
             let delay = 0;

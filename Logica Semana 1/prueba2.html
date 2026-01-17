@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Día 3: Lógica Formal y Compilación</title>
+    <title>Día 3: Lógica Formal y Estructura Computacional</title>
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -30,6 +30,23 @@
             line-height: 1.7;
         }
 
+        /* --- Barra de Progreso --- */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            z-index: 9999;
+        }
+        #scrollProgress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+            transition: width 0.1s ease-out;
+        }
+
         /* --- Encabezado Estilo Día 2 --- */
         .hero-section {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
@@ -54,275 +71,274 @@
             border: none;
             border-radius: 16px;
             padding: 30px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             height: 100%;
-            border-bottom: 4px solid transparent;
+            border-top: 4px solid transparent;
         }
-
         .concept-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
+        .card-icon { font-size: 2.5rem; color: var(--accent-purple); margin-bottom: 15px; display: block; }
 
-        .card-proposicion { border-color: var(--accent-purple); }
-        .card-conectivo { border-color: var(--accent-cyan); }
-        .card-auxiliar { border-color: #ec4899; }
-
-        .icon-circle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            background: #f1f5f9;
-        }
-
-        /* --- Consola de Simulación --- */
-        .console-container {
-            background: var(--code-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .console-header {
-            background: #333;
-            padding: 10px 20px;
-            display: flex;
-            gap: 8px;
-        }
-
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .red { background: #ff5f56; }
-        .yellow { background: #ffbd2e; }
-        .green { background: #27c93f; }
-
+        /* --- Consola --- */
         .console-box {
+            background-color: var(--code-bg);
             color: #d1d5db;
             font-family: 'Fira Code', monospace;
-            padding: 25px;
-            height: 450px;
+            padding: 20px;
+            border-radius: 0 0 12px 12px;
+            height: 400px;
             overflow-y: auto;
-            font-size: 0.9rem;
-            white-space: pre-wrap;
+            border: 1px solid #334155;
+            white-space: pre;
+            font-size: 0.85rem;
         }
+        .console-header {
+            background: #334155;
+            padding: 8px 15px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            gap: 6px;
+        }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
 
-        /* --- Tipografía y Títulos --- */
+        /* --- Títulos --- */
         .section-title {
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: -0.025em;
             color: var(--dark-blue);
-            margin-bottom: 40px;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
+        .section-title i { color: var(--accent-purple); }
 
-        .section-title::after {
-            content: "";
-            height: 2px;
-            flex-grow: 1;
-            background: linear-gradient(to right, var(--accent-purple), transparent);
+        /* --- Árbol Visual --- */
+        .tree-wrapper { text-align: center; overflow-x: auto; padding: 20px 0; }
+        .node-circle {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: var(--dark-blue);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 5px;
+            border: 2px solid var(--accent-cyan);
         }
+        .node-circle.leaf { background: var(--accent-purple); border-color: white; }
 
-        /* --- Badge y Animaciones --- */
-        .badge-day {
-            background: var(--accent-purple);
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-        }
-
-        .code-block {
-            background: #1e293b;
-            color: #f1f5f9;
-            padding: 20px;
-            border-radius: 10px;
-            font-family: 'Fira Code', monospace;
-        }
-
-        .token { color: #22d3ee; }
+        .font-code { font-family: 'Fira Code', monospace; }
         .keyword { color: #c084fc; }
+        .token { color: #22d3ee; }
         .success { color: #4ade80; }
-        .error { color: #f87171; }
     </style>
 </head>
 <body>
 
+    <div class="progress-container">
+        <div id="scrollProgress"></div>
+    </div>
+
     <header class="hero-section animate__animated animate__fadeIn">
-        <div class="container text-center position-relative">
-            <span class="badge-day mb-3 d-inline-block">Etapa 03</span>
-            <h1 class="display-3 fw-bold mb-3">Lógica Formal y Compilación</h1>
-            <p class="lead opacity-75 mx-auto" style="max-width: 700px;">
-                Desde el Alfabeto Formal $\Sigma$ hasta la ejecución semántica en sistemas computacionales modernos.
+        <div class="container text-center">
+            <span class="badge bg-info text-dark mb-2 fw-bold">DÍA 3</span>
+            <h1 class="display-4 fw-bold mb-2">Lógica Formal, Estructura y Compilación</h1>
+            <p class="lead opacity-75 mx-auto" style="max-width: 800px;">
+                Del lenguaje natural a la estructura binaria de la computación.
             </p>
         </div>
     </header>
 
     <div class="container my-5">
-        
-        <section class="mb-5 animate__animated animate__fadeInUp">
-            <h2 class="section-title"><i class="bi bi-alphabet-uppercase"></i> 1. Alfabeto Formal ($\Sigma$)</h2>
+
+        <section id="alfabeto" class="mb-5 animate__animated animate__fadeInUp">
+            <h2 class="section-title"><i class="bi bi-fonts"></i> 1. El Alfabeto Formal ($\Sigma$)</h2>
+            <p class="mb-4">
+                Un lenguaje formal no deja nada a la interpretación. Se construye a partir de un conjunto finito de piezas bien definidas. En Lógica Proposicional, este alfabeto se compone de tres categorías estrictas.
+            </p>
+
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="concept-card card-proposicion">
-                        <div class="icon-circle text-primary"><i class="bi bi-variable"></i></div>
-                        <h4>Proposiciones ($V_P$)</h4>
-                        <p class="text-muted">Variables atómicas que representan hechos del mundo real.</p>
-                        <div class="p-2 bg-light rounded font-code text-center fw-bold">p, q, r, s...</div>
+                    <div class="concept-card" style="border-top-color: var(--accent-purple);">
+                        <i class="bi bi-chat-left-text card-icon"></i>
+                        <h5 class="fw-bold">A. Proposiciones ($V_P$)</h5>
+                        <p class="small text-muted mb-3">Afirmaciones que pueden ser <strong>Verdaderas</strong> o <strong>Falsas</strong>. Son los "datos" del sistema.</p>
+                        <div class="alert alert-light border font-code text-center">p, q, r, s, ...</div>
                     </div>
                 </div>
+
                 <div class="col-md-4">
-                    <div class="concept-card card-conectivo">
-                        <div class="icon-circle text-info"><i class="bi bi-plus-slash-minus"></i></div>
-                        <h4>Conectivos</h4>
-                        <p class="text-muted">Operadores lógicos que permiten construir fórmulas complejas.</p>
-                        <div class="p-2 bg-light rounded font-code text-center fw-bold">&not;, &and;, &or;, &rarr;, &harr;</div>
+                    <div class="concept-card" style="border-top-color: var(--accent-cyan);">
+                        <i class="bi bi-diagram-2 card-icon"></i>
+                        <h5 class="fw-bold">B. Conectivos y Aridad</h5>
+                        <p class="small text-muted">Operadores que estructuran la lógica según su <strong>Aridad</strong>.</p>
+                        <ul class="list-unstyled small font-code">
+                            <li class="mb-2"><strong class="text-danger">Unaria (1):</strong> ¬ (Negación)</li>
+                            <li><strong class="text-primary">Binaria (2):</strong> ∧, ∨, →, ↔</li>
+                        </ul>
                     </div>
                 </div>
+
                 <div class="col-md-4">
-                    <div class="concept-card card-auxiliar">
-                        <div class="icon-circle text-danger"><i class="bi bi-parentheses"></i></div>
-                        <h4>Auxiliares</h4>
-                        <p class="text-muted">Símbolos de puntuación que definen la jerarquía de evaluación.</p>
-                        <div class="p-2 bg-light rounded font-code text-center fw-bold">( , ) , [ , ]</div>
+                    <div class="concept-card" style="border-top-color: #ec4899;">
+                        <i class="bi bi-brackets card-icon"></i>
+                        <h5 class="fw-bold">C. Símbolos Auxiliares</h5>
+                        <p class="small text-muted">Signos vitales que definen el <strong>alcance</strong> y rompen la jerarquía por defecto.</p>
+                        <div class="text-center h3 font-code my-2">( )</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="mb-5">
-            <h2 class="section-title"><i class="bi bi-cpu"></i> 2. Pipeline de Compilación</h2>
+        <section id="jerarquia" class="mb-5">
+            <h2 class="section-title"><i class="bi bi-sort-numeric-down"></i> 2. Jerarquía de Signos</h2>
             <div class="row g-4">
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="card border-0 shadow-sm p-4 h-100">
-                        <h5 class="fw-bold mb-4">Procesamiento de: <span class="text-primary">¬(p ∨ q)</span></h5>
-                        <div class="list-group list-group-flush mb-4">
-                            <div class="list-group-item bg-transparent border-0 px-0">
-                                <i class="bi bi-1-circle-fill text-primary me-2"></i> <strong>Léxico:</strong> Identificación de Tokens.
-                            </div>
-                            <div class="list-group-item bg-transparent border-0 px-0">
-                                <i class="bi bi-2-circle-fill text-primary me-2"></i> <strong>Sintáctico:</strong> Construcción del Árbol (AST).
-                            </div>
-                            <div class="list-group-item bg-transparent border-0 px-0">
-                                <i class="bi bi-3-circle-fill text-primary me-2"></i> <strong>Semántico:</strong> Cálculo de Verdad.
-                            </div>
-                        </div>
-                        <button class="btn btn-dark btn-lg w-100 shadow-sm" onclick="runSimulation()">
-                            <i class="bi bi-play-fill me-2"></i>Ejecutar Parser
-                        </button>
+                        <h5 class="fw-bold text-primary mb-3">Orden de Precedencia</h5>
+                        <table class="table table-hover font-code small">
+                            <thead class="table-dark">
+                                <tr><th>Prioridad</th><th>Símbolo</th><th>Operación</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table-warning fw-bold"><td>1 (Máx)</td><td>( )</td><td>Agrupación</td></tr>
+                                <tr><td>2</td><td>¬</td><td>Negación</td></tr>
+                                <tr><td>3</td><td>∧</td><td>Conjunción</td></tr>
+                                <tr><td>4</td><td>∨</td><td>Disyunción</td></tr>
+                                <tr><td>5</td><td>→</td><td>Condicional</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="col-lg-8">
-                    <div class="console-container">
-                        <div class="console-header">
-                            <div class="dot red"></div>
-                            <div class="dot yellow"></div>
-                            <div class="dot green"></div>
-                            <small class="text-secondary ms-2">logic_compiler_v3.exe</small>
-                        </div>
-                        <div class="console-box" id="consoleOutput">
-[READY] Esperando instrucción del usuario...
-> Haz clic en "Ejecutar Parser" para iniciar el proceso.
-                        </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm p-4 bg-light h-100 border-start border-4 border-warning">
+                        <h5 class="fw-bold mb-3">Ejemplo de Ambigüedad Resuelta</h5>
+                        <p class="small mb-1">Expresión cruda: <code>¬p ∨ q ∧ r</code></p>
+                        <hr>
+                        <p class="mb-1">Interpretación Correcta:</p>
+                        <code class="fs-5 text-primary">(¬p) ∨ (q ∧ r)</code>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="mb-5">
-            <h2 class="section-title"><i class="bi bi-diagram-3"></i> 3. Lógica Computacional (Prolog)</h2>
+        
+        <section id="arboles" class="mb-5">
+            <h2 class="section-title"><i class="bi bi-diagram-3"></i> 3. Árboles de Formación</h2>
+            <p>Toda expresión lógica es estructuralmente un <strong>Árbol Binario</strong>.</p>
+            <div class="card p-4 border-0 shadow-sm mt-4 text-center">
+                <span class="badge bg-dark mb-4 font-code d-inline-block mx-auto p-2">Fórmula: ¬(p ∨ q)</span>
+                <div class="tree-wrapper">
+                    <div class="node-circle">¬</div><br>
+                    <div class="node-circle">∨</div><br>
+                    <div class="node-circle leaf">p</div>
+                    <div class="node-circle leaf">q</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="analisis" class="mb-5">
+            <h2 class="section-title"><i class="bi bi-cpu"></i> 4. Análisis Computacional (Compiladores)</h2>
+            <div class="row g-4">
+                <div class="col-lg-5">
+                    <div class="accordion" id="accordionAnalisis">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button fw-bold" data-bs-toggle="collapse" data-bs-target="#c1">1. Análisis Léxico (Scanner)</button></h2>
+                            <div id="c1" class="accordion-collapse collapse show" data-bs-parent="#accordionAnalisis">
+                                <div class="accordion-body small">Divide la cadena en <strong>Tokens</strong> usando Regex.</div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header"><button class="accordion-button collapsed fw-bold" data-bs-toggle="collapse" data-bs-target="#c2">2. Análisis Sintáctico (Parser)</button></h2>
+                            <div id="c2" class="accordion-collapse collapse" data-bs-parent="#accordionAnalisis">
+                                <div class="accordion-body small">Construye el <strong>Árbol de Derivación</strong> y verifica gramática.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-dark w-100 mt-4 py-3 shadow-sm" onclick="runSimulation()">
+                        <i class="bi bi-play-fill me-2"></i> EJECUTAR SIMULACIÓN
+                    </button>
+                </div>
+                <div class="col-lg-7">
+                    <div class="console-header">
+                        <div class="dot" style="background:#ff5f56"></div>
+                        <div class="dot" style="background:#ffbd2e"></div>
+                        <div class="dot" style="background:#27c93f"></div>
+                    </div>
+                    <div class="console-box" id="consoleOutput">// Esperando ejecución...</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="silogismo" class="mb-5">
+            <h2 class="section-title"><i class="bi bi-diagram-2"></i> 5. Razonamiento y BC</h2>
             <div class="row g-4">
                 <div class="col-md-6">
-                    <div class="p-4 bg-white rounded shadow-sm border-start border-4 border-primary h-100">
-                        <h5>Razonamiento de la Base de Conocimiento</h5>
-                        <p class="mt-3">Un sistema experto utiliza reglas lógicas para inferir nuevos conocimientos a partir de hechos conocidos.</p>
-                        <blockquote class="blockquote bg-light p-3 rounded">
-                            <p class="small mb-0">"Si el sensor de lluvia se activa, entonces el sistema de riego se apaga."</p>
-                        </blockquote>
+                    <div class="p-4 border rounded bg-white h-100 border-start border-4 border-primary">
+                        <h6 class="fw-bold text-primary">Lógica Clásica</h6>
+                        <ul class="list-unstyled font-code small mt-3">
+                            <li><strong>P1:</strong> Humanos son mortales.</li>
+                            <li><strong>P2:</strong> Sócrates es humano.</li>
+                            <li class="border-top mt-2 pt-2"><strong>C:</strong> Sócrates es mortal.</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="code-block h-100">
-                        <div class="d-flex justify-content-between mb-2">
-                            <small class="text-secondary">knowledge_base.pl</small>
-                            <i class="bi bi-code-slash text-secondary"></i>
+                    <div class="p-4 border rounded bg-dark text-white h-100 font-code">
+                        <h6 class="fw-bold text-warning">Prolog (IA)</h6>
+                        <div class="small mt-3">
+                            mortal(X) :- humano(X).<br>
+                            humano(socrates).<br>
+                            <span class="text-info">?- mortal(socrates).</span><br>
+                            <span class="success">true.</span>
                         </div>
-                        <pre class="mb-0">
-<span class="keyword">apagar_riego</span>(sistema) :- <span class="token">llueve</span>.
-<span class="token">llueve</span>.
-
-<span class="text-secondary">/* Consulta al sistema */</span>
-?- <span class="keyword">apagar_riego</span>(X).
-<span class="success">X = sistema.
-true.</span></pre>
                     </div>
                 </div>
             </div>
         </section>
-
     </div>
 
-    <footer class="bg-dark text-white text-center py-5 mt-5">
-        <p class="mb-0 opacity-50 small">
-            Día 3: Estructuras Lógicas & Compiladores | 2024
-        </p>
+    <footer class="bg-white border-top py-4 text-center mt-5">
+        <small class="text-muted">Día 3 - Ingeniería de Lenguajes Lógicos | © 2024</small>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function runSimulation() {
-            const consoleBox = document.getElementById('consoleOutput');
-            consoleBox.innerHTML = ''; 
-
+            const out = document.getElementById('consoleOutput');
+            out.innerHTML = '';
             const lines = [
-                { t: ">>> INICIANDO COMPILADOR LÓGICO...", c: "text-white fw-bold" },
-                { t: "ANALIZANDO: ¬(p ∨ q)", c: "text-info" },
-                { t: "------------------------------------------------", t_m: 100 },
-                { t: "[PHASE 1] Scanning & Tokenization...", c: "keyword" },
-                { t: "TOKEN: [NOT]        VAL: '¬'", c: "token" },
-                { t: "TOKEN: [L_PAREN]    VAL: '('", c: "token" },
-                { t: "TOKEN: [VAR]        VAL: 'p'", c: "token" },
-                { t: "TOKEN: [OR]         VAL: '∨'", c: "token" },
-                { t: "TOKEN: [VAR]        VAL: 'q'", c: "token" },
-                { t: "TOKEN: [R_PAREN]    VAL: ')'", c: "token" },
-                { t: ">>> Lexical Analysis: SUCCESSFUL", c: "success" },
-                { t: " ", t_m: 400 },
-                { t: "[PHASE 2] Syntactic Parsing (AST)", c: "keyword" },
-                { t: "Construyendo estructura jerárquica...", c: "text-muted" },
-                { t: "        [¬] ", c: "text-warning" },
-                { t: "         |  ", c: "text-white" },
-                { t: "        [∨] ", c: "text-warning" },
-                { t: "       /   \\", c: "text-white" },
-                { t: "     [p]   [q]", c: "text-warning" },
-                { t: ">>> Grammar Validation: SUCCESSFUL", c: "success" },
-                { t: " ", t_m: 400 },
-                { t: "[PHASE 3] Semantic Evaluation", c: "keyword" },
-                { t: "Entrada: p=1 (V), q=0 (F)", c: "text-muted" },
-                { t: "Operación: (1 ∨ 0) -> Resultado: 1", c: "text-white" },
-                { t: "Operación: ¬(1)     -> Resultado: 0", c: "text-white" },
-                { t: ">> OUTPUT FINAL: FALSE (0)", c: "error fw-bold" }
+                { t: ">>> SCANNER: Generando Tokens...", c: "keyword" },
+                { t: "TOKEN[0]: NOT (¬)", c: "token" },
+                { t: "TOKEN[1]: LPAREN (()", c: "token" },
+                { t: "TOKEN[2]: VAR (p)", c: "token" },
+                { t: ">>> PARSER: Construyendo AST...", c: "keyword" },
+                { t: "        [¬]\n         |\n        [∨]\n       /   \\", c: "text-warning" },
+                { t: ">>> SEMANTICS: p=V, q=F => Result: FALSE", c: "success fw-bold" }
             ];
-
-            let delay = 0;
-            lines.forEach((line) => {
+            let d = 0;
+            lines.forEach(l => {
                 setTimeout(() => {
-                    const span = document.createElement('div');
-                    span.className = 'animate__animated animate__fadeInLeft ' + (line.c || '');
-                    span.style.marginBottom = '5px';
-                    span.innerText = line.t;
-                    consoleBox.appendChild(span);
-                    consoleBox.scrollTop = consoleBox.scrollHeight;
-                }, delay);
-                delay += (line.t_m || 200);
+                    const s = document.createElement('div');
+                    s.className = l.c || '';
+                    s.innerText = l.t;
+                    out.appendChild(s);
+                    out.scrollTop = out.scrollHeight;
+                }, d);
+                d += 300;
             });
         }
+
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scrollProgress").style.width = scrolled + "%";
+        };
     </script>
 </body>
 </html>

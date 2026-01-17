@@ -1,593 +1,283 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Día 3: Lógica Formal, Estructura y Compilación</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Día 3: Lógica Formal, Estructura y Compilación</title>
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
 
-<link href="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css](https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css)" rel="stylesheet">
-<link href="[https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css](https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css)" rel="stylesheet">
-<link href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css)" rel="stylesheet">
-<link href="[https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Roboto:wght@300;400;500&family=Source+Code+Pro:wght@500&display=swap](https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Roboto:wght@300;400;500&family=Source+Code+Pro:wght@500&display=swap)" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #4834d4;
+            --accent-light: #686de0;
+            --bg-light: #f9f9fa;
+            --code-bg: #2d3436;
+            --success: #27ae60;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --border-radius: 10px;
+        }
 
-<style>
-    :root {
-        --brand-color: #4834d4;
-        --brand-dark: #2c3e50;
-        --brand-accent: #686de0;
-        --bg-academic: #f8f9fa;
-        --shadow: 0 10px 30px rgba(0,0,0,0.08);
-        --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-light);
+            color: #2d3436;
+            line-height: 1.8;
+            padding-bottom: 100px;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .section-title {
+            border-left: 5px solid var(--accent);
+            padding-left: 15px;
+            margin-bottom: 30px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .concept-card {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            height: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+        }
+        .concept-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--accent);
+        }
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        /* --- Consola Interactiva --- */
+        .console-box {
+            background-color: var(--code-bg);
+            color: #dfe6e9;
+            font-family: 'Fira Code', monospace;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 450px;
+            max-height: 550px;
+            overflow-y: auto;
+            border: 1px solid #636e72;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            white-space: pre; /* Mantiene el ASCII Art */
+        }
+        .console-line { margin-bottom: 4px; display: block; }
+        .token { color: #55efc4; }
+        .keyword { color: #a29bfe; }
+        .success { color: var(--success); }
+        .error { color: var(--danger); }
         
-        /* Semantic Colors */
-        --info: #0984e3;
-        --success: #00b894;
-        --warning: #fdcb6e;
-        --danger: #d63031;
-    }
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: #e2e8f0;
+            z-index: 9999;
+        }
 
-    body {
-        font-family: 'Roboto', sans-serif;
-        background-color: var(--bg-academic);
-        color: var(--brand-dark);
-        overflow-x: hidden;
-        scroll-behavior: smooth;
-    }
+        #scrollProgress {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            transition: width 0.1s ease-out;
+        }
 
-    h1, h2, h3, .class-label {
-        font-family: 'Poppins', 'Montserrat', sans-serif;
-    }
-
-    /* ADN DE ENCABEZADO */
-    .hero-section {
-        background: linear-gradient(135deg, #ffffff 0%, #f1f2f6 100%);
-        padding: 80px 0 60px 0;
-        border-bottom: 2px solid rgba(0,0,0,0.05);
-        position: relative;
-    }
-
-    .class-label {
-        display: inline-block;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-weight: 800;
-        font-size: 0.85rem;
-        padding: 6px 16px;
-        border: 2px solid var(--brand-color);
-        border-radius: 50px;
-        color: var(--brand-color);
-        margin-bottom: 20px;
-        background: rgba(72, 52, 212, 0.05);
-    }
-
-    .hero-title {
-        font-weight: 800;
-        font-size: 3rem;
-        color: var(--brand-dark);
-        margin-bottom: 20px;
-    }
-
-    /* BARRA DE PROGRESO ADN */
-    .progress-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 6px;
-        background: rgba(226, 232, 240, 0.5);
-        z-index: 9999;
-    }
-
-    #scrollProgress {
-        height: 100%;
-        width: 0%;
-        background: var(--brand-color);
-        transition: width 0.1s ease-out;
-        box-shadow: 0 0 10px var(--brand-accent);
-    }
-
-    /* SISTEMA DE MOVIMIENTO COHERENTE */
-    .reveal {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: var(--transition);
-    }
-
-    .reveal.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* CARDS ACADÉMICAS */
-    .academic-card {
-        background: #fff;
-        border: 2px solid transparent;
-        border-radius: 15px;
-        padding: 30px;
-        height: 100%;
-        box-shadow: var(--shadow);
-        transition: var(--transition);
-        position: relative;
-    }
-
-    .academic-card:hover {
-        transform: translateY(-8px);
-        border-color: var(--brand-color);
-    }
-
-    .card-icon-wrapper {
-        width: 60px;
-        height: 60px;
-        background: rgba(72, 52, 212, 0.1);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-        color: var(--brand-color);
-        font-size: 1.5rem;
-        transition: var(--transition);
-    }
-
-    .academic-card:hover .card-icon-wrapper {
-        background: var(--brand-color);
-        color: #fff;
-        transform: rotateY(360deg);
-    }
-
-    /* CALLOUTS / ALERTS */
-    .callout {
-        padding: 20px;
-        margin: 20px 0;
-        border-left: 5px solid;
-        border-radius: 4px 15px 15px 4px;
-        background: #fff;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-    .callout-info { border-left-color: var(--info); }
-    .callout-warning { border-left-color: var(--warning); }
-    .callout-success { border-left-color: var(--success); }
-
-    /* ESQUEMA DINÁMICO (ARBOL) */
-    .tree-container {
-        padding: 40px;
-        background: white;
-        border-radius: 20px;
-        border: 2px dashed #dcdde1;
-        overflow-x: auto;
-    }
-
-    .node-circle {
-        width: 45px;
-        height: 45px;
-        border: 2px solid var(--brand-dark);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        background: #fff;
-        position: relative;
-        z-index: 2;
-        transition: var(--transition);
-    }
-
-    .node-circle.root { background: var(--brand-color); color: white; border-color: var(--brand-color); }
-    .node-circle.leaf { background: #f1f2f6; color: #7f8c8d; border-style: dotted; }
-
-    /* CONSOLA */
-    .console-container {
-        background: #1e1e1e;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        border: 1px solid #333;
-    }
-
-    .console-header {
-        background: #333;
-        padding: 10px 15px;
-        display: flex;
-        gap: 8px;
-    }
-
-    .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .dot-red { background: #ff5f56; }
-    .dot-yellow { background: #ffbd2e; }
-    .dot-green { background: #27c93f; }
-
-    .console-body {
-        font-family: 'Source Code Pro', monospace;
-        padding: 20px;
-        color: #dcdcdc;
-        height: 400px;
-        overflow-y: auto;
-        font-size: 0.9rem;
-        line-height: 1.6;
-    }
-
-    .token-keyword { color: #c678dd; }
-    .token-string { color: #98c379; }
-    .token-function { color: #61afef; }
-    .token-comment { color: #5c6370; font-style: italic; }
-
-    /* ANIMACIONES ESPECÍFICAS */
-    @keyframes pulse-brand {
-        0% { box-shadow: 0 0 0 0 rgba(72, 52, 212, 0.4); }
-        70% { box-shadow: 0 0 0 15px rgba(72, 52, 212, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(72, 52, 212, 0); }
-    }
-
-    .pulse-btn {
-        animation: pulse-brand 2s infinite;
-    }
-
-</style>
-
-```
-
+        /* Estilos de árbol visual */
+        .tree-node-visual {
+            text-align: center;
+            padding: 5px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            background: white;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
-```
-<div class="progress-container">
-    <div id="scrollProgress"></div>
-</div>
-
-<header class="hero-section">
-    <div class="container text-center reveal">
-        <span class="class-label">MÓDULO 1: LÓGICA COMPUTACIONAL · CLASE 3</span>
-        <h1 class="hero-title">Lógica Formal y Estructura del Lenguaje</h1>
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <p class="lead text-muted">
-                    Un análisis profundo sobre la formalización del Alfabeto ($\Sigma$), la jerarquía de operadores, la anatomía de los Árboles Sintácticos y el proceso técnico de compilación.
-                </p>
-                <div class="d-flex justify-content-center gap-3 mt-4">
-                    <span class="badge rounded-pill bg-dark p-2 px-3"><i class="bi bi-cpu me-2"></i>Compilación</span>
-                    <span class="badge rounded-pill bg-dark p-2 px-3"><i class="bi bi-diagram-3 me-2"></i>Sintaxis</span>
-                    <span class="badge rounded-pill bg-dark p-2 px-3"><i class="bi bi-shield-check me-2"></i>Semántica</span>
-                </div>
-            </div>
-        </div>
+    <div class="progress-container">
+        <div id="scrollProgress"></div>
     </div>
-</header>
 
-<main class="container py-5">
-
-    <section class="mb-5">
-        <div class="d-flex align-items-center mb-4 reveal">
-            <div class="card-icon-wrapper me-3 mb-0">
-                <i class="fa-solid fa-font"></i>
-            </div>
-            <h2 class="h3 fw-bold mb-0">1. El Alfabeto Formal ($\Sigma$)</h2>
+    <header class="bg-white pt-5 pb-4 mb-5 border-bottom shadow-sm">
+        <div class="container text-center">
+            <span class="badge bg-primary text-white mb-2 px-3 py-1 rounded-pill">DÍA 3</span>
+            <h1 class="display-4 mb-2 text-dark">Lógica Formal y Estructura</h1>
+            <p class="lead text-muted mx-auto" style="max-width: 800px;">
+                Alfabeto Formal ($\Sigma$), Jerarquía y Compilación (Análisis Léxico, Sintáctico y Semántico).
+            </p>
         </div>
+    </header>
 
-        <p class="reveal">
-            En el rigor de la lógica matemática, un lenguaje no admite ambigüedad. Se define como un conjunto finito de símbolos que constituyen las piezas fundamentales de cualquier construcción válida. En la Lógica Proposicional, este alfabeto se desglosa en tres dimensiones:
-        </p>
+    <div class="container">
 
-        <div class="row g-4 mt-2">
-            <div class="col-md-4 reveal">
-                <div class="academic-card">
-                    <div class="card-icon-wrapper">
-                        <i class="bi bi-alphabet"></i>
+        <section id="alfabeto" class="mb-5">
+            <h2 class="section-title"><i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal ($\Sigma$)</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="concept-card">
+                        <i class="bi bi-chat-left-text card-icon"></i>
+                        <h5>Proposiciones ($V_P$)</h5>
+                        <p class="small text-muted">Variables que pueden ser Verdaderas (V) o Falsas (F).</p>
+                        <div class="alert alert-light border font-code text-center">p, q, r, s...</div>
                     </div>
-                    <h4 class="h5 fw-bold">A. Proposiciones ($V_P$)</h4>
-                    <p class="small text-muted">
-                        Variables atómicas que representan sentencias declarativas. Su naturaleza es estrictamente bivalente (Verdadero o Falso).
-                    </p>
-                    <div class="p-2 bg-light rounded text-center border font-monospace">
-                        $p, q, r, s, t...$
+                </div>
+                <div class="col-md-4">
+                    <div class="concept-card">
+                        <i class="bi bi-diagram-2 card-icon"></i>
+                        <h5>Conectivos</h5>
+                        <p class="small text-muted">Operadores unarios ($\neg$) y binarios ($\wedge, \vee, \rightarrow$).</p>
+                        <div class="alert alert-light border font-code text-center">&not;, &and;, &or;, &rarr;</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="concept-card">
+                        <i class="bi bi-brackets card-icon"></i>
+                        <h5>Auxiliares</h5>
+                        <p class="small text-muted">Definen el alcance y rompen la jerarquía natural.</p>
+                        <div class="alert alert-light border font-code text-center">( , )</div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 reveal">
-                <div class="academic-card">
-                    <div class="card-icon-wrapper">
-                        <i class="bi bi-node-plus"></i>
-                    </div>
-                    <h4 class="h5 fw-bold">B. Conectivos y Aridad</h4>
-                    <p class="small text-muted">
-                        Operadores que definen la relación lógica. Su <strong>aridad</strong> determina cuántos argumentos consumen.
-                    </p>
-                    <ul class="list-unstyled small">
-                        <li><i class="bi bi-check2-circle text-primary me-2"></i><strong>Unaria:</strong> $\neg$ (Negación)</li>
-                        <li><i class="bi bi-check2-circle text-primary me-2"></i><strong>Binaria:</strong> $\land, \lor, \rightarrow, \leftrightarrow$</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-4 reveal">
-                <div class="academic-card">
-                    <div class="card-icon-wrapper">
-                        <i class="bi bi-parentheses"></i>
-                    </div>
-                    <h4 class="h5 fw-bold">C. Símbolos Auxiliares</h4>
-                    <p class="small text-muted">
-                        Garantizan la unicidad de lectura. Aunque no poseen valor de verdad, definen el <strong>alcance</strong> de los operadores.
-                    </p>
-                    <div class="text-center h3 mt-3">
-                        $( \quad )$
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="mb-5">
-        <div class="d-flex align-items-center mb-4 reveal">
-            <div class="card-icon-wrapper me-3 mb-0" style="background: rgba(253, 203, 110, 0.2); color: var(--warning);">
-                <i class="fa-solid fa-layer-group"></i>
-            </div>
-            <h2 class="h3 fw-bold mb-0">2. Jerarquía de Operadores</h2>
-        </div>
+        <section id="analisis" class="mb-5">
+            <h2 class="section-title"><i class="bi bi-cpu me-2"></i>2. Simulación de Compilación</h2>
+            <p>Descubre cómo una máquina procesa la expresión: <strong>&not;(p &or; q)</strong></p>
 
-        <div class="row g-4">
-            <div class="col-lg-7 reveal">
-                <div class="callout callout-warning">
-                    <h5 class="fw-bold"><i class="bi bi-info-circle me-2"></i>El Principio de Precedencia</h5>
-                    <p>Al igual que en el álgebra tradicional, la lógica sigue un orden de evaluación para evitar que una sola cadena de texto produzca múltiples interpretaciones (ambigüedad sintáctica).</p>
-                </div>
-                
-                <div class="table-responsive shadow-sm rounded-4 border bg-white">
-                    <table class="table table-hover mb-0 align-middle">
-                        <thead class="table-dark">
-                            <tr>
-                                <th class="ps-4">Prioridad</th>
-                                <th>Símbolo</th>
-                                <th>Nombre Operador</th>
-                                <th class="pe-4">Efecto</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="ps-4 fw-bold text-primary">1 (Máxima)</td>
-                                <td><code class="h5">( )</code></td>
-                                <td>Agrupación</td>
-                                <td class="small pe-4">Rompe cualquier jerarquía previa.</td>
-                            </tr>
-                            <tr>
-                                <td class="ps-4 fw-bold">2</td>
-                                <td><code class="h5">$\neg$</code></td>
-                                <td>Negación</td>
-                                <td class="small pe-4">Se vincula al término inmediato.</td>
-                            </tr>
-                            <tr>
-                                <td class="ps-4 fw-bold">3</td>
-                                <td><code class="h5">$\land, \lor$</code></td>
-                                <td>Conjunción / Disyunción</td>
-                                <td class="small pe-4">Operadores de enlace básico.</td>
-                            </tr>
-                            <tr>
-                                <td class="ps-4 fw-bold text-danger">4 (Mínima)</td>
-                                <td><code class="h5">$\rightarrow, \leftrightarrow$</code></td>
-                                <td>Condicional / Bicondicional</td>
-                                <td class="small pe-4">Definen la estructura global.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-lg-5 reveal">
-                <div class="academic-card bg-dark text-white">
-                    <h5 class="fw-bold text-warning mb-3"><i class="bi bi-lightbulb me-2"></i>Ejemplo de Resolución</h5>
-                    <p class="small text-white-50">Analicemos la expresión:</p>
-                    <div class="p-3 bg-secondary bg-opacity-25 rounded border border-secondary mb-3 text-center h4">
-                        $\neg p \lor q \land r$
-                    </div>
-                    <p class="small">La computadora no duda. Sigue el orden:</p>
-                    <ol class="small">
-                        <li class="mb-2">Aísla $\neg p$</li>
-                        <li class="mb-2">Vincula $(q \land r)$</li>
-                        <li>Une ambos resultados con el $\lor$</li>
-                    </ol>
-                    <div class="alert alert-light py-2 px-3 small mt-3 text-dark fw-bold">
-                        Interpretación: $(\neg p) \lor (q \land r)$
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="mb-5">
-        <div class="d-flex align-items-center mb-4 reveal">
-            <div class="card-icon-wrapper me-3 mb-0" style="background: rgba(0, 184, 148, 0.2); color: var(--success);">
-                <i class="fa-solid fa-tree"></i>
-            </div>
-            <h2 class="h3 fw-bold mb-0">3. Árboles de Formación (AST)</h2>
-        </div>
-
-        <div class="row">
-            <div class="col-12 reveal">
-                <p>En el diseño de lenguajes de programación, una fórmula no se procesa linealmente, sino como un <strong>Árbol Sintáctico Abstracto (AST)</strong>. Este diagrama permite visualizar la jerarquía y el orden de ejecución.</p>
-                
-                <div class="tree-container text-center mt-4 shadow-sm">
-                    <div class="badge bg-primary mb-4 p-2 px-4 fs-6">Fórmula: $\neg(p \lor q) \rightarrow \neg r$</div>
-                    
-                    <div class="d-flex flex-column align-items-center">
-                        <div class="node-circle root" title="Operador Principal">$\rightarrow$</div>
-                        
-                        <div style="width: 2px; height: 30px; background: #ccc;"></div>
-                        
-                        <div class="d-flex gap-5">
-                            <div class="d-flex flex-column align-items-center">
-                                <div class="node-circle">$\neg$</div>
-                                <div style="width: 2px; height: 30px; background: #ccc;"></div>
-                                <div class="node-circle">$\lor$</div>
-                                <div style="width: 2px; height: 20px; background: #ccc;"></div>
-                                <div class="d-flex gap-3">
-                                    <div class="node-circle leaf">p</div>
-                                    <div class="node-circle leaf">q</div>
-                                </div>
-                            </div>
-
-                            <div class="d-flex flex-column align-items-center">
-                                <div class="node-circle">$\neg$</div>
-                                <div style="width: 2px; height: 30px; background: #ccc;"></div>
-                                <div class="node-circle leaf">r</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="mb-5">
-        <div class="d-flex align-items-center mb-4 reveal">
-            <div class="card-icon-wrapper me-3 mb-0">
-                <i class="fa-solid fa-microchip"></i>
-            </div>
-            <h2 class="h3 fw-bold mb-0">4. Análisis Computacional: El Proceso de Compilación</h2>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-lg-5 reveal">
-                <p class="mb-4">Para que una IA o un procesador entienda la lógica, debe pasar por tres filtros técnicos:</p>
-                
-                <div class="accordion shadow-sm" id="compilationSteps">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#step1">
-                                <i class="bi bi-search me-2 text-primary"></i> 1. Análisis Léxico (Scanner)
-                            </button>
-                        </h2>
-                        <div id="step1" class="accordion-collapse collapse show" data-bs-parent="#compilationSteps">
-                            <div class="accordion-body small">
-                                El código se fragmenta en <strong>Tokens</strong>. El scanner identifica qué es un operador, qué es una variable y qué es ruido (espacios, saltos).
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#step2">
-                                <i class="bi bi-diagram-2 me-2 text-success"></i> 2. Análisis Sintáctico (Parser)
-                             </button>
-                        </h2>
-                        <div id="step2" class="accordion-collapse collapse" data-bs-parent="#compilationSteps">
-                            <div class="accordion-body small">
-                                Verifica que la gramática sea correcta. ¿Hay un paréntesis sin cerrar? ¿Hay dos operadores juntos? Aquí se construye el <strong>Árbol</strong>.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#step3">
-                                <i class="bi bi-gear me-2 text-danger"></i> 3. Análisis Semántico (Interpreter)
-                            </button>
-                        </h2>
-                        <div id="step3" class="accordion-collapse collapse" data-bs-parent="#compilationSteps">
-                            <div class="accordion-body small">
-                                Asigna significado. Evalúa si la expresión devuelve <strong>True</strong> o <strong>False</strong> basándose en una tabla de verdad o estado actual.
-                            </div>
-                        </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card p-3 mb-3 border-0 shadow-sm">
+                        <h6 class="fw-bold"><i class="bi bi-gear-fill me-2"></i>Fases del Proceso</h6>
+                        <ul class="list-unstyled small">
+                            <li class="mb-2"><strong>1. Léxico:</strong> Reconoce símbolos (Tokens).</li>
+                            <li class="mb-2"><strong>2. Sintáctico:</strong> Crea el árbol (AST).</li>
+                            <li><strong>3. Semántico:</strong> Calcula el valor de verdad.</li>
+                        </ul>
+                        <button class="btn btn-primary w-100 mt-2" onclick="runSimulation()">
+                            <i class="bi bi-play-circle me-2"></i>Iniciar Simulación
+                        </button>
                     </div>
                 </div>
 
-                <button class="btn btn-primary w-100 mt-4 py-3 fw-bold pulse-btn" onclick="startCompilation()">
-                    <i class="bi bi-play-circle-fill me-2"></i> SIMULAR COMPILACIÓN DE: ¬(p ∧ q)
-                </button>
-            </div>
-
-            <div class="col-lg-7 reveal">
-                <div class="console-container">
-                    <div class="console-header">
-                        <div class="dot dot-red"></div>
-                        <div class="dot dot-yellow"></div>
-                        <div class="dot dot-green"></div>
-                        <span class="ms-auto text-white-50 small font-monospace">compiler_v3.0.sh</span>
-                    </div>
-                    <div class="console-body" id="console">
-                        <span class="token-comment">// Sistema listo. Esperando instrucción...</span><br>
-                        <span class="token-comment">// Haz clic en "Simular Compilación" para iniciar.</span>
+                <div class="col-lg-8">
+                    <div class="console-box" id="consoleOutput">
+[SISTEMA]: Esperando ejecución...
+> Presiona el botón para procesar ¬(p ∨ q)
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-</main>
-
-<footer class="bg-dark text-white py-5 mt-5">
-    <div class="container text-center">
-        <span class="class-label" style="border-color: #fff; color: #fff;">CIENCIAS DE LA COMPUTACIÓN</span>
-        <p class="mt-3 text-white-50 small">Material didáctico de élite diseñado para la comprensión profunda de la lógica formal.</p>
+        <section id="silogismo" class="mb-5">
+            <h2 class="section-title"><i class="bi bi-database-check me-2"></i>3. Base de Conocimiento (BC)</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card p-4 h-100 border-0 shadow-sm">
+                        <h5 class="text-primary">Razonamiento Humano</h5>
+                        <p>Si llueve, el suelo se moja. Está lloviendo. <br><strong>Conclusión:</strong> El suelo está mojado.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card p-4 h-100 border-0 bg-dark text-warning font-code">
+                        <h5>Prolog (Lógica Computacional)</h5>
+                        <pre class="mb-0" style="color: #f1c40f;">
+mojado(suelo) :- llueve.
+llueve.
+?- mojado(suelo).
+true.</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-</footer>
 
-<script src="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js](https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js)"></script>
+    <footer class="text-center py-4 border-top">
+        <small class="text-muted">Día 3 - Lógica Formal e Informática | Usando Entidades ASCII y LaTeX</small>
+    </footer>
 
-<script>
-    // --- SISTEMA DE REVELACIÓN AL SCROLL ---
-    const reveal = () => {
-        const reveals = document.querySelectorAll(".reveal");
-        reveals.forEach(r => {
-            const windowHeight = window.innerHeight;
-            const elementTop = r.getBoundingClientRect().top;
-            const elementVisible = 100;
-            if (elementTop < windowHeight - elementVisible) {
-                r.classList.add("active");
-            }
-        });
-    };
-    window.addEventListener("scroll", reveal);
-    reveal(); // Inicializar
+    <script>
+        function runSimulation() {
+            const consoleBox = document.getElementById('consoleOutput');
+            consoleBox.innerHTML = ''; 
 
-    // --- BARRA DE PROGRESO ---
-    window.onscroll = () => {
-        let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        let scrolled = (winScroll / height) * 100;
-        document.getElementById("scrollProgress").style.width = scrolled + "%";
-    };
+            const lines = [
+                { t: ">>> INICIANDO PARSER LÓGICO...", c: "text-info fw-bold" },
+                { t: "ENTRADA: ¬(p ∨ q)", c: "text-white" },
+                { t: "---------------------------------------", t_m: 200 },
+                { t: "[1] ANÁLISIS LÉXICO...", c: "keyword" },
+                { t: "TOKEN 1: [OP_UNARIO] -> '¬'", c: "token" },
+                { t: "TOKEN 2: [PARENT_IZQ] -> '('", c: "token" },
+                { t: "TOKEN 3: [VAR_PROP] -> 'p'", c: "token" },
+                { t: "TOKEN 4: [OP_BINARIO] -> '∨'", c: "token" },
+                { t: "TOKEN 5: [VAR_PROP] -> 'q'", c: "token" },
+                { t: "TOKEN 6: [PARENT_DER] -> ')'", c: "token" },
+                { t: ">>> ÉXITO: Símbolos válidos.", c: "success" },
+                { t: " ", t_m: 300 },
+                { t: "[2] ANÁLISIS SINTÁCTICO (AST)", c: "keyword" },
+                { t: "Generando estructura de árbol...", c: "text-muted" },
+                { t: "      [¬] <--- Raíz (Op. Principal)", c: "text-warning fw-bold" },
+                { t: "       |", c: "text-white" },
+                { t: "      [∨]", c: "text-warning" },
+                { t: "     /   \\", c: "text-white" },
+                { t: "   [p]   [q]", c: "text-warning" },
+                { t: ">>> ÉXITO: Gramática correcta.", c: "success" },
+                { t: " ", t_m: 300 },
+                { t: "[3] ANÁLISIS SEMÁNTICO", c: "keyword" },
+                { t: "Asignando: p=VERDADERO, q=FALSO", c: "text-muted" },
+                { t: "Evaluando (p ∨ q)... Resultado: VERDADERO", c: "text-white" },
+                { t: "Evaluando ¬(VERDADERO)...", c: "text-white" },
+                { t: "=> RESULTADO FINAL: FALSO", c: "error fw-bold" }
+            ];
 
-    // --- SIMULADOR DE COMPILACIÓN ---
-    function startCompilation() {
-        const console = document.getElementById('console');
-        console.innerHTML = '<span class="token-keyword">root@lab:</span><span class="token-string"> ~ compile --target "¬(p ∧ q)"</span><br>';
-        
-        const logs = [
-            { t: "Cargando analizador léxico...", c: "token-comment" },
-            { t: "Token encontrado: [T_NEG, '¬']", c: "token-function" },
-            { t: "Token encontrado: [T_LPAR, '(']", c: "token-function" },
-            { t: "Token encontrado: [T_VAR, 'p']", c: "token-function" },
-            { t: "Token encontrado: [T_AND, '∧']", c: "token-function" },
-            { t: "Token encontrado: [T_VAR, 'q']", c: "token-function" },
-            { t: "Token encontrado: [T_RPAR, ')']", c: "token-function" },
-            { t: "--- Análisis Léxico Completado ---", c: "token-string" },
-            { t: "Verificando gramática del árbol...", c: "token-comment" },
-            { t: "Árbol Sintáctico (AST) generado exitosamente.", c: "token-string" },
-            { t: "Calculando Semántica (p=V, q=V)...", c: "token-comment" },
-            { t: "Evaluando sub-nodo: (V ∧ V) -> V", c: "token-comment" },
-            { t: "Evaluando raíz: ¬(V) -> F", c: "token-comment" },
-            { t: "RESULTADO FINAL: FALSE", c: "text-danger fw-bold" }
-        ];
+            let delay = 0;
+            lines.forEach((line) => {
+                setTimeout(() => {
+                    const span = document.createElement('span');
+                    span.className = 'console-line ' + (line.c || '');
+                    span.innerText = line.t;
+                    consoleBox.appendChild(span);
+                    consoleBox.scrollTop = consoleBox.scrollHeight;
+                }, delay);
+                delay += (line.t_m || 250);
+            });
+        }
 
-        let delay = 0;
-        logs.forEach(log => {
-            setTimeout(() => {
-                const line = document.createElement('div');
-                line.className = log.c;
-                line.innerHTML = `> ${log.t}`;
-                console.appendChild(line);
-                console.scrollTop = console.scrollHeight;
-            }, delay);
-            delay += 500;
-        });
-    }
-</script>
-
-<script>
-    window.MathJax = {
-        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-        svg: { fontCache: 'global' }
-    };
-</script>
-<script id="MathJax-script" async src="[https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js](https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js)"></script>
-
-
-
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scrollProgress").style.width = scrolled + "%";
+        };
+    </script>
 </body>
 </html>

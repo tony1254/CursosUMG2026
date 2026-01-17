@@ -1,520 +1,549 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Día 2: Tablas de Verdad y Formalización - Lógica 2026</title>
-<link rel="preconnect" href="[https://fonts.googleapis.com](https://www.google.com/search?q=https://fonts.googleapis.com)">
-<link rel="preconnect" href="[https://fonts.gstatic.com](https://www.google.com/search?q=https://fonts.gstatic.com)" crossorigin>
-<link href="[https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@300;400;500&family=Source+Code+Pro:wght@400;600&display=swap](https://www.google.com/search?q=https://fonts.googleapis.com/css2%3Ffamily%3DMontserrat:wght%40700%26family%3DRoboto:wght%40300%3B400%3B500%26family%3DSource%2BCode%2BPro:wght%40400%3B600%26display%3Dswap)" rel="stylesheet">
-<link href="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css](https://www.google.com/search?q=https://cdn.jsdelivr.net/npm/bootstrap%405.3.2/dist/css/bootstrap.min.css)" rel="stylesheet">
-<link rel="stylesheet" href="[https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css](https://www.google.com/search?q=https://cdn.jsdelivr.net/npm/bootstrap-icons%401.11.1/font/bootstrap-icons.css)">
-<link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css](https://www.google.com/search?q=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css)"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Día 2: Tablas de Verdad y Formalización - Lógica 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@300;400;500&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --secondary-dark: #1e1b4b;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --success-green: #2ecc71;
+            --warning-yellow: #f1c40f;
+            --danger-red: #e74c3c;
+            --text-light: #f8fafc;
+            --card-bg: #ffffff;
+        }
 
-```
-<script src="[https://polyfill.io/v3/polyfill.min.js?features=es6](https://polyfill.io/v3/polyfill.min.js?features=es6)"></script>
-<script id="MathJax-script" async src="[https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js](https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js)"></script>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f1f5f9;
+            color: #334155;
+            line-height: 1.6;
+        }
 
-<style>
-    :root {
-        --primary-dark: #0f172a;
-        --secondary-dark: #1e1b4b;
-        --accent-cyan: #06b6d4;
-        --accent-purple: #8b5cf6;
-        --success-green: #2ecc71;
-        --warning-yellow: #f1c40f;
-        --danger-red: #e74c3c;
-        --text-light: #f8fafc;
-        --card-bg: #ffffff;
-    }
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
 
-    body {
-        font-family: 'Roboto', sans-serif;
-        background-color: #f1f5f9;
-        color: #334155;
-        line-height: 1.6;
-    }
+        /* Progress Bar */
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
 
-    h1, h2, h3, h4 {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-    }
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            color: white;
+            padding: 80px 0;
+            border-bottom: 5px solid var(--accent-purple);
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* Progress Bar */
-    #scrollProgress {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 5px;
-        background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
-        z-index: 9999;
-        transition: width 0.1s ease;
-    }
+        .hero-label {
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
 
-    /* Hero Section */
-    .hero-section {
-        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
-        color: white;
-        padding: 80px 0;
-        border-bottom: 5px solid var(--accent-purple);
-        position: relative;
-        overflow: hidden;
-    }
+        .master-icon {
+            font-size: 4rem;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+        }
 
-    .hero-label {
-        letter-spacing: 3px;
-        font-size: 0.85rem;
-        background: rgba(255, 255, 255, 0.1);
-        padding: 5px 15px;
-        border-radius: 50px;
-        display: inline-block;
-        margin-bottom: 1rem;
-    }
+        /* Cards and Layout */
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            margin-bottom: 2rem;
+            background: var(--card-bg);
+        }
 
-    .master-icon {
-        font-size: 4rem;
-        color: var(--accent-cyan);
-        margin-bottom: 20px;
-    }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
 
-    /* Cards and Layout */
-    .card {
-        border: none;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-        transition: all 0.4s ease;
-        margin-bottom: 2rem;
-        background: var(--card-bg);
-    }
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--accent-cyan);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
 
-    .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-    }
+        /* Logic Table Styling */
+        .table-logic {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
 
-    .section-icon {
-        width: 45px;
-        height: 45px;
-        background: var(--accent-cyan);
-        color: white;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1rem;
-    }
+        .table-logic thead {
+            background: var(--primary-dark);
+            color: white;
+        }
 
-    /* Terminal Console */
-    .terminal-container {
-        background: #1e1e1e;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        font-family: 'Source Code Pro', monospace;
-    }
+        .table-logic th, .table-logic td {
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
 
-    .terminal-header {
-        background: #333;
-        padding: 10px 15px;
-        display: flex;
-        gap: 8px;
-    }
+        /* Custom Callouts */
+        .callout {
+            padding: 1.5rem;
+            border-left: 5px solid;
+            border-radius: 4px 8px 8px 4px;
+            margin-bottom: 1.5rem;
+            background: #fff;
+        }
+        .callout-info { border-left-color: var(--accent-cyan); background: #ecfeff; }
+        .callout-success { border-left-color: var(--success-green); background: #f0fdf4; }
+        .callout-warning { border-left-color: var(--warning-yellow); background: #fefce8; }
+        .callout-danger { border-left-color: var(--danger-red); background: #fef2f2; }
 
-    .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .dot-red { background: #ff5f56; }
-    .dot-yellow { background: #ffbd2e; }
-    .dot-green { background: #27c93f; }
+        /* Step-by-step diagram */
+        .step-diagram {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .step-node {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            flex: 1 1 auto; /* Allow items to grow and shrink */
+            min-width: 200px; /* Minimum width for nodes */
+            max-width: 28%; /* Max width for 3 columns on larger screens */
+        }
+        .step-node:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .step-icon {
+            font-size: 2rem;
+            color: var(--accent-purple);
+            margin-bottom: 0.5rem;
+        }
+        .step-arrow {
+            position: absolute;
+            top: 50%;
+            right: -25px; /* Half of arrow width */
+            transform: translateY(-50%);
+            font-size: 2.5rem;
+            color: var(--accent-cyan);
+            z-index: 1;
+        }
+        .step-diagram .step-node:not(:last-child) .step-arrow {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .step-node {
+                max-width: 80%; /* Single column on small screens */
+            }
+            .step-node:not(:last-child)::after {
+                content: '↓';
+                position: absolute;
+                bottom: -25px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 2.5rem;
+                color: var(--accent-cyan);
+                z-index: 1;
+            }
+            .step-diagram .step-node:not(:last-child) .step-arrow {
+                display: none;
+            }
+        }
 
-    .terminal-body {
-        padding: 20px;
-        color: #dcdcdc;
-        min-height: 200px;
-    }
-
-    .cursor {
-        display: inline-block;
-        width: 10px;
-        height: 20px;
-        background: var(--accent-cyan);
-        animation: blink 1s infinite;
-        vertical-align: middle;
-    }
-
-    @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
-
-    /* Logic Table Styling */
-    .table-logic {
-        background: white;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    .table-logic thead {
-        background: var(--primary-dark);
-        color: white;
-    }
-
-    .table-logic th, .table-logic td {
-        text-align: center;
-        border: 1px solid #e2e8f0;
-    }
-
-    /* Custom Callouts */
-    .callout {
-        padding: 1.5rem;
-        border-left: 5px solid;
-        border-radius: 4px 8px 8px 4px;
-        margin-bottom: 1.5rem;
-        background: #fff;
-    }
-    .callout-info { border-left-color: var(--accent-cyan); background: #ecfeff; }
-    .callout-warning { border-left-color: var(--warning-yellow); background: #fefce8; }
-    .callout-danger { border-left-color: var(--danger-red); background: #fef2f2; }
-
-    /* Footer */
-    footer {
-        background: var(--primary-dark);
-        color: white;
-        padding: 40px 0;
-        text-align: center;
-        margin-top: 50px;
-    }
-</style>
-
-```
-
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
 
-```
-<div id="scrollProgress"></div>
+    <div id="scrollProgress"></div>
 
-<header class="hero-section text-center">
-    <div class="container animate__animated animate__fadeIn">
-        <span class="hero-label">DÍA 2: NOMBRE · TEMA</span>
-        <div class="master-icon animate__animated animate__pulse animate__infinite">
-            <i class="bi bi-cpu-fill"></i>
+    <header class="hero-section text-center">
+        <div class="container animate__animated animate__fadeIn">
+            <span class="hero-label">DÍA 2: LÓGICA 2026 · TABLAS DE VERDAD</span>
+            <div class="master-icon animate__animated animate__pulse animate__infinite">
+                <i class="bi bi-cpu-fill"></i>
+            </div>
+            <h1 class="display-4 mb-3">Tablas de Verdad y Formalización de Argumentos</h1>
+            <p class="lead text-info">Análisis riguroso de la validez lógica mediante estructuras binarias</p>
         </div>
-        <h1 class="display-4 mb-3">Tablas de Verdad y Formalización</h1>
-        <p class="lead text-info">Continuidad de la Lógica Proposicional aplicada a la Ingeniería</p>
-    </div>
-</header>
+    </header>
 
-<main class="container py-5">
+    <main class="container py-5">
 
-    <section class="mb-5 animate__animated animate__fadeInUp">
-        <div class="row align-items-center">
-            <div class="col-lg-7">
-                <div class="section-icon"><i class="bi bi-info-circle-fill"></i></div>
-                <h2>Introducción y Continuidad</h2>
-                <p>En esta sesión profundizamos en la lógica proposicional, integrando la notación binaria <strong>(0, 1)</strong> utilizada en electrónica digital y álgebra booleana. El objetivo es transitar desde el lenguaje natural hacia estructuras matemáticas rigurosas que permitan verificar la validez de los argumentos.</p>
-            </div>
-            <div class="col-lg-5">
-                <div class="card bg-primary text-white p-4">
-                    <h5>Valores de Verdad</h5>
-                    <div class="d-flex justify-content-around mt-3">
-                        <div class="text-center">
-                            <h2 class="fw-bold">1</h2>
-                            <small>Verdadero (V)</small>
-                        </div>
-                        <div class="text-center border-start ps-4">
-                            <h2 class="fw-bold">0</h2>
-                            <small>Falso (F)</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="mb-5 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
-        <div class="card p-4">
-            <h3 class="mb-4"><i class="bi bi-grid-3x3-gap me-2"></i>Estructura de las Tablas de Verdad</h3>
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="callout callout-info">
-                        <h5>Cálculo de Filas</h5>
-                        <p>Si una expresión tiene $n$ proposiciones, la tabla tendrá:</p>
-                        <h4 class="text-center my-3 text-primary">$$2^n$$</h4>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check2-circle me-2"></i>1 proposición: $2^1 = 2$ filas</li>
-                            <li><i class="bi bi-check2-circle me-2"></i>2 proposiciones: $2^2 = 4$ filas</li>
-                            <li><i class="bi bi-check2-circle me-2"></i>3 proposiciones: $2^3 = 8$ filas</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="callout callout-warning">
-                        <h5>Método de las Mitades</h5>
-                        <p>Técnica de ingeniería para completar columnas sin errores:</p>
-                        <ol>
-                            <li><strong>Columna 1:</strong> Cambia cada $2^{n-1}$ filas.</li>
-                            <li><strong>Columna 2:</strong> Cambia cada mitad de la anterior.</li>
-                            <li><strong>Columna n:</strong> Alterna 0 y 1 individualmente.</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="mb-5 animate__animated animate__fadeInUp">
-        <h3 class="mb-4"><i class="bi bi-terminal me-2"></i>Consola de Simulación Lógica</h3>
-        <div class="terminal-container">
-            <div class="terminal-header">
-                <div class="dot dot-red"></div>
-                <div class="dot dot-yellow"></div>
-                <div class="dot dot-green"></div>
-            </div>
-            <div class="terminal-body" id="terminalOutput">
-                <span id="typedText"></span><span class="cursor"></span>
-            </div>
-        </div>
-        <div class="mt-3 text-center">
-            <button class="btn btn-outline-primary px-4" onclick="runSimulation()">Ejecutar Análisis de Conectores</button>
-        </div>
-    </section>
-
-    <section class="mb-5 animate__animated animate__fadeInUp">
-        <h3 class="mb-4"><i class="bi bi-diagram-3 me-2"></i>Definiciones de Conectores Lógicos</h3>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-header bg-dark text-white">Conjunción (AND) $p \land q$</div>
-                    <div class="card-body p-0">
-                        <table class="table table-sm table-logic m-0">
-                            <thead><tr><th>p</th><th>q</th><th>Resultado</th></tr></thead>
-                            <tbody>
-                                <tr><td>0</td><td>0</td><td>0</td></tr>
-                                <tr><td>0</td><td>1</td><td>0</td></tr>
-                                <tr><td>1</td><td>0</td><td>0</td></tr>
-                                <tr class="table-success"><td>1</td><td>1</td><td><strong>1</strong></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-footer small text-muted">Válido solo si ambos son 1.</div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-header bg-dark text-white">Disyunción (OR) $p \lor q$</div>
-                    <div class="card-body p-0">
-                        <table class="table table-sm table-logic m-0">
-                            <thead><tr><th>p</th><th>q</th><th>Resultado</th></tr></thead>
-                            <tbody>
-                                <tr class="table-danger"><td>0</td><td>0</td><td><strong>0</strong></td></tr>
-                                <tr><td>0</td><td>1</td><td>1</td></tr>
-                                <tr><td>1</td><td>0</td><td>1</td></tr>
-                                <tr><td>1</td><td>1</td><td>1</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-footer small text-muted">Falso solo si ambos son 0.</div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-header bg-dark text-white">Condicional $p \to q$</div>
-                    <div class="card-body p-0">
-                        <table class="table table-sm table-logic m-0">
-                            <thead><tr><th>p</th><th>q</th><th>Resultado</th></tr></thead>
-                            <tbody>
-                                <tr><td>0</td><td>0</td><td>1</td></tr>
-                                <tr><td>0</td><td>1</td><td>1</td></tr>
-                                <tr class="table-warning"><td>1</td><td>0</td><td><strong>0</strong></td></tr>
-                                <tr><td>1</td><td>1</td><td>1</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-footer small text-muted">El antecedente no puede ser 1 si el consecuente es 0.</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="mb-5 animate__animated animate__fadeInUp">
-        <div class="card border-0 shadow-sm overflow-hidden">
-            <div class="row g-0">
-                <div class="col-md-4 bg-primary p-4 d-flex align-items-center justify-content-center text-white">
-                    <div class="text-center">
-                        <i class="bi bi-shield-check" style="font-size: 3rem;"></i>
-                        <h4>Clasificación</h4>
-                    </div>
-                </div>
-                <div class="col-md-8 p-4">
-                    <div class="list-group list-group-flush">
-                        <div class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Tautología</div>
-                                La expresión siempre resulta en 1 (Verdadero).
-                            </div>
-                            <span class="badge bg-success rounded-pill">All 1's</span>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Contradicción</div>
-                                La expresión siempre resulta en 0 (Falso).
-                            </div>
-                            <span class="badge bg-danger rounded-pill">All 0's</span>
-                        </div>
-                        <div class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Contingencia</div>
-                                El resultado varía entre 0 y 1.
-                            </div>
-                            <span class="badge bg-warning text-dark rounded-pill">Mixed</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="mb-5 animate__animated animate__fadeInUp">
-        <h3 class="mb-4"><i class="bi bi-award me-2"></i>Tautologías Notables</h3>
-        <div class="table-responsive">
-            <table class="table table-hover align-middle shadow-sm bg-white rounded">
-                <thead class="table-light">
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Formulación Lógica</th>
-                        <th>Concepto</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Tercero Excluido</strong></td>
-                        <td>$p \lor \neg p$</td>
-                        <td>Algo es o no es, no hay punto medio.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>No Contradicción</strong></td>
-                        <td>$\neg(p \land \neg p)$</td>
-                        <td>Una proposición no puede ser verdadera y falsa a la vez.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Modus Ponens</strong></td>
-                        <td>$[(p \to q) \land p] \to q$</td>
-                        <td>Si se cumple la causa, se cumple el efecto.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Modus Tollens</strong></td>
-                        <td>$[(p \to q) \land \neg q] \to \neg p$</td>
-                        <td>Si no hay efecto, no hubo causa.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <section class="mb-5 animate__animated animate__fadeInUp">
-        <div class="card bg-dark text-white p-5">
+        <section class="mb-5 animate__animated animate__fadeInUp">
             <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h2><i class="bi bi-translate me-3"></i>Formalización de Argumentos</h2>
-                    <p class="lead opacity-75">Traducir el lenguaje natural al lenguaje simbólico de la ingeniería.</p>
-                    <hr class="border-secondary">
-                    <div class="p-3 bg-secondary bg-opacity-25 rounded border-start border-4 border-info">
-                        <h5>Ejemplo Resuelto:</h5>
-                        <p class="fst-italic">"En los polos el frío es intenso únicamente si los planetas giran en torno al sol."</p>
-                        <p><strong>Paso 1:</strong> Identificar variables.</p>
-                        <ul>
-                            <li>$p$: En los polos el frío es intenso.</li>
-                            <li>$q$: Los planetas giran en torno al sol.</li>
-                        </ul>
-                        <p><strong>Paso 2:</strong> Formalización: $p \to q$</p>
+                <div class="col-lg-7">
+                    <div class="section-icon"><i class="bi bi-info-circle-fill"></i></div>
+                    <h2>1. Introducción y Continuidad</h2>
+                    <p>Esta clase representa una profundización crítica en la <strong>lógica proposicional</strong>, retomando y expandiendo sobre conceptos fundamentales previamente abordados: la naturaleza de las proposiciones, la función esencial de los conectores lógicos, la estructura del razonamiento y los principios de los silogismos. El objetivo académico central es dotar al estudiante de las habilidades para construir, interpretar y aplicar rigurosamente las <strong>tablas de verdad</strong>. Para ello, adoptaremos la notación binaria de <strong>1 y 0 (verdadero/falso)</strong>, un enfoque que refleja directamente su aplicación en campos como la electrónica digital y el álgebra booleana, adaptándola con precisión al dominio de la lógica.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card bg-info text-white p-4 text-center">
+                        <h5 class="card-title">2. Valores de Verdad Fundamentales</h5>
+                        <p class="card-text">En lógica proposicional, cada proposición simple se adhiere al principio de bivalencia, asumiendo exclusivamente uno de estos dos estados:</p>
+                        <div class="d-flex justify-content-around mt-3">
+                            <div class="text-center">
+                                <h2 class="fw-bold">1</h2>
+                                <small>Verdadero (V)</small>
+                            </div>
+                            <div class="text-center border-start ps-4">
+                                <h2 class="fw-bold">0</h2>
+                                <small>Falso (F)</small>
+                            </div>
+                        </div>
+                        <p class="mt-3 small">Este sistema es la piedra angular para la construcción de tablas de verdad.</p>
                     </div>
                 </div>
-                <div class="col-md-4 text-center d-none d-md-block">
-                    <i class="bi bi-braces" style="font-size: 8rem; color: var(--accent-cyan);"></i>
+            </div>
+        </section>
+
+        <section class="mb-5 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <div class="section-icon bg-warning"><i class="bi bi-link-45deg"></i></div>
+            <h2>3. Conectores Lógicos (Repaso y Justificación)</h2>
+            <p>Antes de sumergirnos en la construcción de tablas de verdad, es imperativo refrescar y consolidar el entendimiento de los conectores lógicos. Estos elementos son la base estructural que permite la construcción de proposiciones compuestas a partir de proposiciones simples. Cada conector posee una definición operacional precisa, una regla de evaluación inherente que determinará su comportamiento en las tablas de verdad.</p>
+            <div class="table-responsive mt-4">
+                <table class="table table-bordered table-striped table-hover table-logic shadow-sm">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Símbolo</th>
+                            <th>Lectura</th>
+                            <th>Función</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Negación</td><td>$\neg p$</td><td>no p</td><td>Invierte el valor de verdad de una proposición.</td></tr>
+                        <tr><td>Conjunción</td><td>$p \land q$</td><td>p y q</td><td>Es verdadera solo si ambas proposiciones son verdaderas.</td></tr>
+                        <tr><td>Disyunción</td><td>$p \lor q$</td><td>p o q</td><td>Es falsa solo si ambas proposiciones son falsas.</td></tr>
+                        <tr><td>Condicional</td><td>$p \to q$</td><td>si p, entonces q</td><td>Es falsa solo si el antecedente es verdadero y el consecuente es falso.</td></tr>
+                        <tr><td>Bicondicional</td><td>$p \leftrightarrow q$</td><td>p si y solo si q</td><td>Es verdadera si ambas proposiciones tienen el mismo valor de verdad.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="mt-5"><i class="bi bi-code-square me-2"></i>3.1 El sistema binario como base de las tablas de verdad</h3>
+            <div class="callout callout-info animate__animated animate__fadeIn">
+                <p>Las tablas de verdad se erigen sobre los cimientos del <strong>sistema binario</strong>, un sistema numérico que, por su diseño, emplea exclusivamente dos símbolos: <strong>0 y 1</strong>.</p>
+                <ul>
+                    <li>El <strong>0</strong> en este contexto, es la representación formal del valor <strong>falso</strong>.</li>
+                    <li>El <strong>1</strong>, por otro lado, simboliza el valor <strong>verdadero</strong>.</li>
+                </ul>
+                <p>La relevancia de este sistema trasciende la matemática pura; es el fundamento operativo de la computación moderna y la electrónica digital. En el ámbito de la lógica proposicional, este principio se adopta de manera íntegra y sin alteración: cada proposición atómica, en cualquier estado de evaluación, solo puede ostentar uno de estos dos valores intrínsecos, reflejando una correspondencia directa entre los estados lógicos y los bits de información.</p>
+            </div>
+
+            <h3 class="mt-5"><i class="bi bi-hash me-2"></i>3.2 Número de filas de una tabla de verdad ($2^n$)</h3>
+            <p>Un aspecto fundamental y no arbitrario en la construcción de tablas de verdad es la determinación del número exacto de filas que estas deben poseer. Este valor se deriva directamente de la cantidad de proposiciones distintas que componen una expresión lógica. La regla es la siguiente:</p>
+            <div class="card bg-light p-4 shadow-sm animate__animated animate__zoomIn animate__delay-1s">
+                <h4 class="text-center text-primary">Si una expresión lógica contiene $n$ proposiciones distintas, entonces la tabla de verdad correspondiente tendrá:</h4>
+                <div class="display-3 text-center my-4 fw-bold text-dark">$$2^n$$</div>
+                <h4 class="text-center text-primary">filas.</h4>
+                <p class="text-center small text-muted">Este resultado no es una convención, sino una consecuencia directa y necesaria del principio de que cada proposición puede asumir uno de dos valores posibles (0 o 1).</p>
+            </div>
+            <h5 class="mt-4"><i class="bi bi-lightbulb me-2"></i>Ejemplos Prácticos:</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><i class="bi bi-arrow-right-short me-2"></i><strong>1 proposición (p):</strong> $2^1 = 2$ filas</li>
+                <li class="list-group-item"><i class="bi bi-arrow-right-short me-2"></i><strong>2 proposiciones (p, q):</strong> $2^2 = 4$ filas</li>
+                <li class="list-group-item"><i class="bi bi-arrow-right-short me-2"></i><strong>3 proposiciones (p, q, r):</strong> $2^3 = 8$ filas</li>
+            </ul>
+
+            <h3 class="mt-5"><i class="bi bi-columns-gap me-2"></i>3.3 Cómo formar las columnas: método de las mitades</h3>
+            <p>Para garantizar la correcta y sistemática elaboración de una tabla de verdad, se emplea el <strong>método de las mitades</strong>. Esta técnica, ampliamente reconocida y aplicada en áreas como la electrónica digital, asegura que todas las combinaciones posibles de valores de verdad sean consideradas de manera exhaustiva y sin duplicaciones. La premisa fundamental es la siguiente:</p>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card h-100 p-3 bg-light animate__animated animate__fadeInLeft animate__delay-1s">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary"><i class="bi bi-1-circle-fill me-2"></i>Primera Proposición</h5>
+                            <p class="card-text">Su valor cambia cada <strong>mitad</strong> de la tabla.</p>
+                            <p class="small text-muted">Ejemplo para 2 proposiciones: 0011</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 p-3 bg-light animate__animated animate__fadeInLeft animate__delay-1-5s">
+                        <div class="card-body">
+                            <h5 class="card-title text-success"><i class="bi bi-2-circle-fill me-2"></i>Segunda Proposición</h5>
+                            <p class="card-text">Su valor cambia cada <strong>mitad de la mitad</strong>.</p>
+                            <p class="small text-muted">Ejemplo para 2 proposiciones: 0101</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 p-3 bg-light animate__animated animate__fadeInLeft animate__delay-2s">
+                        <div class="card-body">
+                            <h5 class="card-title text-warning"><i class="bi bi-3-circle-fill me-2"></i>Tercera y Sucesivas</h5>
+                            <p class="card-text">Cada una cambia cada <strong>mitad de la mitad de la mitad</strong>, y así sucesivamente.</p>
+                            <p class="small text-muted">Siempre se inicia con 0, respetando el orden binario.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section class="mb-5 animate__animated animate__fadeInUp">
-        <h3 class="mb-4"><i class="bi bi-pencil-square me-2"></i>Taller de Aplicación (A mano)</h3>
-        <div class="row g-3">
-            <div class="col-md-6">
-                <div class="list-group">
-                    <div class="list-group-item">1. $[(p \to \neg q) \land (\neg p \to \neg r) \land (\neg r \to s)] \to s$</div>
-                    <div class="list-group-item">2. $[(\neg p \lor q) \lor (p \land q)] \to [(\neg p \lor q) \lor \neg p]$</div>
+            <h5 class="mt-4"><i class="bi bi-table me-2"></i>Demostración del Método:</h5>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <p class="fw-bold">1 Proposición (p):</p>
+                    <table class="table table-bordered table-sm table-logic">
+                        <thead><tr><th>p</th></tr></thead>
+                        <tbody><tr><td>0</td></tr><tr><td>1</td></tr></tbody>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <p class="fw-bold">2 Proposiciones (p, q):</p>
+                    <table class="table table-bordered table-sm table-logic">
+                        <thead><tr><th>p</th><th>q</th></tr></thead>
+                        <tbody><tr><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td></tr></tbody>
+                    </table>
+                    <p class="small text-muted">Aquí: 'p' permanece en 0 la mitad superior y en 1 la inferior; 'q' alterna 0 y 1 en cada fila.</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="fw-bold">3 Proposiciones (p, q, r):</p>
+                    <table class="table table-bordered table-sm table-logic">
+                        <thead><tr><th>p</th><th>q</th><th>r</th></tr></thead>
+                        <tbody>
+                            <tr><td>0</td><td>0</td><td>0</td></tr>
+                            <tr><td>0</td><td>0</td><td>1</td></tr>
+                            <tr><td>0</td><td>1</td><td>0</td></tr>
+                            <tr><td>0</td><td>1</td><td>1</td></tr>
+                            <tr><td>1</td><td>0</td><td>0</td></tr>
+                            <tr><td>1</td><td>0</td><td>1</td></tr>
+                            <tr><td>1</td><td>1</td><td>0</td></tr>
+                            <tr><td>1</td><td>1</td><td>1</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="list-group">
-                    <div class="list-group-item">3. $(p \land q \to p \lor \neg r) \to \neg(\neg q \lor \neg r) \land r$</div>
-                    <div class="list-group-item">4. $(\neg p \leftrightarrow q \lor \neg r) \land \neg(\neg p \leftrightarrow q \lor \neg r)$</div>
+            <p class="mt-3">Este patrón sistemático es fundamental para construir cualquier tabla de verdad de forma robusta y sin errores, eliminando la necesidad de memorización y promoviendo una comprensión profunda de su estructura binaria subyacente.</p>
+        </section>
+
+        <section class="mb-5 animate__animated animate__fadeInUp">
+            <div class="section-icon bg-success"><i class="bi bi-check2-square"></i></div>
+            <h2>4. Tablas de Verdad Básicas (Enfoque Didáctico Detallado)</h2>
+            <p>En el núcleo de la lógica proposicional, una <strong>tabla de verdad</strong> se define como una herramienta analítica indispensable que permite la evaluación exhaustiva de todas las combinaciones posibles de valores de verdad para las proposiciones que constituyen una expresión lógica determinada. Este procedimiento metodológico guarda una estricta analogía con las técnicas empleadas en electrónica digital, donde se manipulan valores binarios (0 y 1).</p>
+            <div class="callout callout-success">
+                <p>Por esta correspondencia directa, en el presente curso adoptaremos la convención de ordenación utilizada en electrónica: siempre se iniciará la construcción de la tabla con el valor <strong>0 (falso)</strong> y se progresará sistemáticamente hasta el valor <strong>1 (verdadero)</strong>.</p>
+                <p>Antes de abordar la complejidad de expresiones lógicas elaboradas, es de vital importancia dominar la construcción e interpretación de las tablas más sencillas, ya que estas sirven como fundamentos sobre los cuales se edifican todas las estructuras lógicas más intrincadas.</p>
+            </div>
+
+            <div class="row g-4 mt-4">
+                <div class="col-lg-6">
+                    <div class="card h-100 animate__animated animate__fadeInRight">
+                        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                            <h5>4.1 Negación ($\neg p$)</h5>
+                            <i class="bi bi-slash-circle-fill"></i>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-logic m-0">
+                                <thead><tr><th>p</th><th>$\neg p$</th></tr></thead>
+                                <tbody>
+                                    <tr><td>0</td><td>1</td></tr>
+                                    <tr><td>1</td><td>0</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer small text-muted">
+                            <p class="mb-0"><strong>Interpretación:</strong> La negación, un conector de aridad unaria, invierte sistemáticamente el valor de verdad de la proposición a la que se aplica.</p>
+                            <ul>
+                                <li>Si una proposición es falsa (0), su negación es necesariamente verdadera (1).</li>
+                                <li>Si una proposición es verdadera (1), su negación es necesariamente falsa (0).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100 animate__animated animate__fadeInRight animate__delay-0-2s">
+                        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                            <h5>4.2 Conjunción (AND Lógico) ($p \land q$)</h5>
+                            <i class="bi bi-app-indicator"></i>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-logic m-0">
+                                <thead><tr><th>p</th><th>q</th><th>$p \land q$</th></tr></thead>
+                                <tbody>
+                                    <tr><td>0</td><td>0</td><td>0</td></tr>
+                                    <tr><td>0</td><td>1</td><td>0</td></tr>
+                                    <tr><td>1</td><td>0</td><td>0</td></tr>
+                                    <tr class="table-success"><td>1</td><td>1</td><td><strong>1</strong></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer small text-muted">
+                            <p class="mb-0"><strong>Interpretación:</strong> La conjunción asocia dos proposiciones, y su resultado es verdadero (1) solo en el caso exclusivo en que ambas proposiciones constituyentes son verdaderas de forma simultánea.</p>
+                            <ul>
+                                <li>Basta que una de las proposiciones sea falsa (0) para que la totalidad de la conjunción se evalúe como falsa (0).</li>
+                                <li>Este comportamiento es análogo al de una compuerta AND en el diseño de circuitos electrónicos digitales.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100 animate__animated animate__fadeInRight animate__delay-0-4s">
+                        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                            <h5>4.3 Disyunción (OR Lógico) ($p \lor q$)</h5>
+                            <i class="bi bi-bezier2"></i>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-logic m-0">
+                                <thead><tr><th>p</th><th>q</th><th>$p \lor q$</th></tr></thead>
+                                <tbody>
+                                    <tr class="table-danger"><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                                    <tr><td>0</td><td>1</td><td>1</td></tr>
+                                    <tr><td>1</td><td>0</td><td>1</td></tr>
+                                    <tr><td>1</td><td>1</td><td>1</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer small text-muted">
+                            <p class="mb-0"><strong>Interpretación:</strong> La disyunción se evalúa como verdadera (1) siempre que al menos una de las proposiciones que la componen posea un valor de verdad verdadero (1).</p>
+                            <ul>
+                                <li>Su valor es falso (0) únicamente cuando ambas proposiciones son simultáneamente falsas (0).</li>
+                                <li>Su funcionalidad es equiparable a la de una compuerta OR en el ámbito de la electrónica digital.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100 animate__animated animate__fadeInRight animate__delay-0-6s">
+                        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                            <h5>4.4 Condicional (Implicación Lógica) ($p \to q$)</h5>
+                            <i class="bi bi-arrow-right-circle-fill"></i>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-logic m-0">
+                                <thead><tr><th>p</th><th>q</th><th>$p \to q$</th></tr></thead>
+                                <tbody>
+                                    <tr><td>0</td><td>0</td><td>1</td></tr>
+                                    <tr><td>0</td><td>1</td><td>1</td></tr>
+                                    <tr class="table-warning"><td>1</td><td>0</td><td><strong>0</strong></td></tr>
+                                    <tr><td>1</td><td>1</td><td>1</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer small text-muted">
+                            <p class="mb-0"><strong>Interpretación:</strong> El condicional formaliza una relación intrínseca de causa-efecto, expresada típicamente como "si p, entonces q".</p>
+                            <ul>
+                                <li>El único escenario en el que el condicional se evalúa como falso (0) es cuando el antecedente $p$ es verdadero (1) y, simultáneamente, el consecuente $q$ es falso (0).</li>
+                                <li>Esto encapsula la noción de que una "promesa" lógica solo se infringe si la condición previa (causa) se cumple, pero su resultado esperado (efecto) no se materializa.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card h-100 animate__animated animate__fadeInRight animate__delay-0-8s">
+                        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                            <h5>4.5 Bicondicional ($p \leftrightarrow q$)</h5>
+                            <i class="bi bi-arrow-left-right"></i>
+                        </div>
+                        <div class="card-body p-0">
+                            <table class="table table-sm table-logic m-0">
+                                <thead><tr><th>p</th><th>q</th><th>$p \leftrightarrow q$</th></tr></thead>
+                                <tbody>
+                                    <tr><td>0</td><td>0</td><td>1</td></tr>
+                                    <tr><td>0</td><td>1</td><td>0</td></tr>
+                                    <tr><td>1</td><td>0</td><td>0</td></tr>
+                                    <tr><td>1</td><td>1</td><td>1</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer small text-muted">
+                            <p class="mb-0"><strong>Interpretación:</strong> El bicondicional establece una relación de equivalencia lógica; su valor de verdad es verdadero (1) cuando, y solo cuando, ambas proposiciones constituyentes poseen idéntico valor de verdad.</p>
+                            <ul>
+                                <li>Representa una correspondencia mutua, donde "p es verdadero si y solo si q es verdadero".</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-</main>
+        <section class="mb-5 animate__animated animate__fadeInUp">
+            <div class="section-icon bg-primary"><i class="bi bi-bezier"></i></div>
+            <h2>5. Tautología, Contradicción y Contingencia</h2>
+            <p>La clasificación de una proposición compuesta basada en los resultados de su tabla de verdad es un concepto fundamental en lógica. Estos tres estados definen la naturaleza inherente de una expresión lógica:</p>
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="card h-100 animate__animated animate__zoomIn animate__delay-0-2s">
+                        <div class="card-body text-center">
+                            <h4 class="card-title text-success"><i class="bi bi-patch-check-fill me-2"></i>Tautología</h4>
+                            <p class="card-text">Una proposición compuesta es una tautología si su tabla de verdad resulta siempre en <strong>1 (Verdadero)</strong>, sin importar los valores de verdad de sus proposiciones simples.</p>
+                            <p class="small text-muted"><strong>Ejemplo:</strong> $p \lor \neg p$ (Ley del Tercero Excluido)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 animate__animated animate__zoomIn animate__delay-0-4s">
+                        <div class="card-body text-center">
+                            <h4 class="card-title text-danger"><i class="bi bi-x-circle-fill me-2"></i>Contradicción</h4>
+                            <p class="card-text">Una proposición es una contradicción si su tabla de verdad produce siempre <strong>0 (Falso)</strong>, independientemente de los valores de verdad de sus componentes.</p>
+                            <p class="small text-muted"><strong>Ejemplo:</strong> $p \land \neg p$ (Ley de No Contradicción)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 animate__animated animate__zoomIn animate__delay-0-6s">
+                        <div class="card-body text-center">
+                            <h4 class="card-title text-warning"><i class="bi bi-question-circle-fill me-2"></i>Contingencia</h4>
+                            <p class="card-text">Una proposición es una contingencia si su tabla de verdad arroja una combinación de <strong>1s y 0s</strong>, es decir, a veces es verdadera y a veces es falsa.</p>
+                            <p class="small text-muted"><strong>Ejemplo:</strong> $p \to q$</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<footer>
-    <div class="container">
-        <i class="bi bi-mortarboard-fill mb-3" style="font-size: 2rem;"></i>
-        <p class="mb-1"><strong>Luis Garcia 2026</strong></p>
-        <p class="small opacity-50">Material Educativo - Ingeniería de Sistemas</p>
-    </div>
-</footer>
-
-<script src="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js](https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js)"></script>
-<script>
-    // Scroll Progress
-    window.onscroll = function() {
-        let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        let scrolled = (winScroll / height) * 100;
-        document.getElementById("scrollProgress").style.width = scrolled + "%";
-    };
-
-    // Terminal Simulation
-    const terminalOutput = document.getElementById('typedText');
-    const lines = [
-        "> Inicializando analizador lógico v2026.04...",
-        "> Analizando Conjunción (AND)... [OK] - Solo 1 si p=1, q=1",
-        "> Analizando Condicional... [WARNING] - Falla si 1 -> 0",
-        "> Verificando Tautologías... [EXITO] - Ley del Tercero Excluido detectada.",
-        "> Listo para evaluar expresiones complejas..."
-    ];
-
-    let lineIdx = 0;
-    let charIdx = 0;
-
-    function typeLine() {
-        if (lineIdx < lines.length) {
-            if (charIdx < lines[lineIdx].length) {
-                terminalOutput.innerHTML += lines[lineIdx].charAt(charIdx);
-                charIdx++;
-                setTimeout(typeLine, 30);
-            } else {
-                terminalOutput.innerHTML += "<br>";
-                charIdx = 0;
-                lineIdx++;
-                setTimeout(typeLine, 500);
-            }
-        }
-    }
-
-    function runSimulation() {
-        terminalOutput.innerHTML = "";
-        lineIdx = 0;
-        charIdx = 0;
-        typeLine();
-    }
-
-    // Initialize tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
-</script>
-
-```
-
-</body>
-</html>
+        <section class="mb-5 animate__animated animate__fadeInUp">
+            <div class="section-icon bg-info"><i class="bi bi-lightbulb-fill"></i></div>
+            <h2>6. Tautologías Especiales Importantes</h2>
+            <p>Existen ciertas tautologías que son de particular relevancia en lógica, no solo por su verdad universal, sino por su aplicación fundamental en la deducción y la inferencia. Estas son leyes lógicas que rigen el pensamiento racional:</p>
+            <ul class="list-group list-group-flush mt-4">
+                <li class="list-group-item d-flex align-items-center animate__animated animate__fadeInRight animate__delay-0-1s">

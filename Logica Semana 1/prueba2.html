@@ -117,7 +117,7 @@
             <span class="badge bg-primary mb-3 px-3 py-2 rounded-pill">DÍA 03</span>
             <h1 class="display-4 fw-bold mb-2">Lógica Formal, Estructura y Compilación</h1>
             <p class="lead opacity-75 mx-auto" style="max-width: 850px;">
-                Alfabeto Formal ($\Sigma$), Jerarquía y Compilación (Análisis Léxico, Sintáctico y Semántico).
+                Alfabeto Formal Σ, Jerarquía y Compilación (Análisis Léxico, Sintáctico y Semántico).
             </p>
         </div>
     </header>
@@ -125,7 +125,7 @@
     <div class="container mt-5">
 
         <section id="alfabeto" class="mb-5 animate__animated animate__fadeInUp">
-            <h2 class="section-title"><i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal ($\Sigma$)</h2>
+            <h2 class="section-title"><i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal Σ</h2>
             <p class="mb-4">
                 Un lenguaje formal no deja nada a la interpretación. Se construye a partir de un conjunto finito de piezas bien definidas. En Lógica Proposicional, este alfabeto se compone de tres categorías estrictas.
             </p>
@@ -274,17 +274,18 @@
             </p>
 
             <div class="row g-4">
-                <div class="col-lg-5">
+                 <div class="col-lg-5">
                     <div class="accordion" id="accordionAnalisis">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true">
                                     1. Análisis Léxico (Scanner)
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionAnalisis">
                                 <div class="accordion-body small">
-                                    Divide la cadena de texto en <strong>Tokens</strong>. Utiliza <strong>Expresiones Regulares</strong> para identificar patrones válidos.
+                                    <p>Divide la cadena de texto en <strong>Tokens</strong>.</p>
+                                    <p>Utiliza <strong>Expresiones Regulares (Regex)</strong> para identificar patrones válidos (qué es una variable, qué es un operador).</p>
                                 </div>
                             </div>
                         </div>
@@ -296,7 +297,8 @@
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionAnalisis">
                                 <div class="accordion-body small">
-                                    Verifica la estructura gramatical y construye el <strong>Árbol de Derivación</strong>. Comprueba el balanceo de paréntesis.
+                                    <p>Verifica la estructura gramatical.</p>
+                                    <p>Construye el <strong>Árbol de Derivación</strong> y comprueba reglas como el balanceo de paréntesis y la aridad correcta de los operadores.</p>
                                 </div>
                             </div>
                         </div>
@@ -308,7 +310,8 @@
                             </h2>
                             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionAnalisis">
                                 <div class="accordion-body small">
-                                    Evalúa el <strong>Significado</strong>. Asigna valores ($p=V, q=F$) y calcula el resultado final recorriendo el árbol.
+                                    <p>Evalúa el <strong>Significado</strong> (Verdad).</p>
+                                    <p>Asigna valores a las variables ($p=V, q=F$) y calcula el resultado final recorriendo el árbol.</p>
                                 </div>
                             </div>
                         </div>

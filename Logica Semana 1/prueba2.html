@@ -3,226 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Día 3: Lógica Formal, Estructura y Compilación</title>
+    <title>Día 3: Lógica Formal y Compilación</title>
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #2c3e50;
-            --accent: #4834d4;
-            --accent-light: #686de0;
-            --bg-light: #f9f9fa;
-            --code-bg: #2d3436;
-            --success: #27ae60;
-            --warning: #f1c40f;
-            --danger: #e74c3c;
-            --border-radius: 10px;
+            --dark-blue: #0f172a;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #1e293b;
+            --code-bg: #1e1e1e;
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--bg-light);
-            color: #2d3436;
-            line-height: 1.8;
-            padding-bottom: 100px;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            line-height: 1.7;
         }
 
-        h1, h2, h3, h4, h5 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
+        /* --- Encabezado Estilo Día 2 --- */
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: white;
+            padding: 80px 0 60px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid var(--accent-purple);
         }
 
-        .font-code {
-            font-family: 'Fira Code', monospace;
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://www.transparenttextures.com/patterns/cubes.png');
+            opacity: 0.1;
         }
 
-        .section-title {
-            border-left: 5px solid var(--accent);
-            padding-left: 15px;
-            margin-bottom: 30px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-        }
-
+        /* --- Tarjetas Conceptuales --- */
         .concept-card {
             background: white;
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: var(--border-radius);
-            padding: 25px;
+            border: none;
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             height: 100%;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
         }
+
         .concept-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-            border-top: 4px solid var(--accent);
-        }
-        .card-icon {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: var(--accent);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 35px rgba(0,0,0,0.1);
         }
 
-        /* --- Consola Interactiva --- */
-        .console-box {
-            background-color: var(--code-bg);
-            color: #dfe6e9;
-            font-family: 'Fira Code', monospace;
-            padding: 20px;
-            border-radius: 8px;
-            min-height: 450px;
-            max-height: 550px;
-            overflow-y: auto;
-            border: 1px solid #636e72;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-            white-space: pre; /* Mantiene el ASCII Art */
-        }
-        .console-line { margin-bottom: 4px; display: block; }
-        .token { color: #55efc4; }
-        .keyword { color: #a29bfe; }
-        .success { color: var(--success); }
-        .error { color: var(--danger); }
-        
-        .progress-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: #e2e8f0;
-            z-index: 9999;
-        }
+        .card-proposicion { border-color: var(--accent-purple); }
+        .card-conectivo { border-color: var(--accent-cyan); }
+        .card-auxiliar { border-color: #ec4899; }
 
-        #scrollProgress {
-            height: 100%;
-            width: 0%;
-            background: var(--accent);
-            transition: width 0.1s ease-out;
-        }
-
-        /* Estilos de árbol visual */
-        .tree-node-visual {
-            text-align: center;
-            padding: 5px;
-            border: 2px solid var(--primary);
+        .icon-circle {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: inline-block;
-            background: white;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            background: #f1f5f9;
         }
+
+        /* --- Consola de Simulación --- */
+        .console-container {
+            background: var(--code-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .console-header {
+            background: #333;
+            padding: 10px 20px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+
+        .console-box {
+            color: #d1d5db;
+            font-family: 'Fira Code', monospace;
+            padding: 25px;
+            height: 450px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+
+        /* --- Tipografía y Títulos --- */
+        .section-title {
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.025em;
+            color: var(--dark-blue);
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title::after {
+            content: "";
+            height: 2px;
+            flex-grow: 1;
+            background: linear-gradient(to right, var(--accent-purple), transparent);
+        }
+
+        /* --- Badge y Animaciones --- */
+        .badge-day {
+            background: var(--accent-purple);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #f1f5f9;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .token { color: #22d3ee; }
+        .keyword { color: #c084fc; }
+        .success { color: #4ade80; }
+        .error { color: #f87171; }
     </style>
 </head>
 <body>
 
-    <div class="progress-container">
-        <div id="scrollProgress"></div>
-    </div>
-
-    <header class="bg-white pt-5 pb-4 mb-5 border-bottom shadow-sm">
-        <div class="container text-center">
-            <span class="badge bg-primary text-white mb-2 px-3 py-1 rounded-pill">DÍA 3</span>
-            <h1 class="display-4 mb-2 text-dark">Lógica Formal y Estructura</h1>
-            <p class="lead text-muted mx-auto" style="max-width: 800px;">
-                Alfabeto Formal ($\Sigma$), Jerarquía y Compilación (Análisis Léxico, Sintáctico y Semántico).
+    <header class="hero-section animate__animated animate__fadeIn">
+        <div class="container text-center position-relative">
+            <span class="badge-day mb-3 d-inline-block">Etapa 03</span>
+            <h1 class="display-3 fw-bold mb-3">Lógica Formal y Compilación</h1>
+            <p class="lead opacity-75 mx-auto" style="max-width: 700px;">
+                Desde el Alfabeto Formal $\Sigma$ hasta la ejecución semántica en sistemas computacionales modernos.
             </p>
         </div>
     </header>
 
-    <div class="container">
-
-        <section id="alfabeto" class="mb-5">
-            <h2 class="section-title"><i class="bi bi-fonts me-2"></i>1. El Alfabeto Formal ($\Sigma$)</h2>
+    <div class="container my-5">
+        
+        <section class="mb-5 animate__animated animate__fadeInUp">
+            <h2 class="section-title"><i class="bi bi-alphabet-uppercase"></i> 1. Alfabeto Formal ($\Sigma$)</h2>
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="concept-card">
-                        <i class="bi bi-chat-left-text card-icon"></i>
-                        <h5>Proposiciones ($V_P$)</h5>
-                        <p class="small text-muted">Variables que pueden ser Verdaderas (V) o Falsas (F).</p>
-                        <div class="alert alert-light border font-code text-center">p, q, r, s...</div>
+                    <div class="concept-card card-proposicion">
+                        <div class="icon-circle text-primary"><i class="bi bi-variable"></i></div>
+                        <h4>Proposiciones ($V_P$)</h4>
+                        <p class="text-muted">Variables atómicas que representan hechos del mundo real.</p>
+                        <div class="p-2 bg-light rounded font-code text-center fw-bold">p, q, r, s...</div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="concept-card">
-                        <i class="bi bi-diagram-2 card-icon"></i>
-                        <h5>Conectivos</h5>
-                        <p class="small text-muted">Operadores unarios ($\neg$) y binarios ($\wedge, \vee, \rightarrow$).</p>
-                        <div class="alert alert-light border font-code text-center">&not;, &and;, &or;, &rarr;</div>
+                    <div class="concept-card card-conectivo">
+                        <div class="icon-circle text-info"><i class="bi bi-plus-slash-minus"></i></div>
+                        <h4>Conectivos</h4>
+                        <p class="text-muted">Operadores lógicos que permiten construir fórmulas complejas.</p>
+                        <div class="p-2 bg-light rounded font-code text-center fw-bold">&not;, &and;, &or;, &rarr;, &harr;</div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="concept-card">
-                        <i class="bi bi-brackets card-icon"></i>
-                        <h5>Auxiliares</h5>
-                        <p class="small text-muted">Definen el alcance y rompen la jerarquía natural.</p>
-                        <div class="alert alert-light border font-code text-center">( , )</div>
+                    <div class="concept-card card-auxiliar">
+                        <div class="icon-circle text-danger"><i class="bi bi-parentheses"></i></div>
+                        <h4>Auxiliares</h4>
+                        <p class="text-muted">Símbolos de puntuación que definen la jerarquía de evaluación.</p>
+                        <div class="p-2 bg-light rounded font-code text-center fw-bold">( , ) , [ , ]</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="analisis" class="mb-5">
-            <h2 class="section-title"><i class="bi bi-cpu me-2"></i>2. Simulación de Compilación</h2>
-            <p>Descubre cómo una máquina procesa la expresión: <strong>&not;(p &or; q)</strong></p>
-
-            <div class="row">
+        <section class="mb-5">
+            <h2 class="section-title"><i class="bi bi-cpu"></i> 2. Pipeline de Compilación</h2>
+            <div class="row g-4">
                 <div class="col-lg-4">
-                    <div class="card p-3 mb-3 border-0 shadow-sm">
-                        <h6 class="fw-bold"><i class="bi bi-gear-fill me-2"></i>Fases del Proceso</h6>
-                        <ul class="list-unstyled small">
-                            <li class="mb-2"><strong>1. Léxico:</strong> Reconoce símbolos (Tokens).</li>
-                            <li class="mb-2"><strong>2. Sintáctico:</strong> Crea el árbol (AST).</li>
-                            <li><strong>3. Semántico:</strong> Calcula el valor de verdad.</li>
-                        </ul>
-                        <button class="btn btn-primary w-100 mt-2" onclick="runSimulation()">
-                            <i class="bi bi-play-circle me-2"></i>Iniciar Simulación
+                    <div class="card border-0 shadow-sm p-4 h-100">
+                        <h5 class="fw-bold mb-4">Procesamiento de: <span class="text-primary">¬(p ∨ q)</span></h5>
+                        <div class="list-group list-group-flush mb-4">
+                            <div class="list-group-item bg-transparent border-0 px-0">
+                                <i class="bi bi-1-circle-fill text-primary me-2"></i> <strong>Léxico:</strong> Identificación de Tokens.
+                            </div>
+                            <div class="list-group-item bg-transparent border-0 px-0">
+                                <i class="bi bi-2-circle-fill text-primary me-2"></i> <strong>Sintáctico:</strong> Construcción del Árbol (AST).
+                            </div>
+                            <div class="list-group-item bg-transparent border-0 px-0">
+                                <i class="bi bi-3-circle-fill text-primary me-2"></i> <strong>Semántico:</strong> Cálculo de Verdad.
+                            </div>
+                        </div>
+                        <button class="btn btn-dark btn-lg w-100 shadow-sm" onclick="runSimulation()">
+                            <i class="bi bi-play-fill me-2"></i>Ejecutar Parser
                         </button>
                     </div>
                 </div>
-
                 <div class="col-lg-8">
-                    <div class="console-box" id="consoleOutput">
-[SISTEMA]: Esperando ejecución...
-> Presiona el botón para procesar ¬(p ∨ q)
+                    <div class="console-container">
+                        <div class="console-header">
+                            <div class="dot red"></div>
+                            <div class="dot yellow"></div>
+                            <div class="dot green"></div>
+                            <small class="text-secondary ms-2">logic_compiler_v3.exe</small>
+                        </div>
+                        <div class="console-box" id="consoleOutput">
+[READY] Esperando instrucción del usuario...
+> Haz clic en "Ejecutar Parser" para iniciar el proceso.
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="silogismo" class="mb-5">
-            <h2 class="section-title"><i class="bi bi-database-check me-2"></i>3. Base de Conocimiento (BC)</h2>
-            <div class="row">
+        <section class="mb-5">
+            <h2 class="section-title"><i class="bi bi-diagram-3"></i> 3. Lógica Computacional (Prolog)</h2>
+            <div class="row g-4">
                 <div class="col-md-6">
-                    <div class="card p-4 h-100 border-0 shadow-sm">
-                        <h5 class="text-primary">Razonamiento Humano</h5>
-                        <p>Si llueve, el suelo se moja. Está lloviendo. <br><strong>Conclusión:</strong> El suelo está mojado.</p>
+                    <div class="p-4 bg-white rounded shadow-sm border-start border-4 border-primary h-100">
+                        <h5>Razonamiento de la Base de Conocimiento</h5>
+                        <p class="mt-3">Un sistema experto utiliza reglas lógicas para inferir nuevos conocimientos a partir de hechos conocidos.</p>
+                        <blockquote class="blockquote bg-light p-3 rounded">
+                            <p class="small mb-0">"Si el sensor de lluvia se activa, entonces el sistema de riego se apaga."</p>
+                        </blockquote>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card p-4 h-100 border-0 bg-dark text-warning font-code">
-                        <h5>Prolog (Lógica Computacional)</h5>
-                        <pre class="mb-0" style="color: #f1c40f;">
-mojado(suelo) :- llueve.
-llueve.
-?- mojado(suelo).
-true.</pre>
+                    <div class="code-block h-100">
+                        <div class="d-flex justify-content-between mb-2">
+                            <small class="text-secondary">knowledge_base.pl</small>
+                            <i class="bi bi-code-slash text-secondary"></i>
+                        </div>
+                        <pre class="mb-0">
+<span class="keyword">apagar_riego</span>(sistema) :- <span class="token">llueve</span>.
+<span class="token">llueve</span>.
+
+<span class="text-secondary">/* Consulta al sistema */</span>
+?- <span class="keyword">apagar_riego</span>(X).
+<span class="success">X = sistema.
+true.</span></pre>
                     </div>
                 </div>
             </div>
         </section>
+
     </div>
 
-    <footer class="text-center py-4 border-top">
-        <small class="text-muted">Día 3 - Lógica Formal e Informática | Usando Entidades ASCII y LaTeX</small>
+    <footer class="bg-dark text-white text-center py-5 mt-5">
+        <p class="mb-0 opacity-50 small">
+            Día 3: Estructuras Lógicas & Compiladores | 2024
+        </p>
     </footer>
 
     <script>
@@ -231,53 +282,47 @@ true.</pre>
             consoleBox.innerHTML = ''; 
 
             const lines = [
-                { t: ">>> INICIANDO PARSER LÓGICO...", c: "text-info fw-bold" },
-                { t: "ENTRADA: ¬(p ∨ q)", c: "text-white" },
-                { t: "---------------------------------------", t_m: 200 },
-                { t: "[1] ANÁLISIS LÉXICO...", c: "keyword" },
-                { t: "TOKEN 1: [OP_UNARIO] -> '¬'", c: "token" },
-                { t: "TOKEN 2: [PARENT_IZQ] -> '('", c: "token" },
-                { t: "TOKEN 3: [VAR_PROP] -> 'p'", c: "token" },
-                { t: "TOKEN 4: [OP_BINARIO] -> '∨'", c: "token" },
-                { t: "TOKEN 5: [VAR_PROP] -> 'q'", c: "token" },
-                { t: "TOKEN 6: [PARENT_DER] -> ')'", c: "token" },
-                { t: ">>> ÉXITO: Símbolos válidos.", c: "success" },
-                { t: " ", t_m: 300 },
-                { t: "[2] ANÁLISIS SINTÁCTICO (AST)", c: "keyword" },
-                { t: "Generando estructura de árbol...", c: "text-muted" },
-                { t: "      [¬] <--- Raíz (Op. Principal)", c: "text-warning fw-bold" },
-                { t: "       |", c: "text-white" },
-                { t: "      [∨]", c: "text-warning" },
-                { t: "     /   \\", c: "text-white" },
-                { t: "   [p]   [q]", c: "text-warning" },
-                { t: ">>> ÉXITO: Gramática correcta.", c: "success" },
-                { t: " ", t_m: 300 },
-                { t: "[3] ANÁLISIS SEMÁNTICO", c: "keyword" },
-                { t: "Asignando: p=VERDADERO, q=FALSO", c: "text-muted" },
-                { t: "Evaluando (p ∨ q)... Resultado: VERDADERO", c: "text-white" },
-                { t: "Evaluando ¬(VERDADERO)...", c: "text-white" },
-                { t: "=> RESULTADO FINAL: FALSO", c: "error fw-bold" }
+                { t: ">>> INICIANDO COMPILADOR LÓGICO...", c: "text-white fw-bold" },
+                { t: "ANALIZANDO: ¬(p ∨ q)", c: "text-info" },
+                { t: "------------------------------------------------", t_m: 100 },
+                { t: "[PHASE 1] Scanning & Tokenization...", c: "keyword" },
+                { t: "TOKEN: [NOT]        VAL: '¬'", c: "token" },
+                { t: "TOKEN: [L_PAREN]    VAL: '('", c: "token" },
+                { t: "TOKEN: [VAR]        VAL: 'p'", c: "token" },
+                { t: "TOKEN: [OR]         VAL: '∨'", c: "token" },
+                { t: "TOKEN: [VAR]        VAL: 'q'", c: "token" },
+                { t: "TOKEN: [R_PAREN]    VAL: ')'", c: "token" },
+                { t: ">>> Lexical Analysis: SUCCESSFUL", c: "success" },
+                { t: " ", t_m: 400 },
+                { t: "[PHASE 2] Syntactic Parsing (AST)", c: "keyword" },
+                { t: "Construyendo estructura jerárquica...", c: "text-muted" },
+                { t: "        [¬] ", c: "text-warning" },
+                { t: "         |  ", c: "text-white" },
+                { t: "        [∨] ", c: "text-warning" },
+                { t: "       /   \\", c: "text-white" },
+                { t: "     [p]   [q]", c: "text-warning" },
+                { t: ">>> Grammar Validation: SUCCESSFUL", c: "success" },
+                { t: " ", t_m: 400 },
+                { t: "[PHASE 3] Semantic Evaluation", c: "keyword" },
+                { t: "Entrada: p=1 (V), q=0 (F)", c: "text-muted" },
+                { t: "Operación: (1 ∨ 0) -> Resultado: 1", c: "text-white" },
+                { t: "Operación: ¬(1)     -> Resultado: 0", c: "text-white" },
+                { t: ">> OUTPUT FINAL: FALSE (0)", c: "error fw-bold" }
             ];
 
             let delay = 0;
             lines.forEach((line) => {
                 setTimeout(() => {
-                    const span = document.createElement('span');
-                    span.className = 'console-line ' + (line.c || '');
+                    const span = document.createElement('div');
+                    span.className = 'animate__animated animate__fadeInLeft ' + (line.c || '');
+                    span.style.marginBottom = '5px';
                     span.innerText = line.t;
                     consoleBox.appendChild(span);
                     consoleBox.scrollTop = consoleBox.scrollHeight;
                 }, delay);
-                delay += (line.t_m || 250);
+                delay += (line.t_m || 200);
             });
         }
-
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("scrollProgress").style.width = scrolled + "%";
-        };
     </script>
 </body>
 </html>

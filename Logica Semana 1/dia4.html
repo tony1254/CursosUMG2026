@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Día 4: Ingeniería de Sistemas - Tablas y Formalización</title>
+    <title>Día 4: Tablas de Verdad y Formalización - Lógica 2026</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -19,15 +19,17 @@
             --success-green: #2ecc71;
             --warning-yellow: #f1c40f;
             --danger-red: #e74c3c;
+            --glass-bg: rgba(255, 255, 255, 0.9);
         }
 
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f8fafc;
+            background-color: #f1f5f9;
             color: #1e293b;
+            overflow-x: hidden;
         }
 
-        /* Barra de Progreso */
+        /* Barra de Progreso Dinámica */
         #scrollProgressContainer {
             position: fixed;
             top: 0;
@@ -37,22 +39,24 @@
             background: #cbd5e1;
             z-index: 10000;
         }
+
         #scrollProgress {
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            box-shadow: 0 0 10px var(--accent-cyan);
         }
 
-        /* Hero */
+        /* Hero Section System-Elite */
         .hero-section {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             color: white;
-            padding: 100px 0 80px 0;
+            padding: 120px 0 80px 0;
             border-bottom: 5px solid var(--accent-purple);
             clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
         }
 
-        .badge-elite {
+        .badge-clase {
             letter-spacing: 3px;
             background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
             padding: 10px 25px;
@@ -61,57 +65,90 @@
             box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
         }
 
-        /* Cards */
+        .master-icon {
+            font-size: 5rem;
+            color: white;
+            text-shadow: 0 0 20px var(--accent-cyan);
+        }
+
+        /* Cards e Interactividad */
         .card-educativa {
             background: white;
             border: none;
             border-radius: 20px;
             box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            margin-bottom: 2rem;
-        }
-        .card-educativa:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            border-bottom: 4px solid transparent;
         }
 
-        /* Terminal de Lógica */
+        .card-educativa:hover {
+            transform: translateY(-8px);
+            border-bottom: 4px solid var(--accent-cyan);
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.1);
+        }
+
+        /* Consola / Bloques de Código */
         .logic-terminal {
             background: #1e1e1e;
-            color: #2ecc71;
+            color: #f8fafc;
             padding: 20px;
             border-radius: 12px;
             font-family: 'Source Code Pro', monospace;
-            border-left: 5px solid var(--accent-cyan);
-            overflow-x: auto;
+            border-left: 8px solid var(--success-green);
         }
 
-        .symbol { font-weight: bold; color: var(--accent-purple); }
+        .table-custom {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
 
-        /* Animación Pulse */
+        .table-custom thead {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .table-custom td {
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-reveal {
+            background: var(--secondary-dark);
+            color: white;
+            border-radius: 50px;
+            padding: 10px 25px;
+            transition: 0.3s;
+            border: 2px solid var(--accent-purple);
+        }
+
+        .btn-reveal:hover {
+            background: var(--accent-purple);
+            color: white;
+            transform: scale(1.05);
+        }
+
         .pulse-focus {
-            animation: pulse-cyan 2s infinite;
-        }
-        @keyframes pulse-cyan {
-            0% { box-shadow: 0 0 0 0px rgba(6, 182, 212, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(6, 182, 212, 0); }
-            100% { box-shadow: 0 0 0 0px rgba(6, 182, 212, 0); }
+            animation: pulse-animation 2s infinite;
         }
 
-        /* Footer */
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0px rgba(6, 182, 212, 0.4); }
+            100% { box-shadow: 0 0 0 20px rgba(6, 182, 212, 0); }
+        }
+
         footer {
             background: var(--primary-dark);
             color: white;
-            padding: 40px 0;
-            margin-top: 50px;
+            padding: 60px 0;
+            border-top: 5px solid var(--accent-purple);
         }
 
-        /* Estilo de tablas dentro de acordeones */
-        .table-logic {
-            font-family: 'Source Code Pro', monospace;
-            text-align: center;
+        .list-group-item {
+            border: none;
+            padding: 0.75rem 1.25rem;
+            background: transparent;
         }
-        .table-logic thead { background: var(--primary-dark); color: white; }
     </style>
 </head>
 <body>
@@ -119,60 +156,185 @@
     <div id="scrollProgressContainer"><div id="scrollProgress"></div></div>
 
     <header class="hero-section text-center">
-        <div class="container animate__animated animate__fadeIn">
-            <span class="badge-elite mb-4 d-inline-block">MÓDULO 1 · DÍA 4</span>
-            <h1 class="display-3 fw-bold">Tablas de Verdad & Formalización</h1>
-            <p class="lead fs-3">Guía Maestra para Ingeniería de Sistemas 2026</p>
-            <div class="animate__animated animate__pulse animate__infinite mt-3" style="font-size: 3rem;">
-                <i class="bi bi-cpu text-info"></i>
+        <div class="container animate__animated animate__zoomIn">
+            <span class="badge-clase mb-4 d-inline-block">MÓDULO 1 · DÍA 4</span>
+            <div class="master-icon mb-3 animate__animated animate__pulse animate__infinite">
+                <i class="bi bi-diagram-3-fill"></i>
             </div>
+            <h1 class="display-3 fw-bold">Tablas de Verdad & Formalización</h1>
+            <p class="lead fs-3 opacity-90">Ingeniería de Sistemas: De la lógica humana al binario computacional</p>
         </div>
     </header>
 
     <main class="container py-5">
 
         <section class="mb-5">
-            <div class="card-educativa p-4 border-start border-5 border-info">
-                <h2 class="fw-bold"><i class="bi bi-info-circle-fill me-2"></i>1. Fundamentación</h2>
-                <p class="fs-5">En esta sesión profundizamos en la <strong>lógica proposicional</strong>. El objetivo es dominar la construcción de tablas de verdad con notación 1 y 0, vinculando la teoría con el álgebra booleana de la computación moderna. </p>
-                <div class="alert alert-primary">
-                    <i class="bi bi-lightbulb"></i> <strong>Importante:</strong> La realización de los ejercicios debe ser <strong>A MANO</strong>. Se permite apoyo computacional solo para la verificación de teoría.
+            <div class="card-educativa p-5 animate__animated animate__fadeInLeft">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="bi bi-book-half fs-1 text-primary me-3"></i>
+                    <h2 class="m-0">1. Introducción y Continuidad</h2>
+                </div>
+                <p class="fs-5 lh-lg">
+                    En esta clase fundamental, profundizaremos en la <strong>lógica proposicional</strong>. No es un tema aislado; es la evolución natural de los conceptos que ya hemos analizado: <em>proposiciones, conectores lógicos, razonamiento y silogismos</em>. 
+                    <br><br>
+                    <strong>¿Cuál es el objetivo académico?</strong> Aprender a construir e interpretar tablas de verdad utilizando la notación de <strong>1 y 0</strong>. Este lenguaje es el puente directo con la electrónica digital y el álgebra booleana.
+                </p>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <div class="row g-4 text-center">
+                <div class="col-md-6">
+                    <div class="card-educativa p-4 animate__animated animate__fadeInUp pulse-focus">
+                        <h2 class="text-success display-4 fw-bold">1</h2>
+                        <h3 class="fw-bold">Verdadero (V)</h3>
+                        <p class="text-muted">Estado de alta tensión o señal activa.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-educativa p-4 animate__animated animate__fadeInUp">
+                        <h2 class="text-danger display-4 fw-bold">0</h2>
+                        <h3 class="fw-bold">Falso (F)</h3>
+                        <p class="text-muted">Estado de baja tensión o ausencia de señal.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="mb-5">
-            <h2 class="fw-bold mb-4">4. Conectores Lógicos y sus Tablas</h2>
-            <div class="accordion shadow" id="accLogica">
-                <div class="accordion-item">
+            <h2 class="fw-bold mb-4">4. Catálogo de Conectores Lógicos</h2>
+            <p class="mb-4 text-muted">Abre cada sección para estudiar el comportamiento de los operadores según el álgebra booleana.</p>
+            
+            <div class="accordion shadow" id="accordionLógica">
+                <div class="accordion-item border-0 mb-3 rounded-4 overflow-hidden shadow-sm">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#t1">
-                            Negación, Conjunción y Disyunción
+                        <button class="accordion-button collapsed fw-bold fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            <i class="bi bi-toggle-on me-3 text-primary"></i> 4.1 Negación (¬p)
                         </button>
                     </h2>
-                    <div id="t1" class="accordion-collapse collapse" data-bs-parent="#accLogica">
-                        <div class="accordion-body">
-                            <div class="row text-center">
+                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionLógica">
+                        <div class="accordion-body bg-white">
+                            <div class="row align-items-center">
                                 <div class="col-md-4">
-                                    <h6>¬p (Negación)</h6>
-                                    <table class="table table-sm table-bordered">
+                                    <table class="table table-custom text-center">
                                         <thead><tr><th>p</th><th>¬p</th></tr></thead>
-                                        <tbody><tr><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td></tr></tbody>
+                                        <tbody><tr><td>0</td><td class="text-success">1</td></tr><tr><td>1</td><td class="text-danger">0</td></tr></tbody>
                                     </table>
                                 </div>
+                                <div class="col-md-8">
+                                    <p>Invierte el valor de entrada. En electrónica es una compuerta <strong>NOT</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 rounded-4 overflow-hidden shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            <i class="bi bi-intersect me-3 text-primary"></i> 4.2 Conjunción (p ∧ q)
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionLógica">
+                        <div class="accordion-body bg-white">
+                            <div class="row align-items-center">
                                 <div class="col-md-4">
-                                    <h6>p ∧ q (Conjunción)</h6>
-                                    <table class="table table-sm table-bordered">
-                                        <thead><tr><th>p</th><th>q</th><th>∧</th></tr></thead>
-                                        <tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td class="table-success">1</td></tr></tbody>
+                                    <table class="table table-custom text-center">
+                                        <thead><tr><th>p</th><th>q</th><th>p ∧ q</th></tr></thead>
+                                        <tbody>
+                                            <tr><td>0</td><td>0</td><td>0</td></tr>
+                                            <tr><td>0</td><td>1</td><td>0</td></tr>
+                                            <tr><td>1</td><td>0</td><td>0</td></tr>
+                                            <tr class="table-success"><td>1</td><td>1</td><td>1</td></tr>
+                                        </tbody>
                                     </table>
                                 </div>
+                                <div class="col-md-8">
+                                    <p>Solo es 1 si ambos son 1. Equivale a un <strong>circuito en serie</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 rounded-4 overflow-hidden shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDis">
+                            <i class="bi bi-union me-3 text-primary"></i> 4.3 Disyunción (p ∨ q)
+                        </button>
+                    </h2>
+                    <div id="collapseDis" class="accordion-collapse collapse" data-bs-parent="#accordionLógica">
+                        <div class="accordion-body bg-white">
+                            <div class="row align-items-center">
                                 <div class="col-md-4">
-                                    <h6>p ∨ q (Disyunción)</h6>
-                                    <table class="table table-sm table-bordered">
-                                        <thead><tr><th>p</th><th>q</th><th>∨</th></tr></thead>
-                                        <tbody><tr><td>0</td><td>0</td><td class="table-danger">0</td></tr><tr><td>1</td><td>0</td><td>1</td></tr></tbody>
+                                    <table class="table table-custom text-center">
+                                        <thead><tr><th>p</th><th>q</th><th>p ∨ q</th></tr></thead>
+                                        <tbody>
+                                            <tr class="table-danger"><td>0</td><td>0</td><td>0</td></tr>
+                                            <tr><td>0</td><td>1</td><td>1</td></tr>
+                                            <tr><td>1</td><td>0</td><td>1</td></tr>
+                                            <tr><td>1</td><td>1</td><td>1</td></tr>
+                                        </tbody>
                                     </table>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>Es 1 si al menos uno es 1. Equivale a un <strong>circuito en paralelo</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 rounded-4 overflow-hidden shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                            <i class="bi bi-arrow-right-circle me-3 text-primary"></i> 4.4 Condicional (p → q)
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionLógica">
+                        <div class="accordion-body bg-white">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <table class="table table-custom text-center">
+                                        <thead><tr><th>p</th><th>q</th><th>p → q</th></tr></thead>
+                                        <tbody>
+                                            <tr><td>0</td><td>0</td><td>1</td></tr>
+                                            <tr><td>0</td><td>1</td><td>1</td></tr>
+                                            <tr class="table-warning"><td>1</td><td>0</td><td>0</td></tr>
+                                            <tr><td>1</td><td>1</td><td>1</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>Solo es falso (0) cuando el antecedente es 1 y el consecuente es 0.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 rounded-4 overflow-hidden shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold fs-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBi">
+                            <i class="bi bi-arrows-left-right me-3 text-primary"></i> 4.5 Bicondicional (p ↔ q)
+                        </button>
+                    </h2>
+                    <div id="collapseBi" class="accordion-collapse collapse" data-bs-parent="#accordionLógica">
+                        <div class="accordion-body bg-white">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <table class="table table-custom text-center">
+                                        <thead><tr><th>p</th><th>q</th><th>p ↔ q</th></tr></thead>
+                                        <tbody>
+                                            <tr class="table-success"><td>0</td><td>0</td><td>1</td></tr>
+                                            <tr><td>0</td><td>1</td><td>0</td></tr>
+                                            <tr><td>1</td><td>0</td><td>0</td></tr>
+                                            <tr class="table-success"><td>1</td><td>1</td><td>1</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-8">
+                                    <p>Es 1 cuando ambos valores son iguales (ambos 0 o ambos 1).</p>
                                 </div>
                             </div>
                         </div>
@@ -182,110 +344,91 @@
         </section>
 
         <section class="mb-5">
-            <div class="section-title mb-4">
-                <h2 class="fw-bold">8. Taller de Tablas de Verdad (Álgebra Booleana)</h2>
-                <p class="text-muted">Resuelve a mano respetando la <strong>jerarquía de operaciones</strong> (Paréntesis → Negación → Conjunción/Disyunción → Condicional → Bicondicional).</p>
-            </div>
-
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <div class="card-educativa p-3 h-100">
-                        <ul class="list-group list-group-numbered list-group-flush">
-                            <li class="list-group-item">( p ∨ q ) → ( q ∨ p )</li>
-                            <li class="list-group-item">[(p → q) ∧ (q → r)] → (p → r)</li>
-                            <li class="list-group-item">[(p → ¬q) ∧ (¬p → ¬r) ∧ (¬r → s)] → s</li>
-                            <li class="list-group-item">[(¬p ∨ q) ∨ (p ∧ q)] → [(¬p ∨ q) ∨ ¬p]</li>
-                            <li class="list-group-item">[(p ∨ ¬q) → (p → q)] → [(¬p → q) ∨ ¬p] ∨ ¬p</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card-educativa p-3 h-100">
-                        <ul class="list-group list-group-numbered list-group-flush" style="counter-reset: item 5;">
-                            <li class="list-group-item">(p ∧ q → p ∨ ¬r) → ¬(¬q ∨ ¬r) ∧ r</li>
-                            <li class="list-group-item">(¬p ∧ q → p ∨ r) ↔ ¬(¬q ∨ ¬r) ∧ r</li>
-                            <li class="list-group-item">(p ∨ ¬q → p ∧ r ) ↔ [ ¬(¬ q ∨ ¬ r) ∨ ( r → ¬ q) ]</li>
-                            <li class="list-group-item">(¬p ↔ q ∨ ¬r) ∧ ¬(¬p ↔ q ∨ ¬r)</li>
-                        </ul>
-                        <div class="mt-3 text-center">
-                            <button class="btn btn-primary pulse-focus rounded-pill w-75" data-bs-toggle="modal" data-bs-target="#modalRubrica">
-                                <i class="bi bi-journal-check me-2"></i>Ver Rúbrica de Evaluación
-                            </button>
+            <div class="card bg-primary text-white p-5 rounded-5 shadow-lg animate__animated animate__pulse animate__infinite animate__slow">
+                <h2 class="mb-4 text-white"><i class="bi bi-pencil-fill me-3"></i>8. Taller de Aplicación (A mano)</h2>
+                <p class="fs-5">Realizar las siguientes tablas de verdad utilizando 1 y 0. <strong>Respeta la jerarquía.</strong></p>
+                <div class="bg-white text-dark p-4 rounded-4 shadow-inner">
+                    <div class="row">
+                        <div class="col-md-6 border-end">
+                            <ol class="fw-bold">
+                                <li class="mb-2">( p v q ) → ( q v p )</li>
+                                <li class="mb-2">[(p→q) ∧ (q→r)] → (p→ r)</li>
+                                <li class="mb-2">[(p→¬q) ∧ (¬p→¬r) ∧ (¬r→s)] → s</li>
+                                <li class="mb-2">[(¬p v q) v (p ^ q)] → [(¬p v q) v ¬p]</li>
+                                <li class="mb-2">[(p v ¬ q) → (p → q)] → [(¬p → q) v ¬p] v ¬p</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-6">
+                            <ol start="6" class="fw-bold">
+                                <li class="mb-2">(p ^ q → p v ¬r) → ¬(¬q v ¬r) ^ r</li>
+                                <li class="mb-2">(¬p ^ q → p v r) ↔ ¬(¬q v ¬r) ^ r</li>
+                                <li class="mb-2">(p v ¬q → p ^ r ) ↔ [ ¬(¬ q v ¬ r) v ( r → ¬ q) ]</li>
+                                <li class="mb-2">(¬p ↔ q v ¬r) ∧ ¬(¬p ↔ q v ¬r)</li>
+                            </ol>
                         </div>
                     </div>
+                </div>
+                
+                <div class="mt-4 text-center">
+                    <button class="btn btn-reveal" data-bs-toggle="modal" data-bs-target="#modalRubrica">
+                        <i class="bi bi-journal-check me-2"></i>Leer Rúbrica de Evaluación
+                    </button>
                 </div>
             </div>
         </section>
 
         <section class="mb-5">
-            <h2 class="fw-bold mb-4">Tema 4: Formalización de Argumentos</h2>
-            <p class="mb-4">Haz clic en cada ejercicio para ver la traducción al lenguaje lógico.</p>
+            <h2 class="fw-bold mb-4">9 y 10. Formalización de Argumentos</h2>
+            <p class="text-muted">Estudia estos casos reales traducidos a lógica simbólica.</p>
             
-            <div class="row g-3" id="formalizacionContainer">
+            <div class="row g-3">
                 <div class="col-12">
-                    <div class="accordion" id="accFormal">
-                        <div class="accordion-item">
+                    <div class="accordion" id="accFormalizacion">
+                        <div class="accordion-item rounded-4 border-0 shadow-sm mb-2">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f401">
-                                    Ejercicio 4.01 - 4.03: Clima y Nacionalidad
+                                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#f1">
+                                    Casos 4.01 al 4.05: Polos y Mercados
                                 </button>
                             </h2>
-                            <div id="f401" class="accordion-collapse collapse" data-bs-parent="#accFormal">
-                                <div class="accordion-body">
-                                    <div class="logic-terminal mb-3">
-                                        <strong>4.01:</strong> p: frío intenso; q: planetas giran. <br>
-                                        <span class="symbol">p → q</span>
-                                    </div>
-                                    <div class="logic-terminal mb-3">
-                                        <strong>4.02:</strong> p: herbívoros; q: frío; r: planetas. <br>
-                                        <span class="symbol">p ∨ q → r</span>
-                                    </div>
-                                    <div class="logic-terminal">
-                                        <strong>4.03:</strong> p: francés; q: nació 23; r: bretón; s: bajo. <br>
-                                        <span class="symbol">q → p, r → s, q ∨ r ├ p ∨ s</span>
-                                    </div>
+                            <div id="f1" class="accordion-collapse collapse" data-bs-parent="#accFormalizacion">
+                                <div class="accordion-body bg-light">
+                                    <div class="mb-3"><strong>4.01 Polos:</strong> p → q</div>
+                                    <div class="mb-3"><strong>4.02 Herbívoros:</strong> p ∨ q → r</div>
+                                    <div class="mb-3"><strong>4.03 Juan Francés:</strong> q → p, r → s, q ∨ r ├ p ∨ s</div>
+                                    <div class="mb-3"><strong>4.04 Aristóteles:</strong> (p ∧ q) ∧ (p → r) → r</div>
+                                    <div><strong>4.05 Proveedor:</strong> q → ¬p, ¬p → r, ¬r ├ ¬q</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item">
+
+                        <div class="accordion-item rounded-4 border-0 shadow-sm mb-2">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f404">
-                                    Ejercicio 4.04 - 4.06: Historia y Economía
+                                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#f2">
+                                    Casos 4.06 al 4.10: Números e Inflación
                                 </button>
                             </h2>
-                            <div id="f404" class="accordion-collapse collapse" data-bs-parent="#accFormal">
-                                <div class="accordion-body">
-                                    <div class="logic-terminal mb-3">
-                                        <strong>4.04 (Aristóteles):</strong> <br>
-                                        <span class="symbol">(p ∧ q) ∧ (p → r) → r</span>
-                                    </div>
-                                    <div class="logic-terminal">
-                                        <strong>4.05 (Mercado Libre):</strong> <br>
-                                        <span class="symbol">q → ¬p, ¬p → r, ¬r ├ ¬q</span>
-                                    </div>
+                            <div id="f2" class="accordion-collapse collapse" data-bs-parent="#accFormalizacion">
+                                <div class="accordion-body bg-light">
+                                    <div class="mb-3"><strong>4.06 Números:</strong> p ∧ q → r, ¬r ∨ s, ¬s, p ├ ¬q</div>
+                                    <div class="mb-3"><strong>4.07 Salarios/Pueblo:</strong> p ∨ q → r, r → s ∨ t, t → u, ¬s ∧ ¬u ├ ¬q</div>
+                                    <div class="mb-3"><strong>4.08 Subsidios:</strong> ¬p → q, q → ¬r, r ∨ s, ¬s ├ p</div>
+                                    <div class="mb-3"><strong>4.09 Guerra/Paz:</strong> p ∧ q → r, s ∨ ¬r, s → ¬p ├ ¬p</div>
+                                    <div><strong>4.10 Precios:</strong> ¬q → ¬p, (p ∧ ¬q) ∨ (p ∧ r) ├ r</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item">
+
+                        <div class="accordion-item rounded-4 border-0 shadow-sm mb-2">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f410">
-                                    Ejercicio 4.10 - 4.13: Inflación y Física Cuántica
+                                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#f3">
+                                    Casos 4.11 al 4.13: Física y Ladrón
                                 </button>
                             </h2>
-                            <div id="f410" class="accordion-collapse collapse" data-bs-parent="#accFormal">
-                                <div class="accordion-body">
-                                    <div class="logic-terminal mb-3">
-                                        <strong>4.10 (Salarios):</strong> <br>
-                                        <span class="symbol">¬q → ¬p, (p ∧ ¬q) ∨ (p ∧ r) ├ r</span>
-                                    </div>
-                                    <div class="logic-terminal mb-3">
-                                        <strong>4.12 (El Ladrón):</strong> <br>
-                                        <span class="symbol">p ∨ (q ∧ r), p → s, s → r ├ r</span>
-                                    </div>
-                                    <div class="logic-terminal">
-                                        <strong>4.13 (Física Cuántica):</strong> <br>
-                                        <span class="symbol">p ∨ q, p → r ∧ ¬s, q → ¬r ∧ s, r ∨ ¬s ├ ¬(r → ¬¬s)</span>
-                                    </div>
+                            <div id="f3" class="accordion-collapse collapse" data-bs-parent="#accFormalizacion">
+                                <div class="accordion-body bg-light">
+                                    <div class="mb-3"><strong>4.11 Navegar:</strong> p ∧ q → r ∧ s, ¬(¬q ∨ s) ├ ¬p</div>
+                                    <div class="mb-3"><strong>4.12 Ladrón:</strong> p ∨ (q ∧ r), p → s, s → r ├ r</div>
+                                    <div><strong>4.13 Física Cuántica:</strong> p ∨ q, p → r ∧ ¬s, q → ¬r ∧ s, r ∨ ¬s ├ ¬(r → ¬¬s)</div>
                                 </div>
                             </div>
                         </div>
@@ -298,36 +441,38 @@
 
     <div class="modal fade" id="modalRubrica" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow">
+            <div class="modal-content border-0">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title">Rúbrica de Evaluación</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><i class="bi bi-check2 text-success"></i> Realización manual (escaneado/foto).</li>
-                        <li class="list-group-item"><i class="bi bi-check2 text-success"></i> Uso correcto de 1 y 0.</li>
-                        <li class="list-group-item"><i class="bi bi-check2 text-success"></i> Identificación de Tautología/Contingencia.</li>
-                        <li class="list-group-item"><i class="bi bi-check2 text-success"></i> Jerarquía de conectores aplicada.</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Realización manual y legible.</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Correcto uso de 1 y 0.</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Identificación de Tautología/Contingencia.</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i> Respeto a la jerarquía de conectores.</li>
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Entendido</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="text-center">
-        <div class="container">
-            <p class="mb-1 fw-bold">Luis Garcia 2026</p>
-            <p class="small opacity-50">Ingeniería de Sistemas - Lógica Aplicada</p>
+    <footer>
+        <div class="container text-center">
+            <div class="animate__animated animate__bounce animate__infinite mb-4">
+                <i class="bi bi-mortarboard-fill fs-1 text-cyan"></i>
+            </div>
+            <h3 class="fw-bold">Luis Garcia 2026</h3>
+            <p class="opacity-75">Material Educativo - Ingeniería de Sistemas</p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Barra de progreso
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -335,15 +480,15 @@
             document.getElementById("scrollProgress").style.width = scrolled + "%";
         };
 
-        // Animaciones automáticas al aparecer
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate__animated', 'animate__fadeInUp');
                 }
             });
-        });
-        document.querySelectorAll('.card-educativa').forEach(c => observer.observe(c));
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section, .card-educativa').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>

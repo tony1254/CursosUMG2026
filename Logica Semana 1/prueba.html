@@ -11,20 +11,16 @@
 
     <style>
         :root {
-            /* PALETA DE COLORES (El Cerebro del Tema) */
-            --brand-color: #4f46e5;       /* Indigo moderno */
+            --brand-color: #4f46e5;
             --brand-soft: #eef2ff;
             --bg-page: #f8fafc;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --white: #ffffff;
-            
-            /* Estados */
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
             --info: #0ea5e9;
-
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
@@ -33,24 +29,13 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-page);
             color: var(--text-main);
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
-        /* --- COMPONENTE: BARRA DE PROGRESO --- */
-        .progress-container {
-            position: fixed;
-            top: 0; z-index: 2000;
-            width: 100%; height: 5px;
-            background: transparent;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--brand-color), var(--info));
-            width: 0%;
-            transition: width 0.1s ease;
-        }
+        /* --- COMPONENTES DEL TEMA --- */
+        .progress-container { position: fixed; top: 0; z-index: 2000; width: 100%; height: 5px; background: transparent; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--brand-color), var(--info)); width: 0%; transition: width 0.1s ease; }
 
-        /* --- COMPONENTE: HERO SECTION --- */
         .theme-hero {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             color: var(--white);
@@ -59,17 +44,7 @@
             margin-bottom: 50px;
             clip-path: ellipse(150% 100% at 50% 0%);
         }
-        .theme-badge {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
 
-        /* --- COMPONENTE: TARJETAS (CARDS) --- */
         .theme-card {
             background: var(--white);
             border-radius: 16px;
@@ -79,74 +54,29 @@
             transition: var(--transition);
             height: 100%;
         }
-        .theme-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
 
-        /* --- COMPONENTE: CALLOUTS --- */
-        .callout {
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 6px solid;
-            margin-bottom: 1.5rem;
-        }
+        .callout { padding: 1.5rem; border-radius: 12px; border-left: 6px solid; margin-bottom: 1.5rem; background: var(--white); }
         .callout-info { background: #f0f9ff; border-color: var(--info); }
         .callout-concept { background: #f0fdf4; border-color: var(--success); }
+        .callout-warning { background: #fffbeb; border-color: var(--warning); }
 
-        /* --- DIAGRAMA SISTEMA EPS --- */
-        .system-diagram {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            border: 1px dashed var(--brand-color);
-        }
-        .sys-node {
-            width: 100px; height: 100px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            background: var(--bg-page);
-            border: 3px solid #e2e8f0;
-            transition: var(--transition);
-            z-index: 2;
-        }
-        .sys-node.active {
-            border-color: var(--brand-color);
-            background: var(--brand-soft);
-            box-shadow: 0 0 20px var(--brand-soft);
-            transform: scale(1.1);
-        }
-        .data-dot {
-            width: 15px; height: 15px;
-            background: var(--warning);
-            border-radius: 50%;
-            position: absolute;
-            top: 50%; left: 10%;
-            display: none;
-        }
+        .section-title { font-weight: 800; margin-bottom: 1.8rem; color: var(--text-main); display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
 
-        /* Títulos */
-        .section-title {
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .prop-example { font-family: 'Source Code Pro', monospace; background: #f1f5f9; padding: 10px; border-radius: 8px; color: #d63384; font-size: 0.9rem; border: 1px solid #e2e8f0; margin-bottom: 8px; }
 
-        .prop-example {
-            font-family: 'Source Code Pro', monospace;
-            background: #f1f5f9;
-            padding: 10px;
-            border-radius: 8px;
-            color: var(--brand-color);
-            font-size: 0.9rem;
-        }
+        /* --- TABLAS --- */
+        .table-theme { background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+        .table-theme thead { background: var(--brand-color); color: white; }
+
+        /* --- ACORDEÓN --- */
+        .accordion-item { border: none; margin-bottom: 10px; border-radius: 12px !important; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .accordion-button:not(.collapsed) { background-color: var(--brand-soft); color: var(--brand-color); }
+
+        /* --- DIAGRAMA EPS --- */
+        .system-diagram { background: var(--white); border-radius: 20px; padding: 40px; display: flex; justify-content: space-between; align-items: center; position: relative; border: 1px dashed var(--brand-color); }
+        .sys-node { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--bg-page); border: 3px solid #e2e8f0; transition: var(--transition); z-index: 2; }
+        .sys-node.active { border-color: var(--brand-color); background: var(--brand-soft); box-shadow: 0 0 20px var(--brand-soft); transform: scale(1.1); }
+        .data-dot { width: 15px; height: 15px; background: var(--warning); border-radius: 50%; position: absolute; top: 50%; left: 10%; display: none; }
     </style>
 </head>
 <body>
@@ -157,12 +87,9 @@
 
     <header class="theme-hero">
         <div class="container">
-            <span class="theme-badge mb-3 d-inline-block">Módulo 01 · Lógica</span>
+            <div class="mb-3"><i class="fa-solid fa-brain fa-3x text-info"></i></div>
             <h1 class="display-4 fw-bold">Lógica Informática</h1>
-            <p class="lead opacity-75">Día 1: Orígenes y Pensamiento Estructurado</p>
-            <div class="mt-4">
-                <i class="fa-solid fa-brain fa-3x opacity-50"></i>
-            </div>
+            <p class="lead opacity-75">"Pensar correctamente no es un acto natural, es un arte que se aprende."</p>
         </div>
     </header>
 
@@ -171,35 +98,75 @@
         <section class="mb-5">
             <h2 class="section-title"><i class="fa-solid fa-book-open text-primary"></i> 1. ¿Qué es la Lógica?</h2>
             <div class="row g-4">
-                <div class="col-md-6">
+                <div class="col-lg-6">
                     <div class="callout callout-info h-100">
-                        <h4 class="fw-bold text-info">Etimología</h4>
-                        <p>Del griego <strong>"Logos"</strong>: razón o tratado. Es la ciencia que estudia las leyes del pensamiento válido.</p>
+                        <h4 class="text-primary fw-bold">Etimología y Definición</h4>
+                        <p>Proviene del griego <strong>"Logos" (λόγος)</strong>: palabra, razón o tratado.</p>
+                        <p><strong>Definición:</strong> Es la ciencia que estudia las <u>leyes del pensamiento válido</u>. Nos enseña cómo se relacionan las ideas para llegar a conclusiones correctas.</p>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-6">
                     <div class="theme-card">
-                        <h5 class="fw-bold mb-3">El Proceso Mental</h5>
-                        <ul class="list-unstyled mb-0">
-                            <li class="mb-2"><i class="fa-solid fa-wind text-muted me-2"></i> <strong>Pensar:</strong> Natural y espontáneo.</li>
-                            <li><i class="fa-solid fa-scale-balanced text-success me-2"></i> <strong>Razonar:</strong> Metódico y riguroso.</li>
-                        </ul>
+                        <h5 class="fw-bold mb-3">Pensar vs. Razonar</h5>
+                        <div class="d-flex mb-3">
+                            <i class="fa-solid fa-wind text-muted me-3 mt-1"></i>
+                            <div><strong>Pensar (Natural):</strong> Espontáneo, desordenado, influenciado por emociones.</div>
+                        </div>
+                        <div class="d-flex">
+                            <i class="fa-solid fa-scale-balanced text-success me-3 mt-1"></i>
+                            <div><strong>Razonar (Lógico):</strong> Busca el rigor, sigue reglas de inferencia y distingue lo válido de lo inválido.</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <section class="mb-5">
-            <h2 class="section-title"><i class="fa-solid fa-user-graduate text-primary"></i> 2. El Método Cartesiano</h2>
-            <div class="theme-card bg-dark text-white border-0">
-                <div class="row align-items-center">
-                    <div class="col-md-4 text-center border-end border-secondary">
-                        <i class="fa-solid fa-quote-left fa-3x mb-3 text-primary"></i>
-                        <h5 class="mb-0">"Cogito, ergo sum"</h5>
-                        <small class="text-muted">René Descartes</small>
+            <h2 class="section-title"><i class="fa-solid fa-user-graduate text-primary"></i> 2. René Descartes</h2>
+            <div class="theme-card bg-dark text-white border-0 mb-4">
+                <div class="row align-items-center p-3">
+                    <div class="col-md-3 text-center">
+                        <div class="rounded-circle bg-white text-dark d-inline-flex align-items-center justify-content-center mb-2" style="width: 80px; height: 80px;">
+                            <i class="fa-solid fa-user-graduate fa-2x"></i>
+                        </div>
+                        <h6>Descartes</h6>
+                        <small class="opacity-50">1596 - 1650</small>
                     </div>
-                    <div class="col-md-8 ps-md-4">
-                        <p class="mb-0">Descartes sentó las bases del <strong>Pensamiento Estructurado</strong>. Su método consiste en no aceptar nada como verdad sin antes haberlo descompuesto y analizado rigurosamente.</p>
+                    <div class="col-md-9">
+                        <h3 class="text-info">"Cogito, ergo sum"</h3>
+                        <p class="fst-italic opacity-75">"Pienso, luego existo."</p>
+                        <p>Buscaba verdades <strong>Claras</strong> y <strong>Distintas</strong>. Su método es el origen del pensamiento estructurado y algorítmico.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 text-center">
+                <div class="col-6 col-md-3">
+                    <div class="theme-card p-3">
+                        <i class="fa-solid fa-question text-danger fa-2x mb-2"></i>
+                        <div class="fw-bold">1. Duda</div>
+                        <small>No aceptar nada sin evidencia.</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="theme-card p-3">
+                        <i class="fa-solid fa-scissors text-primary fa-2x mb-2"></i>
+                        <div class="fw-bold">2. Análisis</div>
+                        <small>Dividir lo complejo en partes simples.</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="theme-card p-3">
+                        <i class="fa-solid fa-layer-group text-success fa-2x mb-2"></i>
+                        <div class="fw-bold">3. Síntesis</div>
+                        <small>Reconstruir con orden.</small>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="theme-card p-3">
+                        <i class="fa-solid fa-list-ol text-warning fa-2x mb-2"></i>
+                        <div class="fw-bold">4. Enumeración</div>
+                        <small>Revisar para no omitir nada.</small>
                     </div>
                 </div>
             </div>
@@ -207,64 +174,202 @@
 
         <section class="mb-5">
             <h2 class="section-title"><i class="fa-solid fa-cubes text-primary"></i> 3. La Proposición</h2>
-            <div class="callout callout-concept mb-4">
-                <strong>Definición:</strong> Es una afirmación que solo puede tener dos valores: <span class="badge bg-success">Verdadero</span> o <span class="badge bg-danger">Falso</span>.
+            <div class="callout callout-concept">
+                <strong>¿Qué es?</strong> Una afirmación con sujeto y predicado que es <strong>Verdadera</strong> o <strong>Falsa</strong>.
             </div>
-            <div class="row g-4">
+            <div class="row g-4 mt-2">
                 <div class="col-md-6">
-                    <div class="theme-card">
-                        <h6><i class="fa-solid fa-square text-primary me-2"></i>Simple</h6>
-                        <p class="small text-muted">Una sola idea base.</p>
+                    <div class="theme-card border-start border-4 border-primary">
+                        <h5>Proposición Simple</h5>
+                        <p class="small text-muted">Sin conectivos lógicos.</p>
                         <div class="prop-example">"El cielo es azul."</div>
+                        <div class="prop-example">"La lógica es una ciencia."</div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="theme-card">
-                        <h6><i class="fa-solid fa-clone text-info me-2"></i>Compuesta</h6>
-                        <p class="small text-muted">Ideas unidas por conectivos.</p>
-                        <div class="prop-example">"Estudio Y aprendo."</div>
+                    <div class="theme-card border-start border-4 border-info">
+                        <h5>Proposición Compuesta</h5>
+                        <p class="small text-muted">Unidas por conectivos.</p>
+                        <div class="prop-example">"El cielo es azul <strong>Y</strong> hace calor."</div>
+                        <div class="prop-example">"<strong>SI</strong> estudias, <strong>ENTONCES</strong> apruebas."</div>
                     </div>
                 </div>
             </div>
         </section>
 
         <section class="mb-5">
-            <h2 class="section-title"><i class="fa-solid fa-microchip text-primary"></i> 4. Pensamiento Sistémico</h2>
+            <h2 class="section-title"><i class="fa-solid fa-comments text-primary"></i> 4. El Argumento</h2>
+            <div class="theme-card">
+                <h5 class="text-center text-muted text-uppercase mb-4" style="letter-spacing: 2px;">Anatomía de una Inferencia</h5>
+                <div class="row align-items-center">
+                    <div class="col-md-5">
+                        <div class="callout callout-warning mb-2 py-2">
+                            <small class="fw-bold text-warning">PREMISA 1</small><br>Todos los humanos son mortales.
+                        </div>
+                        <div class="callout callout-warning py-2">
+                            <small class="fw-bold text-warning">PREMISA 2</small><br>Sócrates es un humano.
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-center py-3">
+                        <i class="fa-solid fa-gears fa-2x text-primary fa-spin"></i>
+                        <div class="small fw-bold text-primary mt-2">INFERENCIA</div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="callout callout-concept py-3 shadow-sm" style="border-width: 2px;">
+                            <small class="fw-bold text-success">CONCLUSIÓN</small><br>
+                            <i class="fa-solid fa-check text-success me-1"></i> Por lo tanto, Sócrates es mortal.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="section-title"><i class="fa-solid fa-scale-unbalanced text-primary"></i> 5. Lógica Informal vs. Formal</h2>
+            <div class="table-responsive table-theme">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th class="p-3">Característica</th>
+                            <th class="p-3">Informal (Vida Diaria)</th>
+                            <th class="p-3">Formal (Ciencia/PC)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold">Lenguaje</td>
+                            <td>Natural (Palabras)</td>
+                            <td class="text-primary font-monospace">Símbolos (P &rarr; Q)</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Objetivo</td>
+                            <td>Persuadir</td>
+                            <td class="text-primary">Demostrar Validez</td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold">Riesgo</td>
+                            <td>Ambigüedad</td>
+                            <td class="text-primary">Exactitud</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="section-title"><i class="fa-solid fa-microchip text-primary"></i> 6. Pensamiento Sistémico (E-P-S)</h2>
             <div class="theme-card">
                 <div class="system-diagram mb-4" id="systemArea">
                     <div class="data-dot" id="dataPacket"></div>
                     <div class="text-center">
-                        <div class="sys-node mb-2" id="nodeIn"><i class="fa-solid fa-keyboard"></i></div>
-                        <small class="fw-bold d-block">ENTRADA</small>
+                        <div class="sys-node mb-2" id="nodeIn"><i class="fa-solid fa-keyboard fa-2x"></i></div>
+                        <strong>ENTRADA</strong>
                     </div>
                     <div class="text-center">
-                        <div class="sys-node mb-2" id="nodeProc"><i class="fa-solid fa-gear fa-spin"></i></div>
-                        <small class="fw-bold d-block">PROCESO</small>
+                        <div class="sys-node mb-2" id="nodeProc"><i class="fa-solid fa-cogs fa-2x"></i></div>
+                        <strong>PROCESO</strong>
                     </div>
                     <div class="text-center">
-                        <div class="sys-node mb-2" id="nodeOut"><i class="fa-solid fa-display"></i></div>
-                        <small class="fw-bold d-block">SALIDA</small>
+                        <div class="sys-node mb-2" id="nodeOut"><i class="fa-solid fa-desktop fa-2x"></i></div>
+                        <strong>SALIDA</strong>
                     </div>
                 </div>
                 <div class="text-center">
-                    <button class="btn btn-primary btn-lg rounded-pill px-5 shadow" onclick="simulateSystem()">
-                        <i class="fa-solid fa-play me-2"></i>Simular Flujo
-                    </button>
-                    <p id="sysLog" class="mt-3 text-muted small">Listo para procesar...</p>
+                    <button class="btn btn-primary px-5 rounded-pill shadow" onclick="simulateSystem()">Simular Flujo</button>
+                    <p id="sysLog" class="mt-3 text-muted">Esperando datos...</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="section-title"><i class="fa-solid fa-link text-primary"></i> 7. Conectivos Lógicos</h2>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="theme-card border-top border-4 border-primary p-3 text-center">
+                        <h4 class="fw-bold text-primary">Y</h4>
+                        <span class="badge bg-light text-dark border mb-2">Conjunción (&and;)</span>
+                        <p class="small">V solo si <b>ambas</b> son V.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="theme-card border-top border-4 border-success p-3 text-center">
+                        <h4 class="fw-bold text-success">O</h4>
+                        <span class="badge bg-light text-dark border mb-2">Disyunción (&or;)</span>
+                        <p class="small">V si <b>al menos una</b> es V.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="theme-card border-top border-4 border-danger p-3 text-center">
+                        <h4 class="fw-bold text-danger">NO</h4>
+                        <span class="badge bg-light text-dark border mb-2">Negación (&not;)</span>
+                        <p class="small"><b>Invierte</b> el valor de verdad.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="theme-card border-top border-4 border-warning p-3 text-center">
+                        <h4 class="fw-bold text-warning">ENTONCES</h4>
+                        <span class="badge bg-light text-dark border mb-2">Condicional (&rarr;)</span>
+                        <p class="small">Relación de <b>Causa-Efecto</b>.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h2 class="section-title text-danger"><i class="fa-solid fa-triangle-exclamation"></i> 8. Falacias Lógicas</h2>
+            <div class="accordion" id="accFalacias">
+                <div class="accordion-item shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#f1">
+                            Generalización Apresurada
+                        </button>
+                    </h2>
+                    <div id="f1" class="accordion-collapse collapse" data-bs-parent="#accFalacias">
+                        <div class="accordion-body">
+                            <p><strong>Definición:</strong> Conclusión basada en pocos ejemplos.</p>
+                            <div class="alert alert-danger border-start border-4"><em>"Un programador no sabía cocinar, por tanto, ninguno sabe."</em></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#f2">
+                            Falsa Causa (Post Hoc)
+                        </button>
+                    </h2>
+                    <div id="f2" class="accordion-collapse collapse" data-bs-parent="#accFalacias">
+                        <div class="accordion-body">
+                            <p><strong>Definición:</strong> Asumir que porque algo pasó después de otra cosa, fue causado por ella.</p>
+                            <div class="alert alert-danger border-start border-4"><em>"Instalé el juego y la PC se puso lenta."</em></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item shadow-sm">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#f3">
+                            Apelación a la Emoción
+                        </button>
+                    </h2>
+                    <div id="f3" class="accordion-collapse collapse" data-bs-parent="#accFalacias">
+                        <div class="accordion-body">
+                            <p><strong>Definición:</strong> Manipular sentimientos en vez de usar razones.</p>
+                            <div class="alert alert-danger border-start border-4"><em>"Pruébeme profesor, o perderé mi beca."</em></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <footer class="text-center pt-5 border-top">
-            <p class="text-muted">© 2024 · Curso de Lógica Aplicada</p>
-            <button class="btn btn-outline-primary" onclick="alert('¡Módulo completado!')">
-                Finalizar Lección
+            <p class="text-muted small mb-4">Introducción a la Lógica Computacional · 2024</p>
+            <button class="btn btn-brand btn-lg shadow px-5" style="background: var(--brand-color); color: white;" onclick="alert('¡Módulo completado!')">
+                <i class="fa-solid fa-check-double me-2"></i>Marcar como Completado
             </button>
         </footer>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // BARRA DE PROGRESO
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -272,42 +377,17 @@
             document.getElementById("readingBar").style.width = scrolled + "%";
         };
 
-        // SIMULACIÓN
         function simulateSystem() {
             const dot = document.getElementById('dataPacket');
-            const nodes = {
-                in: document.getElementById('nodeIn'),
-                proc: document.getElementById('nodeProc'),
-                out: document.getElementById('nodeOut')
-            };
+            const nodes = { in: document.getElementById('nodeIn'), proc: document.getElementById('nodeProc'), out: document.getElementById('nodeOut') };
             const log = document.getElementById('sysLog');
 
-            // Reset
-            dot.style.display = 'none';
-            dot.style.left = '10%';
+            dot.style.display = 'none'; dot.style.left = '10%';
             Object.values(nodes).forEach(n => n.classList.remove('active'));
 
-            // Animación
-            setTimeout(() => {
-                dot.style.display = 'block';
-                nodes.in.classList.add('active');
-                log.innerText = "Entrada: Capturando datos...";
-            }, 100);
-
-            setTimeout(() => {
-                dot.style.transition = 'left 1s linear';
-                dot.style.left = '45%';
-                nodes.in.classList.remove('active');
-                nodes.proc.classList.add('active');
-                log.innerText = "Proceso: Aplicando lógica...";
-            }, 1200);
-
-            setTimeout(() => {
-                dot.style.left = '85%';
-                nodes.proc.classList.remove('active');
-                nodes.out.classList.add('active');
-                log.innerText = "Salida: Resultado generado con éxito.";
-            }, 2400);
+            setTimeout(() => { dot.style.display = 'block'; nodes.in.classList.add('active'); log.innerText = "Entrada: Recibiendo datos..."; log.className="text-primary"; }, 100);
+            setTimeout(() => { dot.style.transition = 'left 1s linear'; dot.style.left = '45%'; nodes.in.classList.remove('active'); nodes.proc.classList.add('active'); log.innerText = "Proceso: Aplicando lógica..."; log.className="text-warning fw-bold"; }, 1200);
+            setTimeout(() => { dot.style.left = '85%'; nodes.proc.classList.remove('active'); nodes.out.classList.add('active'); log.innerText = "Salida: Resultado generado."; log.className="text-success fw-bold"; }, 2400);
         }
     </script>
 </body>

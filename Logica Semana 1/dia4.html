@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Día 2: Tablas de Verdad y Formalización - Lógica 2026</title>
+<link rel="preconnect" href="[https://fonts.googleapis.com](https://www.google.com/search?q=https://fonts.googleapis.com)">
+<link rel="preconnect" href="[https://fonts.gstatic.com](https://www.google.com/search?q=https://fonts.gstatic.com)" crossorigin>
+<link href="[https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@300;400;500&family=Source+Code+Pro:wght@400;600&display=swap](https://www.google.com/search?q=https://fonts.googleapis.com/css2%3Ffamily%3DMontserrat:wght%40700%26family%3DRoboto:wght%40300%3B400%3B500%26family%3DSource%2BCode%2BPro:wght%40400%3B600%26display%3Dswap)" rel="stylesheet">
+<link href="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css](https://www.google.com/search?q=https://cdn.jsdelivr.net/npm/bootstrap%405.3.2/dist/css/bootstrap.min.css)" rel="stylesheet">
+<link rel="stylesheet" href="[https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css](https://www.google.com/search?q=https://cdn.jsdelivr.net/npm/bootstrap-icons%401.11.1/font/bootstrap-icons.css)">
+<link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css](https://www.google.com/search?q=https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css)"/>
+
+```
+<script src="[https://polyfill.io/v3/polyfill.min.js?features=es6](https://polyfill.io/v3/polyfill.min.js?features=es6)"></script>
+<script id="MathJax-script" async src="[https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js](https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js)"></script>
+
+<style>
+    :root {
+        --primary-dark: #0f172a;
+        --secondary-dark: #1e1b4b;
+        --accent-cyan: #06b6d4;
+        --accent-purple: #8b5cf6;
+        --success-green: #2ecc71;
+        --warning-yellow: #f1c40f;
+        --danger-red: #e74c3c;
+        --text-light: #f8fafc;
+        --card-bg: #ffffff;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f1f5f9;
+        color: #334155;
+        line-height: 1.6;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+    }
+
+    /* Progress Bar */
+    #scrollProgress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 5px;
+        background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+        z-index: 9999;
+        transition: width 0.1s ease;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+        color: white;
+        padding: 80px 0;
+        border-bottom: 5px solid var(--accent-purple);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-label {
+        letter-spacing: 3px;
+        font-size: 0.85rem;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 5px 15px;
+        border-radius: 50px;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+
+    .master-icon {
+        font-size: 4rem;
+        color: var(--accent-cyan);
+        margin-bottom: 20px;
+    }
+
+    /* Cards and Layout */
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        transition: all 0.4s ease;
+        margin-bottom: 2rem;
+        background: var(--card-bg);
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    }
+
+    .section-icon {
+        width: 45px;
+        height: 45px;
+        background: var(--accent-cyan);
+        color: white;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    /* Terminal Console */
+    .terminal-container {
+        background: #1e1e1e;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        font-family: 'Source Code Pro', monospace;
+    }
+
+    .terminal-header {
+        background: #333;
+        padding: 10px 15px;
+        display: flex;
+        gap: 8px;
+    }
+
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+
+    .terminal-body {
+        padding: 20px;
+        color: #dcdcdc;
+        min-height: 200px;
+    }
+
+    .cursor {
+        display: inline-block;
+        width: 10px;
+        height: 20px;
+        background: var(--accent-cyan);
+        animation: blink 1s infinite;
+        vertical-align: middle;
+    }
+
+    @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+
+    /* Logic Table Styling */
+    .table-logic {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .table-logic thead {
+        background: var(--primary-dark);
+        color: white;
+    }
+
+    .table-logic th, .table-logic td {
+        text-align: center;
+        border: 1px solid #e2e8f0;
+    }
+
+    /* Custom Callouts */
+    .callout {
+        padding: 1.5rem;
+        border-left: 5px solid;
+        border-radius: 4px 8px 8px 4px;
+        margin-bottom: 1.5rem;
+        background: #fff;
+    }
+    .callout-info { border-left-color: var(--accent-cyan); background: #ecfeff; }
+    .callout-warning { border-left-color: var(--warning-yellow); background: #fefce8; }
+    .callout-danger { border-left-color: var(--danger-red); background: #fef2f2; }
+
+    /* Footer */
+    footer {
+        background: var(--primary-dark);
+        color: white;
+        padding: 40px 0;
+        text-align: center;
+        margin-top: 50px;
+    }
+</style>
+
+```
+
+</head>
+<body>
+
+```
+<div id="scrollProgress"></div>
+
+<header class="hero-section text-center">
+    <div class="container animate__animated animate__fadeIn">
+        <span class="hero-label">DÍA 2: NOMBRE · TEMA</span>
+        <div class="master-icon animate__animated animate__pulse animate__infinite">
+            <i class="bi bi-cpu-fill"></i>
+        </div>
+        <h1 class="display-4 mb-3">Tablas de Verdad y Formalización</h1>
+        <p class="lead text-info">Continuidad de la Lógica Proposicional aplicada a la Ingeniería</p>
+    </div>
+</header>
+
+<main class="container py-5">
+
+    <section class="mb-5 animate__animated animate__fadeInUp">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <div class="section-icon"><i class="bi bi-info-circle-fill"></i></div>
+                <h2>Introducción y Continuidad</h2>
+                <p>En esta sesión profundizamos en la lógica proposicional, integrando la notación binaria <strong>(0, 1)</strong> utilizada en electrónica digital y álgebra booleana. El objetivo es transitar desde el lenguaje natural hacia estructuras matemáticas rigurosas que permitan verificar la validez de los argumentos.</p>
+            </div>
+            <div class="col-lg-5">
+                <div class="card bg-primary text-white p-4">
+                    <h5>Valores de Verdad</h5>
+                    <div class="d-flex justify-content-around mt-3">
+                        <div class="text-center">
+                            <h2 class="fw-bold">1</h2>
+                            <small>Verdadero (V)</small>
+                        </div>
+                        <div class="text-center border-start ps-4">
+                            <h2 class="fw-bold">0</h2>
+                            <small>Falso (F)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+        <div class="card p-4">
+            <h3 class="mb-4"><i class="bi bi-grid-3x3-gap me-2"></i>Estructura de las Tablas de Verdad</h3>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="callout callout-info">
+                        <h5>Cálculo de Filas</h5>
+                        <p>Si una expresión tiene $n$ proposiciones, la tabla tendrá:</p>
+                        <h4 class="text-center my-3 text-primary">$$2^n$$</h4>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-check2-circle me-2"></i>1 proposición: $2^1 = 2$ filas</li>
+                            <li><i class="bi bi-check2-circle me-2"></i>2 proposiciones: $2^2 = 4$ filas</li>
+                            <li><i class="bi bi-check2-circle me-2"></i>3 proposiciones: $2^3 = 8$ filas</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="callout callout-warning">
+                        <h5>Método de las Mitades</h5>
+                        <p>Técnica de ingeniería para completar columnas sin errores:</p>
+                        <ol>
+                            <li><strong>Columna 1:</strong> Cambia cada $2^{n-1}$ filas.</li>
+                            <li><strong>Columna 2:</strong> Cambia cada mitad de la anterior.</li>
+                            <li><strong>Columna n:</strong> Alterna 0 y 1 individualmente.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5 animate__animated animate__fadeInUp">
+        <h3 class="mb-4"><i class="bi bi-terminal me-2"></i>Consola de Simulación Lógica</h3>
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <div class="dot dot-red"></div>
+                <div class="dot dot-yellow"></div>
+                <div class="dot dot-green"></div>
+            </div>
+            <div class="terminal-body" id="terminalOutput">
+                <span id="typedText"></span><span class="cursor"></span>
+            </div>
+        </div>
+        <div class="mt-3 text-center">
+            <button class="btn btn-outline-primary px-4" onclick="runSimulation()">Ejecutar Análisis de Conectores</button>
+        </div>
+    </section>
+
+    <section class="mb-5 animate__animated animate__fadeInUp">
+        <h3 class="mb-4"><i class="bi bi-diagram-3 me-2"></i>Definiciones de Conectores Lógicos</h3>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-header bg-dark text-white">Conjunción (AND) $p \land q$</div>
+                    <div class="card-body p-0">
+                        <table class="table table-sm table-logic m-0">
+                            <thead><tr><th>p</th><th>q</th><th>Resultado</th></tr></thead>
+                            <tbody>
+                                <tr><td>0</td><td>0</td><td>0</td></tr>
+                                <tr><td>0</td><td>1</td><td>0</td></tr>
+                                <tr><td>1</td><td>0</td><td>0</td></tr>
+                                <tr class="table-success"><td>1</td><td>1</td><td><strong>1</strong></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer small text-muted">Válido solo si ambos son 1.</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-header bg-dark text-white">Disyunción (OR) $p \lor q$</div>
+                    <div class="card-body p-0">
+                        <table class="table table-sm table-logic m-0">
+                            <thead><tr><th>p</th><th>q</th><th>Resultado</th></tr></thead>
+                            <tbody>
+                                <tr class="table-danger"><td>0</td><td>0</td><td><strong>0</strong></td></tr>
+                                <tr><td>0</td><td>1</td><td>1</td></tr>
+                                <tr><td>1</td><td>0</td><td>1</td></tr>
+                                <tr><td>1</td><td>1</td><td>1</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer small text-muted">Falso solo si ambos son 0.</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-header bg-dark text-white">Condicional $p \to q$</div>
+                    <div class="card-body p-0">
+                        <table class="table table-sm table-logic m-0">
+                            <thead><tr><th>p</th><th>q</th><th>Resultado</th></tr></thead>
+                            <tbody>
+                                <tr><td>0</td><td>0</td><td>1</td></tr>
+                                <tr><td>0</td><td>1</td><td>1</td></tr>
+                                <tr class="table-warning"><td>1</td><td>0</td><td><strong>0</strong></td></tr>
+                                <tr><td>1</td><td>1</td><td>1</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer small text-muted">El antecedente no puede ser 1 si el consecuente es 0.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5 animate__animated animate__fadeInUp">
+        <div class="card border-0 shadow-sm overflow-hidden">
+            <div class="row g-0">
+                <div class="col-md-4 bg-primary p-4 d-flex align-items-center justify-content-center text-white">
+                    <div class="text-center">
+                        <i class="bi bi-shield-check" style="font-size: 3rem;"></i>
+                        <h4>Clasificación</h4>
+                    </div>
+                </div>
+                <div class="col-md-8 p-4">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Tautología</div>
+                                La expresión siempre resulta en 1 (Verdadero).
+                            </div>
+                            <span class="badge bg-success rounded-pill">All 1's</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Contradicción</div>
+                                La expresión siempre resulta en 0 (Falso).
+                            </div>
+                            <span class="badge bg-danger rounded-pill">All 0's</span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Contingencia</div>
+                                El resultado varía entre 0 y 1.
+                            </div>
+                            <span class="badge bg-warning text-dark rounded-pill">Mixed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5 animate__animated animate__fadeInUp">
+        <h3 class="mb-4"><i class="bi bi-award me-2"></i>Tautologías Notables</h3>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle shadow-sm bg-white rounded">
+                <thead class="table-light">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Formulación Lógica</th>
+                        <th>Concepto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tercero Excluido</strong></td>
+                        <td>$p \lor \neg p$</td>
+                        <td>Algo es o no es, no hay punto medio.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>No Contradicción</strong></td>
+                        <td>$\neg(p \land \neg p)$</td>
+                        <td>Una proposición no puede ser verdadera y falsa a la vez.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Modus Ponens</strong></td>
+                        <td>$[(p \to q) \land p] \to q$</td>
+                        <td>Si se cumple la causa, se cumple el efecto.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Modus Tollens</strong></td>
+                        <td>$[(p \to q) \land \neg q] \to \neg p$</td>
+                        <td>Si no hay efecto, no hubo causa.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="mb-5 animate__animated animate__fadeInUp">
+        <div class="card bg-dark text-white p-5">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2><i class="bi bi-translate me-3"></i>Formalización de Argumentos</h2>
+                    <p class="lead opacity-75">Traducir el lenguaje natural al lenguaje simbólico de la ingeniería.</p>
+                    <hr class="border-secondary">
+                    <div class="p-3 bg-secondary bg-opacity-25 rounded border-start border-4 border-info">
+                        <h5>Ejemplo Resuelto:</h5>
+                        <p class="fst-italic">"En los polos el frío es intenso únicamente si los planetas giran en torno al sol."</p>
+                        <p><strong>Paso 1:</strong> Identificar variables.</p>
+                        <ul>
+                            <li>$p$: En los polos el frío es intenso.</li>
+                            <li>$q$: Los planetas giran en torno al sol.</li>
+                        </ul>
+                        <p><strong>Paso 2:</strong> Formalización: $p \to q$</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center d-none d-md-block">
+                    <i class="bi bi-braces" style="font-size: 8rem; color: var(--accent-cyan);"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5 animate__animated animate__fadeInUp">
+        <h3 class="mb-4"><i class="bi bi-pencil-square me-2"></i>Taller de Aplicación (A mano)</h3>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="list-group">
+                    <div class="list-group-item">1. $[(p \to \neg q) \land (\neg p \to \neg r) \land (\neg r \to s)] \to s$</div>
+                    <div class="list-group-item">2. $[(\neg p \lor q) \lor (p \land q)] \to [(\neg p \lor q) \lor \neg p]$</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="list-group">
+                    <div class="list-group-item">3. $(p \land q \to p \lor \neg r) \to \neg(\neg q \lor \neg r) \land r$</div>
+                    <div class="list-group-item">4. $(\neg p \leftrightarrow q \lor \neg r) \land \neg(\neg p \leftrightarrow q \lor \neg r)$</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container">
+        <i class="bi bi-mortarboard-fill mb-3" style="font-size: 2rem;"></i>
+        <p class="mb-1"><strong>Luis Garcia 2026</strong></p>
+        <p class="small opacity-50">Material Educativo - Ingeniería de Sistemas</p>
+    </div>
+</footer>
+
+<script src="[https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js](https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js)"></script>
+<script>
+    // Scroll Progress
+    window.onscroll = function() {
+        let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        let scrolled = (winScroll / height) * 100;
+        document.getElementById("scrollProgress").style.width = scrolled + "%";
+    };
+
+    // Terminal Simulation
+    const terminalOutput = document.getElementById('typedText');
+    const lines = [
+        "> Inicializando analizador lógico v2026.04...",
+        "> Analizando Conjunción (AND)... [OK] - Solo 1 si p=1, q=1",
+        "> Analizando Condicional... [WARNING] - Falla si 1 -> 0",
+        "> Verificando Tautologías... [EXITO] - Ley del Tercero Excluido detectada.",
+        "> Listo para evaluar expresiones complejas..."
+    ];
+
+    let lineIdx = 0;
+    let charIdx = 0;
+
+    function typeLine() {
+        if (lineIdx < lines.length) {
+            if (charIdx < lines[lineIdx].length) {
+                terminalOutput.innerHTML += lines[lineIdx].charAt(charIdx);
+                charIdx++;
+                setTimeout(typeLine, 30);
+            } else {
+                terminalOutput.innerHTML += "<br>";
+                charIdx = 0;
+                lineIdx++;
+                setTimeout(typeLine, 500);
+            }
+        }
+    }
+
+    function runSimulation() {
+        terminalOutput.innerHTML = "";
+        lineIdx = 0;
+        charIdx = 0;
+        typeLine();
+    }
+
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+</script>
+
+```
+
+</body>
+</html>

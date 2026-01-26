@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derecho Mercantil II - Compendio Integral de Títulos de Crédito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --accent-purple: #7c3aed;
+            --accent-cyan: #06b6d4;
+            --academic-gold: #f1c40f;
+            --success-legal: #2ecc71;
+            --danger-alert: #e74c3c;
+            --bg-light: #f1f5f9;
+        }
+
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-light); color: #334155; line-height: 1.6; }
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+
+        /* Scroll Progress */
+        #scrollProgress {
+            position: fixed; top: 0; left: 0; width: 0%; height: 6px;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+            z-index: 2000; transition: width 0.1s;
+        }
+
+        /* Hero System */
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: white; padding: 80px 0;
+            border-bottom: 8px solid var(--accent-purple);
+        }
+        .label-clase {
+            letter-spacing: 2px; font-weight: 700; background: rgba(255,255,255,0.1);
+            padding: 8px 20px; border-radius: 50px; display: inline-block; margin-bottom: 1rem;
+            border: 1px solid var(--accent-cyan);
+        }
+
+        /* Componentes de Ingeniería */
+        .terminal-window {
+            background: #1e1e1e; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); margin: 20px 0; border: 1px solid #444;
+        }
+        .terminal-header { background: #333; padding: 10px 15px; display: flex; gap: 8px; align-items: center; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .terminal-body { 
+            padding: 20px; color: #f8f8f2; font-family: 'Source Code Pro', monospace; 
+            font-size: 0.9rem; max-height: 400px; overflow-y: auto;
+        }
+
+        /* Secciones y Cards */
+        .section-container { background: white; border-radius: 15px; padding: 40px; margin-bottom: 40px; shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        .legal-box { 
+            border-left: 5px solid var(--accent-purple); background: #f8fafc; 
+            padding: 20px; margin: 15px 0; border-radius: 0 10px 10px 0;
+        }
+        .article-badge { background: var(--primary-dark); color: var(--accent-cyan); padding: 5px 12px; border-radius: 4px; font-weight: 600; font-size: 0.8rem; }
+        
+        /* Interactive Elements */
+        .hover-lift { transition: all 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
+        .tab-content { padding: 20px; border: 1px solid #dee2e6; border-top: none; border-radius: 0 0 10px 10px; }
+        
+        footer { background: #0f172a; color: white; padding: 60px 0; }
+    </style>
+</head>
+<body>
+
+    <div id="scrollProgress"></div>
+
+    <header class="hero-section text-center">
+        <div class="container animate__animated animate__fadeIn">
+            <span class="label-clase">DERECHO MERCANTIL II · LIBRO III: DE LAS COSAS MERCANTILES</span>
+            <div class="mb-3">
+                <i class="bi bi-file-earmark-font display-2 text-info animate__animated animate__pulse animate__infinite"></i>
+            </div>
+            <h1 class="display-4 fw-bold">Teoría General de los Títulos de Crédito</h1>
+            <p class="lead">Disposiciones Generales del Código de Comercio de Guatemala</p>
+            <div class="mt-4">
+                <span class="badge bg-purple p-2 px-3">LIC. MANUEL DE'JESUS QUIZAR MARTINEZ</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container my-5">
+
+        <section class="section-container animate__animated animate__fadeInUp">
+            <h2 class="mb-4 text-primary"><i class="bi bi-bookmark-fill me-2"></i>1. Definición Legal y Doctrinaria</h2>
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="legal-box">
+                        <span class="article-badge mb-2 d-inline-block">ARTÍCULO 385</span>
+                        <p class="fst-italic">"Son títulos de crédito los documentos que incorporan un derecho literal y autónomo, cuyo ejercicio o transferencia es imposible independientemente del título. Los títulos de crédito tienen la calidad de <strong>bienes muebles</strong>."</p>
+                    </div>
+                    <p>Esta definición legal sintetiza la <strong>Teoría de la Incorporación</strong>: el derecho y el documento son una unidad jurídica. Si no posees el documento, el derecho es inejecutable.</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card bg-light border-0 h-100 p-3">
+                        <h5 class="text-secondary fw-bold">Perspectiva Doctrinaria</h5>
+                        <ul class="list-unstyled small">
+                            <li class="mb-2"><strong>Quevedo Coronado:</strong> "Cosa mercantil por naturaleza, cosa corpórea..."</li>
+                            <li class="mb-2"><strong>Gella-Capo:</strong> "Obligación patrimonial-económica... papeles o cartas-valores."</li>
+                            <li class="mb-2"><strong>Vásquez Martínez:</strong> "Ejercicio y transferencia posible en los términos expresados..."</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-container animate__animated animate__fadeInUp">
+            <h2 class="mb-4 text-success"><i class="bi bi-list-check me-2"></i>2. Rigor Formal y Subsanación</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="terminal-window h-100">
+                        <div class="terminal-header">
+                            <div class="dot bg-danger"></div><div class="dot bg-warning"></div><div class="dot bg-success"></div>
+                            <span class="text-white small">ART_386_REQUIREMENTS.LOG</span>
+                        </div>
+                        <div class="terminal-body">
+                            <p>1. Nombre del título (Nomen Iuris).</p>
+                            <p>2. Fecha y lugar de creación.</p>
+                            <p>3. Derechos incorporados.</p>
+                            <p>4. Lugar y fecha de cumplimiento.</p>
+                            <p>5. Firma del creador (Autógrafa en serie).</p>
+                            <p class="text-warning mt-3">// REGLAS DE SUPLENCIA:</p>
+                            <p>IF (Lugar_Creación == NULL) { Domicilio_Creador; }</p>
+                            <p>IF (Lugar_Cumplimiento == NULL) { Domicilio_Creador; }</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm p-4 h-100">
+                        <h5><i class="bi bi-magic me-2"></i>Facultad de Llenado (Art. 387)</h5>
+                        <p>¿Qué pasa si un título llega incompleto? El <strong>tenedor legítimo</strong> tiene la facultad de llenarlo antes de presentarlo para aceptación o cobro.</p>
+                        <div class="alert alert-info py-2 small">
+                            <strong>Protección al Tercero:</strong> Las excepciones por incumplimiento de lo convenido al llenar el título no pueden oponerse al adquirente de <strong>buena fe</strong>.
+                        </div>
+                        <h5 class="mt-3"><i class="bi bi-alphabet-uppercase me-2"></i>Diferencias en Importe (Art. 388)</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead class="table-dark"><tr><th>Escenario</th><th>Prevalece</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Letras vs Cifras</td><td>Suma en Letras</td></tr>
+                                    <tr><td>Varias cantidades</td><td>La suma menor</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-container animate__animated animate__fadeInUp">
+            <h2 class="mb-4 text-warning"><i class="bi bi-arrow-repeat me-2"></i>3. Dinámica de la Transmisión y Tenedor</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 p-3 hover-lift border-0 shadow-sm">
+                        <div class="article-badge mb-2">Art. 389 - Exhibición</div>
+                        <p class="small">El tenedor <strong>obligatoriamente</strong> debe exhibir y entregar el título al ser pagado. Si el pago es parcial, se hace mención en el título y se da recibo aparte.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 p-3 hover-lift border-0 shadow-sm">
+                        <div class="article-badge mb-2">Art. 390 - Alcance</div>
+                        <p class="small">La transmisión comprende el <strong>derecho principal</strong>, las garantías y todos los derechos accesorios vinculados.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 p-3 hover-lift border-0 shadow-sm">
+                        <div class="article-badge mb-2">Art. 391 - Afectaciones</div>
+                        <p class="small">Cualquier gravamen, reivindicación o afectación debe hacerse constar <strong>sobre el título mismo</strong> para surtir efecto.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-container animate__animated animate__fadeInUp">
+            <h2 class="mb-4 text-danger"><i class="bi bi-pen-fill me-2"></i>4. Responsabilidad y Suscripción</h2>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="accordion shadow-sm" id="accLegal">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1">
+                                    Obligaciones del Signatario (Art. 393-394)
+                                </button>
+                            </h2>
+                            <div id="c1" class="accordion-collapse collapse show" data-bs-parent="#accLegal">
+                                <div class="accordion-body">
+                                    <p><strong>Irrevocabilidad:</strong> El signatario queda obligado incluso si el título circuló contra su voluntad o si sobreviene su muerte/incapacidad.</p>
+                                    <p><strong>Autonomía de las Firmas:</strong> La incapacidad de un signatario o la existencia de firmas falsas <strong>no invalidan</strong> las obligaciones de las demás personas que suscribieron el título de buena fe.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">
+                                    Alteración del Texto (Art. 395)
+                                </button>
+                            </h2>
+                            <div id="c2" class="accordion-collapse collapse" data-bs-parent="#accLegal">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li><strong>Signatarios anteriores:</strong> Se obligan según el texto original.</li>
+                                        <li><strong>Signatarios posteriores:</strong> Se obligan según el texto alterado.</li>
+                                        <li><strong>Presunción:</strong> Si no se sabe cuándo se firmó, se presume que fue <em>antes</em> de la alteración.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">
+                                    Imposibilidad de Firmar (Art. 397)
+                                </button>
+                            </h2>
+                            <div id="c3" class="accordion-collapse collapse" data-bs-parent="#accLegal">
+                                <div class="accordion-body">
+                                    <p>Para quienes no sepan o no puedan firmar, se utiliza la <strong>Firma a Ruego</strong>. Requisitos:</p>
+                                    <ol>
+                                        <li>Otra persona suscribe a su nombre.</li>
+                                        <li>Firma auténticada por <strong>Notario</strong> o <strong>Secretario Municipal</strong>.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="p-4 bg-primary text-white rounded shadow-sm h-100">
+                        <h5><i class="bi bi-people-fill me-2"></i>Solidaridad</h5>
+                        <p class="small"><strong>Art. 398:</strong> Todos los signatarios de un mismo acto se obligan solidariamente.</p>
+                        <hr>
+                        <p class="small">Quien paga tiene derecho a repetir contra los demás coobligados según las acciones cambiarias correspondientes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-container animate__animated animate__fadeInUp">
+            <h2 class="mb-4 text-info"><i class="bi bi-shield-lock-fill me-2"></i>5. Garantías y Constancia de Incumplimiento</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card card-elite p-4 border-start border-info border-4">
+                        <h3><span class="article-badge">Art. 399</span> El Protesto</h3>
+                        <p>Acto formal para hacer constar la negativa de aceptación o de pago. Es <strong>obligatorio</strong> salvo que se inserte la cláusula:</p>
+                        <div class="d-flex gap-2 mb-3">
+                            <span class="badge bg-secondary">"Sin Protesto"</span>
+                            <span class="badge bg-secondary">"Sin Gastos"</span>
+                        </div>
+                        <p class="small text-muted">Aun con esta cláusula, el tenedor debe presentar el título para el cobro.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-elite p-4 border-start border-primary border-4">
+                        <h3><span class="article-badge">Art. 400</span> El Aval</h3>
+                        <p>Garantía específica para los títulos de crédito que contienen obligaciones de pago. Puede ser:</p>
+                        <ul class="small">
+                            <li>Total o parcial.</li>
+                            <li>Garantiza el pago del título por parte de un tercero o un signatario.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <div class="card bg-dark text-white p-5 border-0 rounded-4 shadow-lg text-center">
+                <h3 class="mb-4">Estructura Lógica del Título de Crédito</h3>
+                <div class="row justify-content-center">
+                    <div class="col-md-2 p-3 border border-info m-2 rounded">DOCUMENTO (Cuerpo)</div>
+                    <div class="col-md-1 align-self-center"><i class="bi bi-arrow-right fs-2"></i></div>
+                    <div class="col-md-2 p-3 border border-info m-2 rounded">DERECHO (Contenido)</div>
+                    <div class="col-md-1 align-self-center"><i class="bi bi-arrow-right fs-2"></i></div>
+                    <div class="col-md-2 p-3 border border-success m-2 rounded">LITERALIDAD (Límite)</div>
+                    <div class="col-md-1 align-self-center"><i class="bi bi-arrow-right fs-2"></i></div>
+                    <div class="col-md-2 p-3 border border-purple m-2 rounded">AUTONOMÍA (Vigencia)</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center">
+        <div class="container">
+            <i class="bi bi-mortarboard-fill display-4 mb-3 text-info"></i>
+            <p class="fs-4 mb-0"><strong>Luis Garcia 2026</strong></p>
+            <p class="opacity-75">Material Educativo de Alto Nivel - Ingeniería de Sistemas & Ciencias Jurídicas</p>
+            <div class="mt-4">
+                <span class="badge rounded-pill bg-info text-dark">DERECHO MERCANTIL II</span>
+                <span class="badge rounded-pill bg-purple">GUATEMALA 2026</span>
+            </div>
+            <div class="mt-3 small opacity-50">
+                Basado en el Decreto 2-70 del Congreso de la República de Guatemala (Art. 385 - 400)
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Scroll Progress
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scrollProgress").style.width = scrolled + "%";
+        };
+
+        // Tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+    </script>
+</body>
+</html>

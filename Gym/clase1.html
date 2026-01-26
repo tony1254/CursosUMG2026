@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo Híbrido: Calistenia & Hipertrofia | Clase 1</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Roboto:wght@300;400;500&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            /* PALETA ACADÉMICA SYSTEMS-ELITE */
+            --primary-dark: #0f172a;
+            --secondary-dark: #1e1b4b;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --neon-red: #ff0055; /* Para anatomía muscular */
+            
+            /* SEMANTIC COLORS */
+            --color-info: #06b6d4;
+            --color-success: #2ecc71;
+            --color-warning: #f1c40f;
+            --color-danger: #e74c3c;
+        }
+
+        body {
+            background-color: var(--primary-dark);
+            color: var(--text-main);
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .code-font {
+            font-family: 'Source Code Pro', monospace;
+        }
+
+        /* SCROLL PROGRESS BAR */
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.1s;
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            border-bottom: 5px solid var(--accent-purple);
+            padding: 80px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .master-icon {
+            font-size: 4rem;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+        }
+
+        .class-label {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-cyan);
+            padding: 5px 15px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid var(--accent-cyan);
+        }
+
+        /* CONSOLA DE SIMULACIÓN */
+        .terminal-window {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-family: 'Source Code Pro', monospace;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            border: 1px solid #333;
+        }
+        
+        .terminal-header {
+            background-color: #2d2d2d;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .dot {
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .red { background-color: #ff5f56; }
+        .yellow { background-color: #ffbd2e; }
+        .green { background-color: #27c93f; }
+
+        .terminal-body {
+            padding: 20px;
+            color: #00ff00;
+            font-size: 0.9rem;
+            height: 150px;
+            overflow-y: auto;
+        }
+
+        /* CARDS & COMPONENTS */
+        .exercise-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent-cyan);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background-color: #000; /* Placeholder bg */
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-img-wrapper img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .exercise-card:hover .card-img-wrapper img {
+            transform: scale(1.05);
+        }
+
+        .muscle-highlight {
+            color: var(--neon-red);
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255, 0, 85, 0.3);
+        }
+
+        /* TABS PERSONALIZADOS */
+        .nav-pills .nav-link {
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--text-muted);
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--accent-purple);
+            color: white;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--primary-dark);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 40px 0;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        /* UTILS */
+        .text-cyan { color: var(--accent-cyan) !important; }
+        .text-purple { color: var(--accent-purple) !important; }
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .classification-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            z-index: 2;
+        }
+        .cls-A { background-color: #f1c40f; color: #000; } /* Accesorio */
+        .cls-S { background-color: #e74c3c; color: #fff; } /* Supremo/Compuesto */
+        .cls-B { background-color: #3498db; color: #fff; } /* Básico */
+    </style>
+</head>
+<body>
+
+    <div id="scrollProgress"></div>
+
+    <header class="hero-section text-center">
+        <div class="container animate__animated animate__fadeInDown">
+            <span class="class-label mb-3 d-inline-block">DÍA 1: GESTIÓN FÍSICA · PROTOCOLO HÍBRIDO</span>
+            <div class="my-3">
+                <i class="bi bi-activity master-icon animate__animated animate__pulse animate__infinite"></i>
+            </div>
+            <h1 class="display-4 fw-bold text-white mb-2">Ingeniería Corporal v2.0</h1>
+            <h2 class="h5 text-muted fw-light">Integración de Calistenia, Pesas Libres y Biomecánica</h2>
+        </div>
+    </header>
+
+    <main class="container my-5">
+
+        <div class="row justify-content-center animate__animated animate__fadeInUp">
+            <div class="col-lg-10">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="ms-2 text-muted" style="font-size: 0.8rem;">root@physique-kernel:~</span>
+                    </div>
+                    <div class="terminal-body" id="consoleOutput">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="mb-5 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <div class="bg-glass border-start border-4 border-info ps-4">
+                        <h3 class="text-cyan mb-3"><i class="bi bi-cpu-fill me-2"></i>Evolución del Algoritmo de Entrenamiento</h3>
+                        <p class="lead" style="font-size: 1.1rem;">
+                            Esta estructura representa la iteración final optimizada para el entorno disponible. 
+                            Se aplica el principio de <strong>Pre-fatiga Neuromuscular</strong> integrando la calistenia al inicio.
+                        </p>
+                        <div class="row mt-4 g-3">
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-arrow-up-circle-fill text-success h4 me-2"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Prioridad Calisténica</h6>
+                                        <p class="small text-muted">Dominadas y Fondos al inicio para maximizar reclutamiento de fibras tipo II antes de usar mancuernas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-person-standing text-warning h4 me-2"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Activación de Core</h6>
+                                        <p class="small text-muted">Transición de ejercicios sentados a <strong>De Pie</strong> (Press Militar), forzando estabilización isométrica.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-lightning-charge-fill text-danger h4 me-2"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Estímulo Dinámico</h6>
+                                        <p class="small text-muted">Reemplazo de aislamiento estático de pantorrilla por carga dinámica (Gradas/Saltos).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-secondary my-5">
+
+        <section class="mb-5 animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+            <h3 class="text-white mb-4"><i class="bi bi-calendar-week me-2"></i>Matriz de Frecuencia (4 Días)</h3>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover border border-secondary text-center align-middle">
+                    <thead>
+                        <tr class="text-cyan text-uppercase" style="letter-spacing: 1px;">
+                            <th>Lunes</th>
+                            <th>Martes</th>
+                            <th>Miércoles</th>
+                            <th>Jueves</th>
+                            <th>Viernes</th>
+                            <th>Sábado</th>
+                            <th>Domingo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="bg-primary bg-opacity-10 fw-bold text-white">
+                                <i class="bi bi-shield-shaded d-block fs-4 mb-1"></i> TORSO<br><small class="text-muted">Fuerza & Calistenia</small>
+                            </td>
+                            <td class="bg-danger bg-opacity-10 fw-bold text-white">
+                                <i class="bi bi-layers-fill d-block fs-4 mb-1"></i> PIERNA<br><small class="text-muted">Glúteo & Gradas</small>
+                            </td>
+                            <td class="text-muted fst-italic">
+                                <i class="bi bi-battery-charging d-block fs-4 mb-1"></i> Descanso Activo
+                            </td>
+                            <td class="bg-warning bg-opacity-10 fw-bold text-white">
+                                <i class="bi bi-hammer d-block fs-4 mb-1"></i> BRAZOS<br><small class="text-muted">Bombeo Estético</small>
+                            </td>
+                            <td class="text-muted fst-italic">
+                                <i class="bi bi-yin-yang d-block fs-4 mb-1"></i> Yoga / Caminata
+                            </td>
+                            <td class="bg-success bg-opacity-10 fw-bold text-white">
+                                <i class="bi bi-shuffle d-block fs-4 mb-1"></i> REMIX<br><small class="text-muted">Full Body Funcional</small>
+                            </td>
+                            <td class="text-muted fst-italic">
+                                <i class="bi bi-yin-yang d-block fs-4 mb-1"></i> Yoga / Caminata
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <h3 class="text-white mb-4 text-center"><i class="bi bi-folder2-open me-2"></i>Base de Datos de Ejercicios</h3>
+            
+            <ul class="nav nav-pills justify-content-center mb-4" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-day1-tab" data-bs-toggle="pill" data-bs-target="#pills-day1" type="button" role="tab"><i class="bi bi-1-circle me-2"></i>LUNES (Torso)</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-day2-tab" data-bs-toggle="pill" data-bs-target="#pills-day2" type="button" role="tab"><i class="bi bi-2-circle me-2"></i>MARTES (Pierna)</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-day3-tab" data-bs-toggle="pill" data-bs-target="#pills-day3" type="button" role="tab"><i class="bi bi-3-circle me-2"></i>JUEVES (Brazos)</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-day4-tab" data-bs-toggle="pill" data-bs-target="#pills-day4" type="button" role="tab"><i class="bi bi-4-circle me-2"></i>SÁBADO (Remix)</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="pills-tabContent">
+                
+                <div class="tab-pane fade show active" id="pills-day1" role="tabpanel">
+                    <div class="alert alert-dark border-start border-4 border-primary mb-4">
+                        <h5 class="alert-heading text-primary"><i class="bi bi-info-circle-fill me-2"></i>Objetivo del Día</h5>
+                        <p class="mb-0">Inicio con peso corporal para activar SNC. Transición a cargas pesadas en compuestos.</p>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-S">SUPREMO</span>
+                                <div class="card-img-wrapper">
+                                    <img src="./imagenesclase1/dia1_img1_dominadas.jpg" alt="Dominadas - Maniquí 3D">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-white fw-bold">Dominadas (Pull-ups)</h5>
+                                    <p class="card-text text-muted small"><i class="bi bi-geo-alt-fill me-1"></i>Barra de colgar | <i class="bi bi-arrow-repeat me-1"></i>Fallo Técnico</p>
+                                    <hr class="border-secondary">
+                                    <p class="small text-light">Maniquí blanco 3D sin rostro, colgado de barra alta, cuerpo recto. <br>
+                                    <span class="muscle-highlight">Target: Latissimus Dorsi y Bíceps.</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-A">ACCESORIO</span>
+                                <div class="card-img-wrapper">
+                                    <img src="./imagenesclase1/dia1_img2_fondos.jpg" alt="Fondos - Maniquí 3D">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-white fw-bold">Fondos (Dips)</h5>
+                                    <p class="card-text text-muted small"><i class="bi bi-geo-alt-fill me-1"></i>Paralelas/Banco | <i class="bi bi-arrow-repeat me-1"></i>Fallo Técnico</p>
+                                    <hr class="border-secondary">
+                                    <p class="small text-light">Suspendido en barras, inclinación frontal, codos a 90°. <br>
+                                    <span class="muscle-highlight">Target: Pectoralis Major Inf. y Tríceps.</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-B">BÁSICO</span>
+                                <div class="card-img-wrapper">
+                                    <img src="./imagenesclase1/dia1_img3_pressmilitar.jpg" alt="Press Militar - Maniquí 3D">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-white fw-bold">Press Militar (De Pie)</h5>
+                                    <p class="card-text text-muted small"><i class="bi bi-geo-alt-fill me-1"></i>De Pie | <i class="bi bi-vinyl-fill me-1"></i>Peso Máx | <i class="bi bi-arrow-repeat me-1"></i>8-10</p>
+                                    <hr class="border-secondary">
+                                    <p class="small text-light">De pie, pies ancho hombros, abdomen bloqueado, empuje vertical. <br>
+                                    <span class="muscle-highlight">Target: Deltoides Anterior y Core.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-A">ACCESORIO</span>
+                                <div class="card-img-wrapper">
+                                    <img src="./imagenesclase1/dia1_img4_pressinclinado.jpg" alt="Press Inclinado - Maniquí 3D">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-white fw-bold">Press Inclinado</h5>
+                                    <p class="card-text text-muted small"><i class="bi bi-geo-alt-fill me-1"></i>Banco 45° | <i class="bi bi-vinyl-fill me-1"></i>Peso Máx | <i class="bi bi-arrow-repeat me-1"></i>10-12</p>
+                                    <hr class="border-secondary">
+                                    <p class="small text-light">Tumbado inclinado, empuje controlado de mancuernas. <br>
+                                    <span class="muscle-highlight">Target: Pectoral Superior.</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="col-md-6 col-lg-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-S">SUPREMO</span>
+                                <div class="card-img-wrapper">
+                                    <img src="./imagenesclase1/dia1_img5_remoT.jpg" alt="Remo T - Maniquí 3D">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-white fw-bold">Remo en T (Apoyado)</h5>
+                                    <p class="card-text text-muted small"><i class="bi bi-geo-alt-fill me-1"></i>Banco 45° Boca abajo | <i class="bi bi-arrow-repeat me-1"></i>12</p>
+                                    <hr class="border-secondary">
+                                    <p class="small text-light">Pecho apoyado en banco, jalón de mancuernas hacia cadera. <br>
+                                    <span class="muscle-highlight">Target: Espalda Media y Trapecio.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="pills-day2" role="tabpanel">
+                    <div class="alert alert-dark border-start border-4 border-danger mb-4">
+                        <h5 class="alert-heading text-danger"><i class="bi bi-exclamation-triangle-fill me-2"></i>Enfoque Metabólico</h5>
+                        <p class="mb-0">El cardio está integrado en la estructura (Gradas). No saltar la Rueda Abdominal.</p>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-A">ACCESORIO</span>
+                                <div class="card-img-wrapper">
+                                    <img src="./imagenesclase1/dia2_img1_pesomuerto.jpg" alt="Peso Muerto Rumano">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-white fw-bold">Peso Muerto Rumano</h5>
+                                    <p class="card-text text-muted small"><i class="bi bi-geo-alt-fill me-1"></i>De Pie | <i class="bi bi-arrow-repeat me-1"></i>12</p>
+                                    <hr class="border-secondary">
+                                    <p class="small text-light">Bajando peso pegado a piernas, cadera hacia atrás. <br>
+                                    <span class="muscle-highlight">Target: Isquios y Glúteos.</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="col-md-6 col-lg-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-S">SUPREMO</span>
+                                <div class="card-img-wrapper">
+                                    <img src="./imagenesclase1/dia2_img2_hipthrust.jpg" alt="Hip Thrust">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-white fw-bold">Hip Thrust (Puente)</h5>
+                                    <p class="card-text text-muted small"><i class="bi bi-geo-alt-fill me-1"></i>Espalda en Banco | <i class="bi bi-arrow-repeat me-1"></i>15</p>
+                                    <hr class="border-secondary">
+                                    <p class="small text-light">Espalda alta apoyada, elevación pélvica explosiva. <br>
+                                    <span class="muscle-highlight">Target: Gluteus Maximus.</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-A">ACCESORIO</span>
+                                <div class="card-img-wrapper">
+                                    <img src="./imagenesclase1/dia2_img3_zancadas.jpg" alt="Zancadas">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-white fw-bold">Zancadas (Walking)</h5>
+                                    <p class="card-text text-muted small"><i class="bi bi-geo-alt-fill me-1"></i>Caminando | <i class="bi bi-arrow-repeat me-1"></i>20 Pasos</p>
+                                    <hr class="border-secondary">
+                                    <p class="small text-light">Pasos largos, rodilla trasera roza el suelo. <br>
+                                    <span class="muscle-highlight">Target: Glúteos y Cuádriceps.</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-S">SUPREMO</span>
+                                <div class="card-img-wrapper">
+                                    <img src="./imagenesclase1/dia2_img4_rueda.jpg" alt="Rueda Abdominal">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-white fw-bold">Rueda Abdominal</h5>
+                                    <p class="card-text text-muted small"><i class="bi bi-geo-alt-fill me-1"></i>Suelo | <i class="bi bi-arrow-repeat me-1"></i>Fallo</p>
+                                    <hr class="border-secondary">
+                                    <p class="small text-light">De rodillas, extensión frontal controlada anti-extensión. <br>
+                                    <span class="muscle-highlight">Target: Rectus Abdominis.</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="exercise-card border-warning">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <h5 class="text-warning fw-bold"><i class="bi bi-stopwatch-fill me-2"></i>CARDIO INTEGRADO: Subida de Gradas</h5>
+                                        <p class="mb-0 text-light">15 Minutos continuos. <span class="muscle-highlight">Target: Piernas y Cardiovascular.</span></p>
+                                    </div>
+                                    <div class="d-none d-md-block">
+                                        <img src="./imagenesclase1/dia2_img5_gradas.jpg" alt="Gradas" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="pills-day3" role="tabpanel">
+                    <div class="alert alert-dark border-start border-4 border-warning mb-4">
+                        <h5 class="alert-heading text-warning"><i class="bi bi-stars me-2"></i>Escultura y Detalle</h5>
+                        <p class="mb-0">Uso específico del banco para ángulos de aislamiento. Control excéntrico (bajada lenta) es clave hoy.</p>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-B">BÁSICO</span>
+                                <div class="card-img-wrapper"><img src="./imagenesclase1/dia3_img1_chinup.jpg" alt="Chin ups"></div>
+                                <div class="card-body">
+                                    <h6 class="fw-bold text-white">Dominadas Supinas</h6>
+                                    <p class="small text-muted">Palmas a la cara. <span class="muscle-highlight">Bíceps y Dorsales.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-A">ACCESORIO</span>
+                                <div class="card-img-wrapper"><img src="./imagenesclase1/dia3_img2_laterales.jpg" alt="Laterales"></div>
+                                <div class="card-body">
+                                    <h6 class="fw-bold text-white">Elevaciones Laterales</h6>
+                                    <p class="small text-muted">De pie. <span class="muscle-highlight">Deltoides Lateral.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-A">ACCESORIO</span>
+                                <div class="card-img-wrapper"><img src="./imagenesclase1/dia3_img3_predicador.jpg" alt="Predicador"></div>
+                                <div class="card-body">
+                                    <h6 class="fw-bold text-white">Curl Predicador</h6>
+                                    <p class="small text-muted">Brazos fijos en cojín. <span class="muscle-highlight">Bíceps (Pico).</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-S">SUPREMO</span>
+                                <div class="card-img-wrapper"><img src="./imagenesclase1/dia3_img4_katana.jpg" alt="Katana Triceps"></div>
+                                <div class="card-body">
+                                    <h6 class="fw-bold text-white">Extensión Katana</h6>
+                                    <p class="small text-muted">Sobre cabeza. <span class="muscle-highlight">Tríceps (Cabeza Larga).</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="exercise-card">
+                                <span class="classification-badge cls-A">ACCESORIO</span>
+                                <div class="card-img-wrapper"><img src="./imagenesclase1/dia3_img5_martillo.jpg" alt="Martillo"></div>
+                                <div class="card-body">
+                                    <h6 class="fw-bold text-white">Curl Martillo</h6>
+                                    <p class="small text-muted">Agarre neutro. <span class="muscle-highlight">Braquial.</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="pills-day4" role="tabpanel">
+                    <div class="alert alert-dark border-start border-4 border-success mb-4">
+                        <h5 class="alert-heading text-success"><i class="bi bi-shuffle me-2"></i>Full Body Funcional</h5>
+                        <p class="mb-0">Alta intensidad. Mezcla de calistenia pura y cardio HIT.</p>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-dark table-striped align-middle">
+                            <thead>
+                                <tr class="text-cyan">
+                                    <th>Ejercicio</th>
+                                    <th>Config</th>
+                                    <th>Anatomía (Target)</th>
+                                    <th>Ref. Visual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold">Despechadas (Push-ups)</td>
+                                    <td>Fallo</td>
+                                    <td class="muscle-highlight">Pectoral & Core</td>
+                                    <td><img src="./imagenesclase1/dia4_img1_pushups.jpg" class="rounded border border-secondary" width="60"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Remo Kroc (Unilateral)</td>
+                                    <td>15 p/brazo</td>
+                                    <td class="muscle-highlight">Dorsal Ancho</td>
+                                    <td><img src="./imagenesclase1/dia4_img2_remokroc.jpg" class="rounded border border-secondary" width="60"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Sentadilla Búlgara</td>
+                                    <td>10 p/pierna</td>
+                                    <td class="muscle-highlight">Glúteo & Pierna</td>
+                                    <td><img src="./imagenesclase1/dia4_img3_bulgara.jpg" class="rounded border border-secondary" width="60"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-warning">Saltos de Payaso (Jacks)</td>
+                                    <td>45 seg</td>
+                                    <td class="muscle-highlight">Pantorrilla & Hombro</td>
+                                    <td><img src="./imagenesclase1/dia4_img4_jacks.jpg" class="rounded border border-secondary" width="60"></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold">Rueda Abdominal</td>
+                                    <td>Fallo</td>
+                                    <td class="muscle-highlight">Core Completo</td>
+                                    <td><img src="./imagenesclase1/dia4_img5_rueda.jpg" class="rounded border border-secondary" width="60"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="mt-5 animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
+             <div class="accordion" id="accordionEngineering">
+                <div class="accordion-item bg-dark border border-secondary">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button bg-secondary text-white collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                            <i class="bi bi-gear-wide-connected me-2"></i> ANÁLISIS DE VARIABLES: ¿Por qué estos cambios?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionEngineering">
+                        <div class="accordion-body text-light">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-transparent text-light">
+                                    <strong>1. Pre-fatiga Estratégica:</strong> 
+                                    $$ \text{Eficacia} = \frac{\text{Fatiga Previa} + \text{Carga Externa}}{\text{Capacidad Total}} $$
+                                    Al hacer Dominadas primero, agotamos los músculos grandes. Así, las mancuernas de peso moderado (que tienes disponibles) se sentirán "pesadas" y generarán hipertrofia real.
+                                </li>
+                                <li class="list-group-item bg-transparent text-light">
+                                    <strong>2. Estabilización Axial (Press de Pie):</strong> 
+                                    Eliminar el respaldo del banco en el press de hombros obliga a los erectores espinales y al abdomen transverso a contraerse isométricamente para mantener la postura. Eficiencia 2x1.
+                                </li>
+                                <li class="list-group-item bg-transparent text-light">
+                                    <strong>3. Optimización de Recursos:</strong>
+                                    El banco se limita a ángulos que el cuerpo no puede replicar por sí solo (inclinación precisa de 45° para pectoral superior o bloqueo de brazos en predicador).
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container animate__animated animate__fadeIn">
+            <i class="bi bi-mortarboard-fill fs-3 text-white mb-3"></i>
+            <p class="mb-0 fw-bold text-white">Luis Garcia 2026</p>
+            <small class="text-muted">Material Educativo - Ingeniería de Sistemas & Biomecánica</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 1. SCROLL PROGRESS BAR
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scrollProgress").style.width = scrolled + "%";
+        };
+
+        // 2. CONSOLA DE SIMULACIÓN (Efecto de escritura)
+        document.addEventListener('DOMContentLoaded', function() {
+            const consoleOutput = document.getElementById('consoleOutput');
+            const lines = [
+                "> Inicializando Kernel Biomecánico...",
+                "> Cargando módulos de anatomía: [Dorsal, Pectoral, Glúteo]... OK",
+                "> Optimizando vectores de fuerza para equipamiento limitado...",
+                "> Integrando protocolo de Calistenia + Hipertrofia...",
+                "> ESTADO: SISTEMA LISTO. CARGANDO INTERFAZ DE USUARIO."
+            ];
+
+            let lineIndex = 0;
+            
+            function typeLine() {
+                if (lineIndex < lines.length) {
+                    const p = document.createElement('div');
+                    p.style.opacity = 0;
+                    p.textContent = lines[lineIndex];
+                    consoleOutput.appendChild(p);
+                    
+                    // Fade in effect
+                    let opacity = 0;
+                    const fade = setInterval(() => {
+                        if (opacity >= 1) clearInterval(fade);
+                        p.style.opacity = opacity;
+                        opacity += 0.1;
+                    }, 50);
+
+                    lineIndex++;
+                    setTimeout(typeLine, 800); // Velocidad entre líneas
+                    
+                    // Auto scroll bottom
+                    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+                }
+            }
+
+            typeLine();
+        });
+    </script>
+</body>
+</html>

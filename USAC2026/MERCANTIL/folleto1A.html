@@ -224,7 +224,23 @@
                     - Varios domicilios: El tenedor elige.
                 </div>
             </div>
-
+</br>
+             <div class="row">
+                    <div class="col-md-6">
+                        <div class="list-group list-group-numbered">
+                            <button type="button" class="list-group-item list-group-item-action" onclick="showTip('REQ1')">1. Nombre del título</button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="showTip('REQ2')">2. Fecha y lugar de creación</button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="showTip('REQ3')">3. Derechos que incorpora</button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="showTip('REQ4')">4. Lugar y fecha de cumplimiento</button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="showTip('REQ5')">5. Firma del creador</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="tipBox" class="alert alert-info h-100 d-flex align-items-center justify-content-center text-center">
+                            Haz clic en un requisito para ver la interpretación legal y sus suplencias.
+                        </div>
+                    </div>
+                </div>
             <div class="row g-3 mt-2">
                 <div class="col-md-4">
                     <div class="p-3 bg-light border-start border-primary border-4 small">
@@ -313,6 +329,20 @@
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             let scrolled = (winScroll / height) * 100;
             document.getElementById("scrollProgress").style.width = scrolled + "%";
+             // Requisitos TipBox Logic
+        const tips = {
+            'REQ1': '<strong>Título:</strong> Es la denominación técnica (Letra de Cambio, Cheque, Pagaré). Define la normativa aplicable.',
+            'REQ2': '<strong>Temporalidad y Espacio:</strong> Determina la capacidad del creador y las leyes vigentes al momento de la suscripción.',
+            'REQ3': '<strong>Literalidad:</strong> El alcance del derecho se limita exclusivamente a lo que el texto del documento expresa.',
+            'REQ4': '<strong>Ejercicio:</strong> Si no se indica, la ley suple el silencio otorgando el domicilio del creador como lugar de cobro.',
+            'REQ5': '<strong>Firma:</strong> Es el requisito esencial de obligatoriedad. Admite firma a ruego ante Notario si hay imposibilidad física.'
+        };
+
+        function showTip(req) {
+            const tipBox = document.getElementById('tipBox');
+            tipBox.className = "alert alert-success h-100 d-flex align-items-center justify-content-center text-center animate__animated animate__pulse";
+            tipBox.innerHTML = tips[req];
+        }
         };
     </script>
 </body>

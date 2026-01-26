@@ -6,116 +6,305 @@
     <title>Mercantil II - Títulos de Crédito</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --primary: #0f172a; --accent: #7c3aed; --bg: #f8fafc; }
-        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: #334155; font-size: 0.9rem; }
-        .hero { background: linear-gradient(135deg, #0f172a, #1e1b4b); color: white; padding: 40px 0; border-bottom: 4px solid var(--accent); }
-        .compact-card { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-top: 3px solid var(--accent); }
-        .legal-ref { background: #f1f5f9; border-left: 3px solid #06b6d4; padding: 10px; margin: 10px 0; font-size: 0.85rem; }
-        .grid-principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
-        .badge-legal { background: var(--primary); color: white; font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; }
-        h2 { font-size: 1.25rem; font-weight: 700; color: var(--primary); border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px; }
-        h4 { font-size: 0.95rem; font-weight: 600; color: var(--accent); }
+        :root {
+            --primary-dark: #0f172a;
+            --accent-purple: #7c3aed;
+            --accent-cyan: #06b6d4;
+            --bg-light: #f1f5f9;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg-light); 
+            color: #334155; 
+            overflow-x: hidden;
+        }
+
+        /* Hero Section Premium */
+        .hero { 
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); 
+            color: white; 
+            padding: 80px 0 60px; 
+            border-bottom: 6px solid var(--accent-purple);
+            position: relative;
+        }
+
+        .label-clase {
+            letter-spacing: 2px; font-weight: 700; background: rgba(255,255,255,0.1);
+            padding: 8px 20px; border-radius: 50px; display: inline-block; margin-bottom: 1rem;
+            border: 1px solid var(--accent-cyan);
+        }
+
+        /* Cards Estilizadas con Animación */
+        .compact-card { 
+            background: var(--glass); 
+            backdrop-filter: blur(10px);
+            border-radius: 15px; 
+            padding: 30px; 
+            margin-bottom: 25px; 
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-left: 6px solid var(--accent-purple);
+            position: relative;
+        }
+
+        .compact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 { 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem; 
+            font-weight: 700; 
+            color: var(--primary-dark); 
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Estilo Técnico para Artículos */
+        .legal-terminal {
+            background: #1e1e1e;
+            color: #f8f8f2;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.85rem;
+            border: 1px solid #444;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .article-tag {
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        .badge-legal { 
+            background: var(--accent-purple); 
+            color: white; 
+            font-size: 0.75rem; 
+            padding: 5px 10px; 
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .theory-quote {
+            border-left: 4px solid var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.05);
+            padding: 15px;
+            font-style: italic;
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* Progress Bar */
+        #scrollProgress {
+            position: fixed; top: 0; left: 0; width: 0%; height: 5px;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+            z-index: 2000;
+        }
+
+        footer { 
+            background: var(--primary-dark); 
+            color: white; 
+            padding: 40px 0; 
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
 
+<div id="scrollProgress"></div>
+
 <header class="hero text-center">
-    <div class="container">
-        <small class="text-uppercase tracking-widest text-info">Derecho Mercantil II</small>
-        <h1 class="h3 fw-bold mt-2">TEORÍA GENERAL DE LOS TÍTULOS DE CRÉDITO</h1>
-        <p class="small mb-0 opacity-75">Cátedra: Lic. Manuel De'Jesus Quizar Martinez</p>
+    <div class="container animate__animated animate__fadeIn">
+        <span class="label-clase">DERECHO MERCANTIL II</span>
+        <h1 class="display-5 fw-bold mt-2">TEORÍA GENERAL DE LOS TÍTULOS DE CRÉDITO</h1>
+        <p class="lead opacity-75">Cátedra: Lic. Manuel De'Jesus Quizar Martinez</p>
+        <div class="mt-4">
+            <i class="bi bi-shield-check fs-1 text-info animate__animated animate__pulse animate__infinite"></i>
+        </div>
     </div>
 </header>
 
-<main class="container my-4">
+<main class="container my-5">
     
     <div class="row">
         <div class="col-md-6">
-            <section class="compact-card">
-                <h2><i class="bi bi-mortarboard-fill me-2"></i>Escuela Alemana</h2>
-                <p class="small"><strong>Teoría de la Creación:</strong> El título existe y obliga desde su redacción, siendo abstracto a la relación origen.</p>
-                <div class="grid-principles">
-                    <div class="border-start ps-2"><h4>Principios</h4><small>Autonomía, Abstracción, Formalidad, Literalidad.</small></div>
-                    <div class="border-start ps-2"><h4>Denominación</h4><small>Títulos valor / Papel valor (Ley Mercado Valores).</small></div>
+            <section class="compact-card animate__animated animate__fadeInLeft">
+                <h2><i class="bi bi-mortarboard-fill text-primary me-2"></i>Escuela Alemana</h2>
+                <div class="theory-quote mb-3">
+                    <strong>Teoría de la Creación:</strong> Los títulos existen y obligan desde su creación, siendo abstractos a la relación jurídica de origen.
+                </div>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <div class="p-2 border rounded bg-white">
+                            <small class="fw-bold text-purple d-block">Principios</small>
+                            <small>Autonomía, Abstracción, Formalidad, Literalidad.</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-2 border rounded bg-white">
+                            <small class="fw-bold text-purple d-block">Denominación</small>
+                            <small>Títulos valor / Papel valor.</small>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
         <div class="col-md-6">
-            <section class="compact-card">
-                <h2><i class="bi bi-flag-fill me-2"></i>Escuela Italiana</h2>
-                <p class="small"><strong>Teoría de la Emisión:</strong> La obligación nace cuando el título entra en circulación. Incorpora derechos literal-autónomos.</p>
-                <div class="legal-ref"><strong>Aportes:</strong> Extracción de caracteres esenciales y distinción de documentos probatorios.</div>
+            <section class="compact-card animate__animated animate__fadeInRight">
+                <h2><i class="bi bi-flag-fill text-success me-2"></i>Escuela Italiana</h2>
+                <div class="theory-quote mb-3">
+                    <strong>Teoría de la Emisión:</strong> Obligan hasta que entran en circulación. Son documentos que incorporan derechos dinerarios.
+                </div>
+                <div class="bg-light p-2 rounded border small">
+                    <strong>Aportes:</strong> Separación de elementos constitutivos y distinción de documentos probatorios.
+                </div>
             </section>
         </div>
     </div>
 
-    <section class="compact-card">
-        <h2><i class="bi bi-clock-history me-2"></i>Evolución Histórico-Legislativa</h2>
-        <div class="row text-center small">
-            <div class="col">Ord. Bilbao</div>
-            <div class="col">C.Co 1877</div>
-            <div class="col">Haya 1912</div>
-            <div class="col">Ginebra 1930</div>
-            <div class="col">C.Co 1942</div>
-            <div class="col fw-bold text-primary">C.Co 1970</div>
+    <section class="compact-card animate__animated animate__fadeInUp" style="border-left-color: var(--accent-cyan);">
+        <h2><i class="bi bi-clock-history text-info me-2"></i>Evolución Histórico-Legislativa</h2>
+        <div class="table-responsive">
+            <table class="table table-sm table-borderless text-center small align-middle">
+                <tr class="fw-bold text-muted">
+                    <td>BILBAO</td><td>1877</td><td>1912</td><td>1930</td><td>1942</td><td class="text-primary fs-6">1970</td>
+                </tr>
+                <tr>
+                    <td colspan="6"><div style="height:4px; background: #e2e8f0; border-radius:10px; position:relative;">
+                        <div style="width:100%; height:100%; background: linear-gradient(to right, transparent, var(--accent-cyan));"></div>
+                    </div></td>
+                </tr>
+            </table>
         </div>
-        <div class="mt-3 p-2 bg-light rounded d-flex justify-content-around small">
-            <span><strong>Inglés:</strong> Instr. Negociables</span>
-            <span><strong>Argentino:</strong> Tít. Circulatorios</span>
-            <span><strong>EE.UU:</strong> Papeles Comerciales (1952)</span>
-        </div>
-    </section>
-
-    <section class="compact-card">
-        <h2><i class="bi bi-bookmark-check-fill me-2"></i>Definiciones Doctrinarias</h2>
-        <div class="row">
-            <div class="col-md-4"><p class="small fst-italic">"Cosa mercantil por naturaleza... derecho ligado permanentemente al título." <br><strong>- Quevedo Coronado</strong></p></div>
-            <div class="col-md-4"><p class="small fst-italic">"Ejercicio y transferencia posible únicamente mediante la posesión." <br><strong>- Vásquez Martínez</strong></p></div>
-            <div class="col-md-4"><p class="small fst-italic">"Expresión de obligación patrimonial... papel o carta-valor." <br><strong>- Gella-Capo</strong></p></div>
+        <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+            <span class="badge bg-dark">Inglés: Instrum. Negociables</span>
+            <span class="badge bg-secondary">Argentino: Tít. Circulatorios</span>
+            <span class="badge bg-info text-dark">EE.UU: Papeles Comerciales (1952)</span>
         </div>
     </section>
 
-    <section class="compact-card border-top-0" style="border-left: 5px solid #06b6d4;">
-        <h2 class="text-info">Fundamento Legal (Dec. 2-70)</h2>
-        <div class="row">
-            <div class="col-md-7">
-                <div class="p-3 bg-dark text-white rounded font-monospace" style="font-size: 0.8rem;">
-                    <span class="text-info">Art. 385:</span> Bienes muebles que incorporan derecho literal/autónomo.<br>
-                    <span class="text-info">Art. 386 (Requisitos):</span> 1.Nombre 2.Fecha/Lugar 3.Derechos 4.Cumplimiento 5.Firma.<br>
-                    <hr class="my-1">
-                    <span class="text-warning">Suplencia:</span> Domicilio del creador ante omisión de lugar.
+    <section class="compact-card animate__animated animate__fadeInUp">
+        <h2><i class="bi bi-journal-text text-danger me-2"></i>Definiciones Doctrinarias</h2>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="p-3 rounded bg-white border-top border-danger border-3 shadow-sm h-100">
+                    <p class="small mb-2">"Cosa mercantil por naturaleza... el derecho está incorporado al título."</p>
+                    <small class="fw-bold">— Quevedo Coronado</small>
                 </div>
             </div>
-            <div class="col-md-5">
-                <ul class="list-unstyled small mt-2">
-                    <li><span class="badge-legal">Art. 389</span> Exhibición obligatoria para pago.</li>
-                    <li><span class="badge-legal">Art. 390</span> Transmisión incluye accesorios.</li>
-                    <li><span class="badge-legal">Art. 393</span> Obligación subsiste post-muerte.</li>
-                    <li><span class="badge-legal">Art. 397</span> Firma a ruego (Notario/Secretario).</li>
-                    <li><span class="badge-legal">Art. 398</span> Solidaridad de signatarios.</li>
-                </ul>
+            <div class="col-md-4">
+                <div class="p-3 rounded bg-white border-top border-danger border-3 shadow-sm h-100">
+                    <p class="small mb-2">"Documentos cuyo ejercicio es posible solo mediante la posesión."</p>
+                    <small class="fw-bold">— Vásquez Martínez</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 rounded bg-white border-top border-danger border-3 shadow-sm h-100">
+                    <p class="small mb-2">"Expresión de una obligación patrimonial-económica (cartas-valores)."</p>
+                    <small class="fw-bold">— Gella-Capo</small>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="compact-card">
-        <h2><i class="bi bi-diagram-3-fill me-2"></i>Naturaleza Jurídica</h2>
-        <div class="row text-center">
-            <div class="col-md-4 border-end"><h4>Negocio Unilateral</h4><p class="small">Declaración unilateral de voluntad. <br><span class="badge-legal">Art. 1521 C.Civil</span></p></div>
-            <div class="col-md-4 border-end"><h4>Contractualista</h4><p class="small">Negocio bilateral emisor/receptor.</p></div>
-            <div class="col-md-4"><h4>Del Documento</h4><p class="small">Documento constitutivo y dispositivo. <br><span class="badge-legal">Art. 385 C.Co</span></p></div>
+    <section class="compact-card animate__animated animate__fadeInUp" style="border-left-color: #06b6d4;">
+        <h2 class="text-info"><i class="bi bi-bank2 me-2"></i>Fundamento Legal y Requisitos (Dec. 2-70)</h2>
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="legal-terminal">
+                    <div><span class="article-tag">ART. 385:</span> Títulos de Crédito</div>
+                    <p class="mb-3 text-secondary">Documentos que incorporan derecho literal y autónomo. Calidad de BIENES MUEBLES.</p>
+                    
+                    <div><span class="article-tag">ART. 386:</span> Requisitos Esenciales</div>
+                    <ul class="list-unstyled ps-3 mb-0" style="color: #a6e22e;">
+                        <li>1. Nombre del título.</li>
+                        <li>2. Fecha y lugar de creación.</li>
+                        <li>3. Derechos incorporados.</li>
+                        <li>4. Lugar y fecha de cumplimiento.</li>
+                        <li>5. Firma del creador.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="list-group">
+                    <div class="list-group-item list-group-item-action small d-flex justify-content-between align-items-center">
+                        <span><strong class="text-purple">Art. 389:</strong> Exhibición para pago</span>
+                        <i class="bi bi-eye-fill"></i>
+                    </div>
+                    <div class="list-group-item list-group-item-action small d-flex justify-content-between align-items-center">
+                        <span><strong class="text-purple">Art. 390:</strong> Efectos de Transmisión</span>
+                        <i class="bi bi-share-fill"></i>
+                    </div>
+                    <div class="list-group-item list-group-item-action small d-flex justify-content-between align-items-center">
+                        <span><strong class="text-purple">Art. 397:</strong> Firma a Ruego (Notario)</span>
+                        <i class="bi bi-pen-fill"></i>
+                    </div>
+                    <div class="list-group-item list-group-item-action small d-flex justify-content-between align-items-center">
+                        <span><strong class="text-purple">Art. 398:</strong> Solidaridad Cambiaria</span>
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                </div>
+                <div class="mt-3 alert alert-warning py-2 small">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <strong>Nota:</strong> Omisión insubsanable no afecta el negocio original.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="compact-card animate__animated animate__zoomIn">
+        <h2><i class="bi bi-diagram-3-fill text-purple me-2"></i>Naturaleza Jurídica</h2>
+        
+        <div class="row g-3 text-center mt-2">
+            <div class="col-md-4">
+                <div class="p-3 border rounded bg-white h-100">
+                    <span class="badge-legal mb-2">Unilateral</span>
+                    <p class="small mb-0">Declaración de voluntad. <br><strong>Art. 1521 C.C.</strong></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 border rounded bg-white h-100">
+                    <span class="badge-legal mb-2">Contractual</span>
+                    <p class="small mb-0">Negocio bilateral entre emisor y beneficiario.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 border rounded bg-white h-100">
+                    <span class="badge-legal mb-2">Del Documento</span>
+                    <p class="small mb-0">Documento dispositivo/constitutivo. <br><strong>Art. 385 CoCo.</strong></p>
+                </div>
+            </div>
         </div>
     </section>
 
 </main>
 
 <footer class="text-center">
-    <div class="container small">
-        <p class="mb-1"><strong>Luis Garcia 2026</strong> | Noveno Semestre</p>
-        <p class="opacity-50">Ingeniería de Sistemas · Derecho Mercantil II · Guatemala</p>
+    <div class="container">
+        <p class="mb-1 fw-bold">Luis Garcia 2026 | Noveno Semestre</p>
+        <p class="small opacity-50 mb-0">Ingeniería de Sistemas · Derecho Mercantil II · Guatemala</p>
+        <div class="mt-3">
+            <span class="badge rounded-pill bg-info text-dark">TEORÍA GENERAL</span>
+        </div>
     </div>
 </footer>
+
+<script>
+    window.onscroll = function() {
+        let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        let scrolled = (winScroll / height) * 100;
+        document.getElementById("scrollProgress").style.width = scrolled + "%";
+    };
+</script>
 
 </body>
 </html>

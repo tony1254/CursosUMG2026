@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo Híbrido: Ingeniería Corporal</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* PALETA DE COLORES DE ALTO CONTRASTE */
+            --bg-dark: #0f172a;       /* Fondo principal muy oscuro */
+            --bg-card: #1e293b;       /* Fondo de las tarjetas (más claro) */
+            --text-main: #f8fafc;     /* Blanco casi puro para lectura */
+            --text-muted: #94a3b8;    /* Gris claro para detalles */
+            
+            --accent-primary: #38bdf8; /* Cian brillante */
+            --accent-secondary: #818cf8; /* Índigo */
+            --muscle-red: #fb7185;     /* Rojo suave para músculos */
+            
+            --border-color: #334155;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Roboto', sans-serif;
+            padding-bottom: 50px;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: -0.5px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            padding: 60px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-weight: 800;
+            text-transform: uppercase;
+            background: -webkit-linear-gradient(0deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* NAV TABS */
+        .nav-pills .nav-link {
+            color: var(--text-muted);
+            background-color: rgba(255,255,255,0.05);
+            margin: 0 5px 10px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--accent-primary);
+            color: #000; /* Texto negro sobre fondo brillante para máximo contraste */
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* EXERCISE CARD DESIGN */
+        .exercise-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            height: 100%;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+        }
+
+        .card-img-container {
+            width: 100%;
+            height: 250px; /* Altura fija para uniformidad */
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Asegura que la imagen cubra todo sin deformarse */
+            object-position: center top;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-secondary);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            background-color: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .stat-value {
+            font-size: 0.95rem;
+            color: white;
+        }
+
+        .description-box {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .muscle-target {
+            color: var(--muscle-red);
+            font-weight: 500;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* CARDIO SECTION */
+        .cardio-section {
+            background: linear-gradient(45deg, #3f1818, #1a0b0b);
+            border: 2px dashed var(--muscle-red);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .badge-type {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            z-index: 10;
+        }
+        
+        .bg-S { background-color: #ef4444; color: white; } /* Supremo */
+        .bg-A { background-color: #f59e0b; color: black; } /* Accesorio */
+        .bg-B { background-color: #3b82f6; color: white; } /* Básico */
+
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Programa Estructural v2.0</h1>
+            <p class="lead text-light">Sistema Híbrido: Calistenia + Hipertrofia</p>
+            <div class="mt-3">
+                <span class="badge bg-secondary">4 Días/Semana</span>
+                <span class="badge bg-secondary">Enfoque Progresivo</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <ul class="nav nav-pills mb-4 justify-content-center" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-a-tab" data-bs-toggle="pill" data-bs-target="#pills-a" type="button">LUNES (Torso)</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-b-tab" data-bs-toggle="pill" data-bs-target="#pills-b" type="button">MARTES (Pierna)</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-c-tab" data-bs-toggle="pill" data-bs-target="#pills-c" type="button">JUEVES (Brazos)</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-d-tab" data-bs-toggle="pill" data-bs-target="#pills-d" type="button">SÁBADO (Full Body)</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+
+            <div class="tab-pane fade show active" id="pills-a" role="tabpanel">
+                <h3 class="font-heading text-white mb-4 border-start border-4 border-info ps-3">Enfoque: Pecho, Espalda y Core</h3>
+                
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-S">Supremo</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia1_img1_dominadas.jpg" alt="Dominadas">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Dominadas</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">Barra fija</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">Al Fallo</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">Corporal</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Colgado de barra, jalando pecho hacia arriba.
+                                    <span class="muscle-target">Target: Latissimus Dorsi y Bíceps.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-A">Accesorio</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia1_img2_fondos.jpg" alt="Fondos">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Fondos (Dips)</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">Barras/Banco</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">Al Fallo</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Suspendido, codos a 90°.
+                                    <span class="muscle-target">Target: Pectoral Inferior y Tríceps.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-B">Básico</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia1_img3_pressmilitar.jpg" alt="Press Militar">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Press Militar</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">De Pie</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">11 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">10</span></div>
+                                </div>
+                                <p class="description-box">
+                                    De pie, empujando mancuernas al techo.
+                                    <span class="muscle-target">Target: Deltoides Anterior y Core.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-A">Accesorio</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia1_img4_pressinclinado.jpg" alt="Press Inclinado">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Press Inclinado</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">Banco 45°</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">11 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">10-12</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Tumbado inclinado, empuje controlado.
+                                    <span class="muscle-target">Target: Pectoral Superior.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-S">Supremo</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia1_img5_remoT.jpg" alt="Remo T">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Remo en T</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">Boca abajo 45°</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">11 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">12</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Pecho en banco, jalando mancuernas.
+                                    <span class="muscle-target">Target: Espalda Media y Trapecio.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cardio-section mt-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <img src="./imagenesclase1/dia4_img4_jacks.jpg" alt="Cardio Cuerda y Jacks" class="img-fluid rounded border border-danger">
+                        </div>
+                        <div class="col-md-8 text-white">
+                            <h4 class="text-danger fw-bold"><i class="bi bi-fire me-2"></i>FINALIZADOR: 15 MINUTOS</h4>
+                            <ul class="list-unstyled mt-3">
+                                <li class="mb-2 fs-5">⏱ <strong>30 seg</strong> Salto de cuerda</li>
+                                <li class="mb-2 fs-5">⏱ <strong>30 seg</strong> Saltos de Payaso (Jacks)</li>
+                                <li class="text-muted">🔁 Repetir ciclo 15 veces sin parar.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-b" role="tabpanel">
+                <h3 class="font-heading text-white mb-4 border-start border-4 border-danger ps-3">Enfoque: Glúteo, Core y Gradas</h3>
+
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-S">Supremo</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia2_img2_hipthrust.jpg" alt="Hip Thrust">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Hip Thrust</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">Espalda en Banco</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">11 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">15</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Subiendo pelvis con peso en cadera.
+                                    <span class="muscle-target">Target: Gluteus Maximus.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-A">Accesorio</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia2_img1_pesomuerto.jpg" alt="Peso Muerto Rumano">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Peso Muerto Rumano</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">De Pie</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">11 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">12</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Bajando peso con piernas semirrígidas.
+                                    <span class="muscle-target">Target: Isquiotibiales y Glúteos.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-S">Supremo</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia2_img4_rueda.jpg" alt="Rueda Abdominal">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Rueda Abdominal</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">Suelo</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">Al Fallo</span></div>
+                                </div>
+                                <p class="description-box">
+                                    De rodillas, estirando rueda al frente.
+                                    <span class="muscle-target">Target: Rectus Abdominis.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-A">Accesorio</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia2_img3_zancadas.jpg" alt="Zancadas">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Zancadas (Walking)</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">De Pie</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">5.5 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">20 pasos</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Dando paso largo al frente.
+                                    <span class="muscle-target">Target: Glúteo y Cuádriceps.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cardio-section mt-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <img src="./imagenesclase1/dia2_img5_gradas.jpg" alt="Cardio Gradas" class="img-fluid rounded border border-danger">
+                        </div>
+                        <div class="col-md-8 text-white">
+                            <h4 class="text-danger fw-bold"><i class="bi bi-stairs me-2"></i>FINALIZADOR: 15 MINUTOS</h4>
+                            <ul class="list-unstyled mt-3">
+                                <li class="mb-2 fs-5">⏱ <strong>1 min</strong> Subir/Bajar gradas</li>
+                                <li class="mb-2 fs-5">⏱ <strong>1 min</strong> Salto de cuerda</li>
+                                <li class="text-muted">🔁 Repetir ciclo hasta terminar tiempo.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-c" role="tabpanel">
+                <h3 class="font-heading text-white mb-4 border-start border-4 border-warning ps-3">Enfoque: Brazos y Hombro</h3>
+
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-B">Básico</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia3_img1_chinup.jpg" alt="Dominadas Supinas">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Dominadas Supinas</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Agarre</span><span class="stat-value">Palmas a ti</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">Al Fallo</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Colgado, subiendo mentón a la barra.
+                                    <span class="muscle-target">Target: Bíceps y Dorsal.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-A">Accesorio</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia3_img2_leterales.jpg" alt="Elevación Lateral">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Elevación Lateral</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">De Pie</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">5.5 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">15</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Abriendo brazos a los lados (Pájaro).
+                                    <span class="muscle-target">Target: Deltoides Lateral.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-A">Accesorio</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia3_img3_predicador.jpg" alt="Curl Predicador">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Curl Predicador</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Banco</span><span class="stat-value">Predicador</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">11 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">10-12</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Apoyado en cojín, flexión de bíceps.
+                                    <span class="muscle-target">Target: Bíceps (Aislamiento).</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-S">Supremo</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia3_img4_katana.jpg" alt="Extensión Katana">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Extensión Katana</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">De Pie/Sentado</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">5.5 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">12-15</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Brazo tras la nuca extendiendo arriba.
+                                    <span class="muscle-target">Target: Tríceps (Cabeza Larga).</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-A">Accesorio</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia3_img5_martillo.jpg" alt="Press Francés">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Press Francés</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">Banco Plano</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">5.5 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">12</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Tumbado, bajando peso a la frente.
+                                    <span class="muscle-target">Target: Tríceps.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cardio-section mt-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <img src="./imagenesclase1/dia4_img4_jacks.jpg" alt="Cardio Jacks" class="img-fluid rounded border border-danger">
+                        </div>
+                        <div class="col-md-8 text-white">
+                            <h4 class="text-danger fw-bold"><i class="bi bi-stopwatch me-2"></i>FINALIZADOR: 15 MINUTOS</h4>
+                            <ul class="list-unstyled mt-3">
+                                <li class="mb-2 fs-5">⏱ <strong>45 seg</strong> Salto de cuerda</li>
+                                <li class="mb-2 fs-5">⏱ <strong>15 seg</strong> Jacks rápidos</li>
+                                <li class="text-muted">🔁 Repetir ciclo 15 veces.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-d" role="tabpanel">
+                <h3 class="font-heading text-white mb-4 border-start border-4 border-success ps-3">Enfoque: Full Body & Core Hit</h3>
+
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-A">Accesorio</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia4_img1_pushups.jpg" alt="Despechadas">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Despechadas</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">Suelo</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">Al Fallo</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Flexiones tradicionales en el suelo.
+                                    <span class="muscle-target">Target: Pectoral y Tríceps.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-A">Accesorio</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia4_img2_remokroc.jpg" alt="Remo Unilateral">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Remo Unilateral</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Apoyo</span><span class="stat-value">Banco</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">11 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">15 p/brazo</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Jalando mancuerna pesada con un brazo.
+                                    <span class="muscle-target">Target: Dorsal Ancho.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-S">Supremo</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia4_img2_bulgers.jpg" alt="Sentadilla Búlgara">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Sentadilla Búlgara</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">Pie en Banco</span></div>
+                                    <div class="stat-item"><span class="stat-label">Peso</span><span class="stat-value">5.5 kg</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">10 p/pierna</span></div>
+                                </div>
+                                <p class="description-box">
+                                    Un pie atrás en banco, bajando con una pierna.
+                                    <span class="muscle-target">Target: Glúteo.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="exercise-card">
+                            <span class="badge-type bg-S">Supremo</span>
+                            <div class="card-img-container">
+                                <img src="./imagenesclase1/dia4_img5_rueds.jpg" alt="Rueda Abdominal">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Rueda Abdominal</h5>
+                                <div class="stats-grid">
+                                    <div class="stat-item"><span class="stat-label">Posición</span><span class="stat-value">Suelo</span></div>
+                                    <div class="stat-item"><span class="stat-label">Reps</span><span class="stat-value">Al Fallo</span></div>
+                                </div>
+                                <p class="description-box">
+                                    De rodillas con rueda, core bloqueado.
+                                    <span class="muscle-target">Target: Core completo.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cardio-section mt-5">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <img src="./imagenesclase1/dia2_img5_gradas.jpg" alt="Cardio Gradas" class="img-fluid rounded border border-danger">
+                        </div>
+                        <div class="col-md-8 text-white">
+                            <h4 class="text-danger fw-bold"><i class="bi bi-lungs-fill me-2"></i>FINALIZADOR: 20 MINUTOS</h4>
+                            <ul class="list-unstyled mt-3">
+                                <li class="mb-2 fs-5">⏱ <strong>2 min</strong> Salto de cuerda</li>
+                                <li class="mb-2 fs-5">⏱ <strong>1 min</strong> Gradas rápidas</li>
+                                <li class="text-muted">🔁 Repetir ciclo hasta completar 20 min.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

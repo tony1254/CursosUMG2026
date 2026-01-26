@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Derecho Mercantil II - Compendio Integral de Títulos de Crédito</title>
+    <title>Derecho Mercantil II - Teoría General de los Títulos de Crédito</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -23,52 +23,59 @@
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg-light); color: #334155; line-height: 1.6; }
         h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
 
-        /* Scroll Progress */
         #scrollProgress {
             position: fixed; top: 0; left: 0; width: 0%; height: 6px;
             background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
             z-index: 2000; transition: width 0.1s;
         }
 
-        /* Hero System */
         .hero-section {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            color: white; padding: 80px 0;
-            border-bottom: 8px solid var(--accent-purple);
+            color: white; padding: 100px 0 60px;
+            border-bottom: 5px solid var(--accent-purple);
+            position: relative;
         }
+
         .label-clase {
             letter-spacing: 2px; font-weight: 700; background: rgba(255,255,255,0.1);
-            padding: 8px 20px; border-radius: 50px; display: inline-block; margin-bottom: 1rem;
+            padding: 8px 20px; border-radius: 50px; display: inline-block; margin-bottom: 1.5rem;
             border: 1px solid var(--accent-cyan);
         }
 
-        /* Componentes de Ingeniería */
-        .terminal-window {
-            background: #1e1e1e; border-radius: 10px; overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4); margin: 20px 0; border: 1px solid #444;
-        }
-        .terminal-header { background: #333; padding: 10px 15px; display: flex; gap: 8px; align-items: center; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .terminal-body { 
-            padding: 20px; color: #f8f8f2; font-family: 'Source Code Pro', monospace; 
-            font-size: 0.9rem; max-height: 400px; overflow-y: auto;
+        .section-card {
+            background: white; border-radius: 15px; padding: 40px; margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--accent-purple);
         }
 
-        /* Secciones y Cards */
-        .section-container { background: white; border-radius: 15px; padding: 40px; margin-bottom: 40px; shadow: 0 4px 20px rgba(0,0,0,0.05); }
-        .legal-box { 
-            border-left: 5px solid var(--accent-purple); background: #f8fafc; 
-            padding: 20px; margin: 15px 0; border-radius: 0 10px 10px 0;
+        .theory-box {
+            background: #f8fafc; border: 1px solid #e2e8f0;
+            padding: 25px; border-radius: 10px; margin: 15px 0;
         }
-        .article-badge { background: var(--primary-dark); color: var(--accent-cyan); padding: 5px 12px; border-radius: 4px; font-weight: 600; font-size: 0.8rem; }
-        
-        /* Interactive Elements */
-        .hover-lift { transition: all 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        
-        .tab-content { padding: 20px; border: 1px solid #dee2e6; border-top: none; border-radius: 0 0 10px 10px; }
-        
-        footer { background: #0f172a; color: white; padding: 60px 0; }
+
+        .principle-item {
+            border-bottom: 1px solid #edf2f7; padding: 10px 0;
+        }
+
+        .terminal-window {
+            background: #1e1e1e; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); margin: 20px 0;
+        }
+
+        .terminal-header { background: #333; padding: 10px; display: flex; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        .terminal-body { 
+            padding: 20px; color: #2ecc71; font-family: 'Source Code Pro', monospace; 
+            font-size: 0.9rem; line-height: 1.5;
+        }
+
+        .legal-quote {
+            border-left: 4px solid var(--accent-cyan); background: #f0f9ff;
+            padding: 20px; margin: 20px 0; font-style: italic;
+        }
+
+        footer { background: #0f172a; color: white; padding: 50px 0; border-top: 5px solid var(--accent-purple); }
     </style>
 </head>
 <body>
@@ -77,211 +84,210 @@
 
     <header class="hero-section text-center">
         <div class="container animate__animated animate__fadeIn">
-            <span class="label-clase">DERECHO MERCANTIL II · LIBRO III: DE LAS COSAS MERCANTILES</span>
-            <div class="mb-3">
-                <i class="bi bi-file-earmark-font display-2 text-info animate__animated animate__pulse animate__infinite"></i>
+            <span class="label-clase">DERECHO MERCANTIL II · LIC. MANUEL DE'JESUS QUIZAR MARTINEZ</span>
+            <div class="mb-4">
+                <i class="bi bi-bank fs-1 text-info animate__animated animate__pulse animate__infinite"></i>
             </div>
-            <h1 class="display-4 fw-bold">Teoría General de los Títulos de Crédito</h1>
-            <p class="lead">Disposiciones Generales del Código de Comercio de Guatemala</p>
-            <div class="mt-4">
-                <span class="badge bg-purple p-2 px-3">LIC. MANUEL DE'JESUS QUIZAR MARTINEZ</span>
-            </div>
+            <h1 class="display-4 fw-bold">TEORÍA GENERAL DE LOS TÍTULOS DE CRÉDITO</h1>
+            <p class="lead opacity-75">Análisis Doctrinario y Normativa del Código de Comercio de Guatemala</p>
         </div>
     </header>
 
     <main class="container my-5">
 
-        <section class="section-container animate__animated animate__fadeInUp">
-            <h2 class="mb-4 text-primary"><i class="bi bi-bookmark-fill me-2"></i>1. Definición Legal y Doctrinaria</h2>
-            <div class="row">
-                <div class="col-lg-7">
-                    <div class="legal-box">
-                        <span class="article-badge mb-2 d-inline-block">ARTÍCULO 385</span>
-                        <p class="fst-italic">"Son títulos de crédito los documentos que incorporan un derecho literal y autónomo, cuyo ejercicio o transferencia es imposible independientemente del título. Los títulos de crédito tienen la calidad de <strong>bienes muebles</strong>."</p>
-                    </div>
-                    <p>Esta definición legal sintetiza la <strong>Teoría de la Incorporación</strong>: el derecho y el documento son una unidad jurídica. Si no posees el documento, el derecho es inejecutable.</p>
-                </div>
-                <div class="col-lg-5">
-                    <div class="card bg-light border-0 h-100 p-3">
-                        <h5 class="text-secondary fw-bold">Perspectiva Doctrinaria</h5>
-                        <ul class="list-unstyled small">
-                            <li class="mb-2"><strong>Quevedo Coronado:</strong> "Cosa mercantil por naturaleza, cosa corpórea..."</li>
-                            <li class="mb-2"><strong>Gella-Capo:</strong> "Obligación patrimonial-económica... papeles o cartas-valores."</li>
-                            <li class="mb-2"><strong>Vásquez Martínez:</strong> "Ejercicio y transferencia posible en los términos expresados..."</li>
-                        </ul>
-                    </div>
-                </div>
+        <section class="section-card animate__animated animate__fadeInUp">
+            <h2 class="text-primary"><i class="bi bi-mortarboard me-2"></i>Teoría de la Creación (Escuela Alemana)</h2>
+            <div class="theory-box">
+                <p>La creación de los títulos, para esta escuela, encaja en la <strong>teoría de la creación</strong>, misma que establece que los títulos existen y obligan a quien los recibe o acepta desde el momento de su creación, naciendo desde dicho momento la obligación del mismo siendo abstracto o ajeno a la relación jurídica que le dio origen.</p>
+                <p class="mb-0"><em>- Los títulos de crédito o títulos valores son documentos emitidos como promesas o netos unilaterales de voluntad -</em></p>
             </div>
-        </section>
 
-        <section class="section-container animate__animated animate__fadeInUp">
-            <h2 class="mb-4 text-success"><i class="bi bi-list-check me-2"></i>2. Rigor Formal y Subsanación</h2>
-            <div class="row g-4">
+            <div class="row mt-4">
                 <div class="col-md-6">
-                    <div class="terminal-window h-100">
-                        <div class="terminal-header">
-                            <div class="dot bg-danger"></div><div class="dot bg-warning"></div><div class="dot bg-success"></div>
-                            <span class="text-white small">ART_386_REQUIREMENTS.LOG</span>
-                        </div>
-                        <div class="terminal-body">
-                            <p>1. Nombre del título (Nomen Iuris).</p>
-                            <p>2. Fecha y lugar de creación.</p>
-                            <p>3. Derechos incorporados.</p>
-                            <p>4. Lugar y fecha de cumplimiento.</p>
-                            <p>5. Firma del creador (Autógrafa en serie).</p>
-                            <p class="text-warning mt-3">// REGLAS DE SUPLENCIA:</p>
-                            <p>IF (Lugar_Creación == NULL) { Domicilio_Creador; }</p>
-                            <p>IF (Lugar_Cumplimiento == NULL) { Domicilio_Creador; }</p>
-                        </div>
-                    </div>
+                    <h4 class="h5 text-purple fw-bold">Principios que postula:</h4>
+                    <div class="principle-item"><strong>• Autonomía:</strong> Bajo su propia normativa.</div>
+                    <div class="principle-item"><strong>• Abstracción:</strong> Voluntad de las partes.</div>
+                    <div class="principle-item"><strong>• Formalidad:</strong> Mediante un documento.</div>
+                    <div class="principle-item"><strong>• Literalidad:</strong> Específicamente lo que pactó.</div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card border-0 shadow-sm p-4 h-100">
-                        <h5><i class="bi bi-magic me-2"></i>Facultad de Llenado (Art. 387)</h5>
-                        <p>¿Qué pasa si un título llega incompleto? El <strong>tenedor legítimo</strong> tiene la facultad de llenarlo antes de presentarlo para aceptación o cobro.</p>
-                        <div class="alert alert-info py-2 small">
-                            <strong>Protección al Tercero:</strong> Las excepciones por incumplimiento de lo convenido al llenar el título no pueden oponerse al adquirente de <strong>buena fe</strong>.
-                        </div>
-                        <h5 class="mt-3"><i class="bi bi-alphabet-uppercase me-2"></i>Diferencias en Importe (Art. 388)</h5>
-                        <div class="table-responsive">
-                            <table class="table table-sm table-bordered">
-                                <thead class="table-dark"><tr><th>Escenario</th><th>Prevalece</th></tr></thead>
-                                <tbody>
-                                    <tr><td>Letras vs Cifras</td><td>Suma en Letras</td></tr>
-                                    <tr><td>Varias cantidades</td><td>La suma menor</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section-container animate__animated animate__fadeInUp">
-            <h2 class="mb-4 text-warning"><i class="bi bi-arrow-repeat me-2"></i>3. Dinámica de la Transmisión y Tenedor</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 p-3 hover-lift border-0 shadow-sm">
-                        <div class="article-badge mb-2">Art. 389 - Exhibición</div>
-                        <p class="small">El tenedor <strong>obligatoriamente</strong> debe exhibir y entregar el título al ser pagado. Si el pago es parcial, se hace mención en el título y se da recibo aparte.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 p-3 hover-lift border-0 shadow-sm">
-                        <div class="article-badge mb-2">Art. 390 - Alcance</div>
-                        <p class="small">La transmisión comprende el <strong>derecho principal</strong>, las garantías y todos los derechos accesorios vinculados.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 p-3 hover-lift border-0 shadow-sm">
-                        <div class="article-badge mb-2">Art. 391 - Afectaciones</div>
-                        <p class="small">Cualquier gravamen, reivindicación o afectación debe hacerse constar <strong>sobre el título mismo</strong> para surtir efecto.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section-container animate__animated animate__fadeInUp">
-            <h2 class="mb-4 text-danger"><i class="bi bi-pen-fill me-2"></i>4. Responsabilidad y Suscripción</h2>
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="accordion shadow-sm" id="accLegal">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1">
-                                    Obligaciones del Signatario (Art. 393-394)
-                                </button>
-                            </h2>
-                            <div id="c1" class="accordion-collapse collapse show" data-bs-parent="#accLegal">
-                                <div class="accordion-body">
-                                    <p><strong>Irrevocabilidad:</strong> El signatario queda obligado incluso si el título circuló contra su voluntad o si sobreviene su muerte/incapacidad.</p>
-                                    <p><strong>Autonomía de las Firmas:</strong> La incapacidad de un signatario o la existencia de firmas falsas <strong>no invalidan</strong> las obligaciones de las demás personas que suscribieron el título de buena fe.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">
-                                    Alteración del Texto (Art. 395)
-                                </button>
-                            </h2>
-                            <div id="c2" class="accordion-collapse collapse" data-bs-parent="#accLegal">
-                                <div class="accordion-body">
-                                    <ul>
-                                        <li><strong>Signatarios anteriores:</strong> Se obligan según el texto original.</li>
-                                        <li><strong>Signatarios posteriores:</strong> Se obligan según el texto alterado.</li>
-                                        <li><strong>Presunción:</strong> Si no se sabe cuándo se firmó, se presume que fue <em>antes</em> de la alteración.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">
-                                    Imposibilidad de Firmar (Art. 397)
-                                </button>
-                            </h2>
-                            <div id="c3" class="accordion-collapse collapse" data-bs-parent="#accLegal">
-                                <div class="accordion-body">
-                                    <p>Para quienes no sepan o no puedan firmar, se utiliza la <strong>Firma a Ruego</strong>. Requisitos:</p>
-                                    <ol>
-                                        <li>Otra persona suscribe a su nombre.</li>
-                                        <li>Firma auténticada por <strong>Notario</strong> o <strong>Secretario Municipal</strong>.</li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="p-4 bg-primary text-white rounded shadow-sm h-100">
-                        <h5><i class="bi bi-people-fill me-2"></i>Solidaridad</h5>
-                        <p class="small"><strong>Art. 398:</strong> Todos los signatarios de un mismo acto se obligan solidariamente.</p>
+                    <div class="alert alert-info">
+                        <strong>Denominación que otorga:</strong><br>
+                        Títulos valor o papel valor.
                         <hr>
-                        <p class="small">Quien paga tiene derecho a repetir contra los demás coobligados según las acciones cambiarias correspondientes.</p>
+                        <small>Este término se ha utilizado en Guatemala en la Ley de Mercado de Valores y Mercancías.</small>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="section-container animate__animated animate__fadeInUp">
-            <h2 class="mb-4 text-info"><i class="bi bi-shield-lock-fill me-2"></i>5. Garantías y Constancia de Incumplimiento</h2>
+        <section class="section-card animate__animated animate__fadeInUp">
+            <h2 class="text-success"><i class="bi bi-flag me-2"></i>Escuela Italiana</h2>
+            <p>Señala que los títulos de crédito son documentos que incorporan derechos mayormente dinerarios.</p>
+            
+            <div class="legal-quote">
+                <strong>Postulación:</strong> Que los títulos de crédito incorporan derechos literal autónomos, cuyo ejercicio puede ejercerse solo mediante la tenencia y presentación del documento.
+            </div>
+
             <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="card card-elite p-4 border-start border-info border-4">
-                        <h3><span class="article-badge">Art. 399</span> El Protesto</h3>
-                        <p>Acto formal para hacer constar la negativa de aceptación o de pago. Es <strong>obligatorio</strong> salvo que se inserte la cláusula:</p>
-                        <div class="d-flex gap-2 mb-3">
-                            <span class="badge bg-secondary">"Sin Protesto"</span>
-                            <span class="badge bg-secondary">"Sin Gastos"</span>
-                        </div>
-                        <p class="small text-muted">Aun con esta cláusula, el tenedor debe presentar el título para el cobro.</p>
+                <div class="col-md-7">
+                    <div class="theory-box bg-white">
+                        <h4 class="h5 fw-bold">Teoría Dominante:</h4>
+                        <p>Para esta escuela la teoría dominante es la de la <strong>emisión</strong>, mediante la cual los títulos de crédito obligan hasta que son emitidos y entran en circulación.</p>
                     </div>
+                    <h4 class="h5 fw-bold mt-3 text-success">Principales aportes:</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-transparent">• Extrajo los caracteres esenciales de la letra de cambio, comunes a todos los títulos.</li>
+                        <li class="list-group-item bg-transparent">• Separó los elementos constitutivos de la letra de cambio como título de crédito de los otros caracteres mercantiles.</li>
+                        <li class="list-group-item bg-transparent">• Distinguió los títulos de crédito de aquellos documentos probatorios sin caracteres esenciales.</li>
+                    </ul>
                 </div>
-                <div class="col-md-6">
-                    <div class="card card-elite p-4 border-start border-primary border-4">
-                        <h3><span class="article-badge">Art. 400</span> El Aval</h3>
-                        <p>Garantía específica para los títulos de crédito que contienen obligaciones de pago. Puede ser:</p>
-                        <ul class="small">
-                            <li>Total o parcial.</li>
-                            <li>Garantiza el pago del título por parte de un tercero o un signatario.</li>
-                        </ul>
+                <div class="col-md-5">
+                    <div class="card bg-dark text-white p-4">
+                        <p><strong>Denominación:</strong> Títulos de crédito.</p>
+                        <hr>
+                        <p class="small mb-0"><strong>Diferencia con títulos valores:</strong> Serán títulos de crédito solo los regulados expresamente como tal en la ley.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="mb-5">
-            <div class="card bg-dark text-white p-5 border-0 rounded-4 shadow-lg text-center">
-                <h3 class="mb-4">Estructura Lógica del Título de Crédito</h3>
-                <div class="row justify-content-center">
-                    <div class="col-md-2 p-3 border border-info m-2 rounded">DOCUMENTO (Cuerpo)</div>
-                    <div class="col-md-1 align-self-center"><i class="bi bi-arrow-right fs-2"></i></div>
-                    <div class="col-md-2 p-3 border border-info m-2 rounded">DERECHO (Contenido)</div>
-                    <div class="col-md-1 align-self-center"><i class="bi bi-arrow-right fs-2"></i></div>
-                    <div class="col-md-2 p-3 border border-success m-2 rounded">LITERALIDAD (Límite)</div>
-                    <div class="col-md-1 align-self-center"><i class="bi bi-arrow-right fs-2"></i></div>
-                    <div class="col-md-2 p-3 border border-purple m-2 rounded">AUTONOMÍA (Vigencia)</div>
+        <section class="section-card animate__animated animate__fadeInUp">
+            <h2 class="text-warning"><i class="bi bi-calendar3 me-2"></i>Antecedente Histórico-Legislativo</h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="h6 fw-bold">EVOLUCIÓN GENERAL Y GUATEMALTECA:</h4>
+                    <ul class="list-group list-group-numbered">
+                        <li class="list-group-item">Ordenanzas de Bilbao</li>
+                        <li class="list-group-item">Código de Comercio 1877</li>
+                        <li class="list-group-item">Reglamento Uniforme de la Haya 1912 (Letra de Cambio)</li>
+                        <li class="list-group-item">Ley Uniforme Conferencia de Ginebra 1930</li>
+                        <li class="list-group-item">Código de Comercio 1942</li>
+                        <li class="list-group-item fw-bold text-primary">Código de Comercio de Guatemala 1970</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="h6 fw-bold">HISTÓRICOS UNIVERSALES:</h4>
+                    <div class="p-3 border rounded mb-2 bg-light small">
+                        <strong>Derecho inglés:</strong> Se le denominan instrumentos negociables.
+                    </div>
+                    <div class="p-3 border rounded mb-2 bg-light small">
+                        <strong>Derecho argentino:</strong> Títulos circulatorios.
+                    </div>
+                    <div class="p-3 border rounded bg-light small">
+                        <strong>Estados Unidos (Derecho Anglosajón):</strong> Denominados <strong>papeles comerciales</strong> debido a la simplicidad del comercio; regulados mediante el código uniforme de 1952 que rige en 52 Estados.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card animate__animated animate__fadeInUp">
+            <h2 class="text-danger"><i class="bi bi-book me-2"></i>Definición Doctrinaria</h2>
+            <div class="space-y-4">
+                <div class="legal-quote">
+                    “Es una cosa mercantil por naturaleza, cosa corpórea que consiste en un documento de carácter mercantil, constituido, creador de derecho que está ligado permanentemente al título, por lo que dice, en forma metafórica, que el derecho está incorporado al título” 
+                    <br><small class="text-muted">— Quevedo Coronado, 2008</small>
+                </div>
+                <div class="legal-quote">
+                    “Documentos mediante los cuales se constituye un derecho, cuyo ejercicio y transferencia es posible en los términos en él expresados y únicamente mediante la posesión del o los anteriores portadores”
+                    <br><small class="text-muted">— Vásquez Martínez, 2012</small>
+                </div>
+                <div class="legal-quote">
+                    “Los títulos de Crédito son la expresión de una obligación patrimonial-económica, consignada en un documento; utilizando el término germánico que sirve para designarlos, -papeles o cartas-valores... puede hablarse de una verdadera cosa mercantil”
+                    <br><small class="text-muted">— Gella-Capo, 1986</small>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card animate__animated animate__fadeInUp">
+            <h2 class="text-info"><i class="bi bi-bank2 me-2"></i>Definición Legal y Requisitos</h2>
+            
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="dot bg-danger"></div><div class="dot bg-warning"></div><div class="dot bg-success"></div>
+                    <span class="text-white small">DECRETO_2-70_COCO.EXE</span>
+                </div>
+                <div class="terminal-body" id="legalTerminal">
+                    <span class="text-info">ARTÍCULO 385. Títulos de Crédito.</span><br>
+                    Son títulos de crédito los documentos que incorporan un derecho literal y autónomo, cuyo ejercicio o transferencia es imposible independientemente del título. Tienen la calidad de bienes muebles.<br><br>
+                    <span class="text-info">ARTÍCULO 386. Requisitos Generales.</span><br>
+                    1º. El nombre del título.<br>
+                    2º. La fecha y lugar de creación.<br>
+                    3º. Los derechos que el título incorpora.<br>
+                    4º. El lugar y la fecha de cumplimiento.<br>
+                    5º. La firma de quien lo crea.<br>
+                    <hr>
+                    <span class="text-warning">// REGLAS DE SUPLENCIA LEGAL</span><br>
+                    - Si no se menciona lugar de creación: Domicilio del creador.<br>
+                    - Si no se menciona lugar de cumplimiento: Domicilio del creador.<br>
+                    - Varios domicilios: El tenedor elige.
+                </div>
+            </div>
+
+            <div class="row g-3 mt-2">
+                <div class="col-md-4">
+                    <div class="p-3 bg-light border-start border-primary border-4 small">
+                        <strong>Art. 389:</strong> Obligación de exhibir y entregar el título al ser pagado.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-light border-start border-success border-4 small">
+                        <strong>Art. 390:</strong> La transmisión comprende el derecho principal y accesorios.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 bg-light border-start border-danger border-4 small">
+                        <strong>Art. 393:</strong> Obligación subsiste aun por muerte o incapacidad del signatario.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card animate__animated animate__fadeInUp">
+            <h2 class="text-dark"><i class="bi bi-info-square me-2"></i>Consideraciones Técnicas Finales</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="p-3 border rounded h-100">
+                        <h4 class="h6 fw-bold">IMPOSIBILIDAD DE FIRMAR (Art. 397)</h4>
+                        <p class="small">“Por quien no sepa o no pueda firmar para suscribir los títulos de crédito a su ruego, otra firma será autenticada por un notario o por el secretario de la municipalidad del lugar.”</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 border rounded h-100">
+                        <h4 class="h6 fw-bold">SOLIDARIDAD (Art. 398)</h4>
+                        <p class="small">Todos los signatarios de un mismo acto se obligarán solidariamente. El pago por uno no confiere derechos contra los demás de su mismo acto, sino acciones cambiarias contra otros obligados.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4 p-3 bg-danger text-white rounded small">
+                <strong>NOTA CRÍTICA:</strong> La omisión insubsanable de requisitos esenciales no afecta al negocio o acto jurídico que dio origen a la emisión del documento (Art. 386 in fine).
+            </div>
+        </section>
+
+        <section class="section-card animate__animated animate__fadeInUp">
+            <h2 class="text-purple"><i class="bi bi-diagram-3 me-2"></i>Naturaleza Jurídica</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm p-3">
+                        <h5 class="fw-bold">A) Teoría del Negocio Jurídico Unilateral</h5>
+                        <p class="small">Considera que al momento de la creación y autorización del título, se emite una declaración unilateral que debe ser cumplida al ser recibida.</p>
+                        <span class="badge bg-secondary">Fundamento: Art. 1521 Decreto Ley 106</span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm p-3">
+                        <h5 class="fw-bold">B) Teoría Contractualista</h5>
+                        <p class="small">Basada en que los títulos de crédito son contentivos de negocios de carácter bilateral entre quien lo emite y quien lo recibe o se beneficia.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm p-3">
+                        <h5 class="fw-bold">C) Teoría del Documento</h5>
+                        <p class="small">Considera a los títulos como documentos con características especiales: constitutivos y dispositivos de derechos.</p>
+                        <span class="badge bg-dark">Fundamento: Art. 385 CoCo.</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -292,32 +298,22 @@
         <div class="container">
             <i class="bi bi-mortarboard-fill display-4 mb-3 text-info"></i>
             <p class="fs-4 mb-0"><strong>Luis Garcia 2026</strong></p>
-            <p class="opacity-75">Material Educativo de Alto Nivel - Ingeniería de Sistemas & Ciencias Jurídicas</p>
+            <p class="opacity-75">Material Educativo - Ingeniería de Sistemas · Derecho Mercantil II</p>
             <div class="mt-4">
-                <span class="badge rounded-pill bg-info text-dark">DERECHO MERCANTIL II</span>
+                <span class="badge rounded-pill bg-info text-dark">NOVENO SEMESTRE</span>
                 <span class="badge rounded-pill bg-purple">GUATEMALA 2026</span>
-            </div>
-            <div class="mt-3 small opacity-50">
-                Basado en el Decreto 2-70 del Congreso de la República de Guatemala (Art. 385 - 400)
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Scroll Progress
         window.onscroll = function() {
             let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             let scrolled = (winScroll / height) * 100;
             document.getElementById("scrollProgress").style.width = scrolled + "%";
         };
-
-        // Tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
     </script>
 </body>
 </html>

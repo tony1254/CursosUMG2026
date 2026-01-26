@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derecho Mercantil II - Teoría de Títulos de Crédito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --accent-purple: #7c3aed;
+            --accent-cyan: #06b6d4;
+            --academic-gold: #f1c40f;
+            --bg-light: #f8fafc;
+            --text-main: #334155;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Montserrat', sans-serif; }
+
+        /* Scroll Progress Bar */
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+            z-index: 2000;
+            transition: width 0.2s ease;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: white;
+            padding: 80px 0;
+            border-bottom: 5px solid var(--accent-purple);
+            position: relative;
+        }
+
+        .label-clase {
+            letter-spacing: 2px;
+            font-weight: 700;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        /* Cards & Components */
+        .card-elite {
+            border: none;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            background: white;
+            height: 100%;
+        }
+
+        .card-elite:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        }
+
+        .border-info-custom { border-left: 5px solid var(--accent-cyan); }
+        .border-success-custom { border-left: 5px solid #2ecc71; }
+        .border-warning-custom { border-left: 5px solid var(--academic-gold); }
+
+        /* Terminal Console */
+        .terminal-window {
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            background: #333;
+            padding: 10px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .terminal-body {
+            padding: 20px;
+            color: #dcdcdc;
+            font-family: 'Source Code Pro', monospace;
+            min-height: 150px;
+        }
+
+        /* Timeline */
+        .timeline-container {
+            border-left: 3px solid var(--accent-purple);
+            padding-left: 20px;
+            margin-left: 10px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -29px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            background: var(--accent-purple);
+            border-radius: 50%;
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 40px 0;
+            margin-top: 80px;
+        }
+
+        .math-text {
+            font-style: italic;
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scrollProgress"></div>
+
+    <header class="hero-section text-center">
+        <div class="container animate__animated animate__fadeIn">
+            <span class="label-clase">NOVENO SEMESTRE: DERECHO MERCANTIL II</span>
+            <div class="mb-4">
+                <i class="bi bi-bank2 display-1 animate__animated animate__pulse animate__infinite" style="color: var(--accent-cyan);"></i>
+            </div>
+            <h1 class="display-4 fw-bold">Teoría General de los Títulos de Crédito</h1>
+            <p class="lead">Catedrático: Lic. Manuel De'Jesus Quizar Martinez</p>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        
+        <section class="mb-5 animate__animated animate__fadeInUp">
+            <div class="d-flex align-items-center mb-4">
+                <i class="bi bi-mortarboard-fill fs-2 me-3 text-primary"></i>
+                <h2 class="mb-0">Fundamentación Doctrinaria</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card card-elite border-info-custom p-4">
+                        <div class="badge bg-info mb-3 w-25">Escuela Alemana</div>
+                        <h3>Teoría de la Creación</h3>
+                        <p>Establece que los títulos existen y obligan a quien los recibe o acepta desde el preciso momento de su <strong>creación</strong>. La obligación nace siendo abstracta y ajena a la relación jurídica causal que le dio origen.</p>
+                        <div class="alert alert-secondary py-2">
+                            <i class="bi bi-info-circle me-2"></i> Definición: Promesas o actos unilaterales de voluntad.
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Autonomía</li>
+                            <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Abstracción</li>
+                            <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Literalidad y Formalidad</li>
+                        </ul>
+                        <div class="mt-3 text-muted small italic">Denominación: Títulos valor o papel valor (Ley de Mercado de Valores y Mercancías en GT).</div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card card-elite border-success-custom p-4">
+                        <div class="badge bg-success mb-3 w-25">Escuela Italiana</div>
+                        <h3>Teoría de la Emisión</h3>
+                        <p>Considera que los títulos de crédito son documentos que incorporan derechos mayormente dinerarios. La obligación nace solo hasta que los títulos son <strong>emitidos</strong> y entran efectivamente en circulación.</p>
+                        <p>Postulado clave: El ejercicio del derecho solo puede realizarse mediante la tenencia y presentación del documento.</p>
+                        <div class="accordion" id="accordionItalia">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#itAportes">
+                                        Principales Aportes
+                                    </button>
+                                </h2>
+                                <div id="itAportes" class="accordion-collapse collapse" data-bs-parent="#accordionItalia">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li>Extracción de caracteres esenciales de la letra de cambio.</li>
+                                            <li>Separación de elementos constitutivos de caracteres comerciales.</li>
+                                            <li>Distinción entre títulos de crédito y documentos probatorios.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-muted small italic">Denominación: Títulos de Crédito.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5 animate__animated animate__fadeInUp">
+            <div class="d-flex align-items-center mb-4">
+                <i class="bi bi-hourglass-split fs-2 me-3 text-warning"></i>
+                <h2 class="mb-0">Evolución Histórica y Legislativa</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="timeline-container">
+                        <div class="timeline-item">
+                            <h5>Ordenanzas de Bilbao</h5>
+                            <p class="text-muted">Primeras regulaciones aplicables en territorio americano.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>Código de Comercio de 1877</h5>
+                            <p class="text-muted">Inicios de la codificación propia en Guatemala.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>Reglamento Uniforme de la Haya (1912)</h5>
+                            <p class="text-muted">Regulación internacional de la Letra de Cambio.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>Código de Comercio de Guatemala (1970)</h5>
+                            <span class="badge bg-primary">Decreto 2-70</span>
+                            <p class="text-muted">Marco legal vigente y moderno de la materia mercantil.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card card-elite bg-dark text-white p-4">
+                        <h4 class="text-info"><i class="bi bi-globe me-2"></i>Derecho Comparado</h4>
+                        <hr>
+                        <p><strong>Derecho Inglés:</strong> Instrumentos negociables.</p>
+                        <p><strong>Derecho Argentino:</strong> Títulos circulatorios.</p>
+                        <p><strong>Derecho Anglosajón (EE.UU):</strong> Papeles comerciales (Código Unificado 1952).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5 animate__animated animate__fadeInUp">
+            <div class="d-flex align-items-center mb-4">
+                <i class="bi bi-journal-text fs-2 me-3 text-danger"></i>
+                <h2 class="mb-0">Definiciones Fundamentales</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-12">
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                            <span class="ms-2 text-secondary small">Legal_Definition_Viewer.exe</span>
+                        </div>
+                        <div class="terminal-body" id="typewriter">
+                            </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card card-elite p-3 border-info-custom text-center">
+                        <i class="bi bi-box-seam display-6 mb-2"></i>
+                        <h5>Cosa Mercantil</h5>
+                        <p class="small">Por su propia naturaleza son cosas mercantiles corpóreas (Quevedo Coronado).</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-elite p-3 border-info-custom text-center">
+                        <i class="bi bi-link-45deg display-6 mb-2"></i>
+                        <h5>Incorporación</h5>
+                        <p class="small">El derecho está ligado permanentemente al título, de forma metafórica.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-elite p-3 border-info-custom text-center">
+                        <i class="bi bi-wallet2 display-6 mb-2"></i>
+                        <h5>Valor Germánico</h5>
+                        <p class="small">Papeles o cartas-valores que representan aprovechamiento económico.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5 animate__animated animate__fadeInUp">
+            <div class="card card-elite p-5 bg-white border-0 shadow">
+                <h2 class="text-center mb-5"><i class="bi bi-file-earmark-ruled me-3"></i>Requisitos Legales (Art. 385-386)</h2>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="list-group list-group-numbered">
+                            <button type="button" class="list-group-item list-group-item-action" onclick="showTip('REQ1')">1. Nombre del título</button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="showTip('REQ2')">2. Fecha y lugar de creación</button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="showTip('REQ3')">3. Derechos que incorpora</button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="showTip('REQ4')">4. Lugar y fecha de cumplimiento</button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="showTip('REQ5')">5. Firma del creador</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="tipBox" class="alert alert-info h-100 d-flex align-items-center justify-content-center text-center">
+                            Haz clic en un requisito para ver la interpretación legal y sus suplencias.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 bg-light border-start border-danger border-4">
+                    <strong><i class="bi bi-exclamation-triangle-fill text-danger"></i> Regla de Subsanación:</strong> 
+                    Si no se menciona el lugar de creación o cumplimiento, se tendrá como tal el <strong>domicilio del creador</strong>. Si tuviere varios, el tenedor elige.
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5 animate__animated animate__fadeInUp">
+            <h3 class="mb-4">Naturaleza Jurídica: Trilogía Teórica</h3>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="card card-elite border-warning-custom p-4">
+                        <h6>A. Negocio Jurídico Unilateral</h6>
+                        <p class="small">Voluntad de una sola parte que obliga al cumplimiento al ser recibida.</p>
+                        <div class="badge bg-dark">Art. 1521 Código Civil</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-elite border-warning-custom p-4">
+                        <h6>B. Teoría Contractualista</h6>
+                        <p class="small">Acuerdo bilateral entre quien emite y quien se beneficia del derecho.</p>
+                        <div class="badge bg-dark">Base Bilateral</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-elite border-warning-custom p-4">
+                        <h6>C. Teoría del Documento</h6>
+                        <p class="small">El título es un documento constitutivo y dispositivo con características especiales.</p>
+                        <div class="badge bg-dark">Art. 385 CoCo</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center">
+        <div class="container">
+            <i class="bi bi-mortarboard-fill display-5 text-white mb-3"></i>
+            <p class="fs-4 mb-1"><strong>Luis Garcia 2026</strong></p>
+            <p class="text-secondary">Material Educativo - Ingeniería de Sistemas & Derecho Mercantil</p>
+            <div class="mt-3">
+                <span class="badge rounded-pill bg-primary mx-1">Guatemala 2026</span>
+                <span class="badge rounded-pill bg-secondary mx-1">Sistemas v2.1</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Progress Bar
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scrollProgress").style.width = scrolled + "%";
+        };
+
+        // Terminal Typewriter Effect
+        const terminalText = [
+            "ARTÍCULO 385 COCO: Son títulos de crédito los documentos que incorporan un derecho literal y autónomo...",
+            "CARACTERÍSTICA: La transferencia del título implica la transferencia del derecho principal...",
+            "DERECHO NOTARIAL: En caso de no poder firmar, se requiere firma a ruego autenticada (Art. 397)...",
+            "STATUS: Sistema cargado correctamente para Noveno Semestre 2026."
+        ];
+        
+        let line = 0;
+        const terminalBody = document.getElementById("typewriter");
+
+        function typeTerminal() {
+            if (line < terminalText.length) {
+                let p = document.createElement("p");
+                p.className = "mb-1 animate__animated animate__fadeInLeft";
+                p.innerHTML = `<span style="color: #27c93f">></span> ${terminalText[line]}`;
+                terminalBody.appendChild(p);
+                line++;
+                setTimeout(typeTerminal, 1000);
+            }
+        }
+        
+        setTimeout(typeTerminal, 500);
+
+        // Requisitos TipBox Logic
+        const tips = {
+            'REQ1': '<strong>Título:</strong> Es la denominación técnica (Letra de Cambio, Cheque, Pagaré). Define la normativa aplicable.',
+            'REQ2': '<strong>Temporalidad y Espacio:</strong> Determina la capacidad del creador y las leyes vigentes al momento de la suscripción.',
+            'REQ3': '<strong>Literalidad:</strong> El alcance del derecho se limita exclusivamente a lo que el texto del documento expresa.',
+            'REQ4': '<strong>Ejercicio:</strong> Si no se indica, la ley suple el silencio otorgando el domicilio del creador como lugar de cobro.',
+            'REQ5': '<strong>Firma:</strong> Es el requisito esencial de obligatoriedad. Admite firma a ruego ante Notario si hay imposibilidad física.'
+        };
+
+        function showTip(req) {
+            const tipBox = document.getElementById('tipBox');
+            tipBox.className = "alert alert-success h-100 d-flex align-items-center justify-content-center text-center animate__animated animate__pulse";
+            tipBox.innerHTML = tips[req];
+        }
+    </script>
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

@@ -8,7 +8,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <style>
@@ -16,7 +17,7 @@
             --bg-body: #050505;
             --bg-card: #121212;
             --accent: #3498db;
-            --text-muted: #a0a0a0;
+            --text-readable: #d1d1d1; /* Nuevo color para mejor lectura */
         }
 
         body { background-color: var(--bg-body); color: #fff; font-family: sans-serif; min-height: 100vh; display: flex; flex-direction: column; padding-top: 70px; }
@@ -26,11 +27,16 @@
             background: rgba(5, 5, 5, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            height: 60px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
         .brand-logo { font-weight: 800; letter-spacing: 1px; color: white; text-transform: uppercase; font-size: 1.1rem; }
         .brand-icon { color: var(--accent); margin-right: 8px; }
+        
+        .navbar-nav .nav-link { color: #bbb; transition: 0.3s; }
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active { color: white; }
+        .dropdown-menu { background-color: #1a1a1a; border: 1px solid #333; }
+        .dropdown-item { color: #ccc; }
+        .dropdown-item:hover { background-color: var(--accent); color: white; }
 
         /* NAV WALL */
         .nav-wall {
@@ -42,13 +48,13 @@
             overflow-x: auto;
             white-space: nowrap;
         }
-        .nav-pills .nav-link { 
-            color: var(--text-muted); border-radius: 10px; padding: 8px 20px; 
+        .nav-pills .nav-link-wall { 
+            color: var(--text-readable); border-radius: 10px; padding: 8px 20px; 
             margin-right: 10px; background: rgba(0,0,0,0.3); transition: 0.3s; font-size: 0.9rem;
-            cursor: pointer;
+            cursor: pointer; border: none;
         }
-        .nav-pills .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
-        .nav-pills .nav-link.active { 
+        .nav-pills .nav-link-wall:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-pills .nav-link-wall.active { 
             background: var(--accent); color: white; font-weight: bold; 
             box-shadow: 0 0 15px rgba(52, 152, 219, 0.4); 
         }
@@ -75,19 +81,19 @@
             border-radius: 8px; padding: 5px 10px;
         }
         
-        /* TIER BADGE ESTILOS */
         .badge-tier { top: 10px; right: 10px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; }
         
-        /* Colores TIER (Ranking) */
+        /* COLORES DE TIERS */
         .tier-S { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
         .tier-A { color: #00d2ff; text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
-        .tier-B { color: #2ecc71; } /* Buen nivel */
-        .tier-C { color: #f39c12; } /* Promedio */
-        .tier-D { color: #7f8c8d; } /* Bajo */
-
-        /* Colores ESPECIALES (Iconos) */
-        .tier-WU { color: #e056fd; font-size: 1.2rem; } /* Warmup (Lila) */
-        .tier-CR { color: #ff4757; font-size: 1.2rem; } /* Cardio (Rojo/Rosa) */
+        .tier-B { color: #2ecc71; } 
+        .tier-C { color: #f39c12; } 
+        .tier-D { color: #7f8c8d; }
+        
+        /* ESPECIALES */
+        .tier-WU { color: #ff6b6b; font-size: 1.2rem; } /* Warmup - Rojo suave/Fuego */
+        .tier-CR { color: #ff4757; font-size: 1.2rem; } /* Cardio - Rojo */
+        .tier-R  { color: #a55eea; font-size: 1.2rem; } /* Rest - Morado/Indigo relajante */
 
         .badge-diff { bottom: 10px; left: 10px; display: flex; gap: 5px; align-items: center;}
         .diff-1 { color: #2ecc71; } .diff-2 { color: #f39c12; } .diff-3 { color: #e74c3c; filter: drop-shadow(0 0 3px #e74c3c); } .diff-off { color: #444; }
@@ -100,14 +106,18 @@
         .stat-val { display: block; font-weight: bold; color: var(--accent); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .stat-label { font-size: 0.6rem; color: #888; text-transform: uppercase; }
 
-        .btn-toggle { width: 100%; background: transparent; border: 1px dashed #444; color: #aaa; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; cursor: pointer;}
+        /* TEXTOS MEJORADOS (CONTRASTE) */
+        .text-readable-s { color: var(--text-readable); font-size: 0.85rem; }
+        .text-readable-xs { color: #aaa; font-size: 0.8rem; }
+        
+        .btn-toggle { width: 100%; background: transparent; border: 1px dashed #444; color: #bbb; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; cursor: pointer;}
         .btn-toggle:hover { background: rgba(255,255,255,0.05); color: white; border-color: #666; }
 
         footer { margin-top: auto; padding: 30px; background: #000; border-top: 1px solid #222; text-align: center; }
+        .footer-text { color: var(--text-readable); }
+
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: flex; align-items: center; justify-content: center; }
         .modal-img { max-width: 95%; max-height: 80vh; border-radius: 10px; }
-
-        /* Tooltips Custom */
         .tooltip-inner { background-color: var(--accent); color: white; font-weight: bold; font-size: 0.85rem; }
         .tooltip.bs-tooltip-top .tooltip-arrow::before { border-top-color: var(--accent); }
     </style>
@@ -115,40 +125,42 @@
 
 <body>
 
-    <nav class="navbar fixed-top main-navbar">
+    <nav class="navbar fixed-top navbar-expand-lg main-navbar" data-bs-theme="dark">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <i class="bi bi-activity brand-icon"></i>
-                <span class="brand-logo">Training</span>
+                <span class="brand-logo">Luis Garcia Training</span>
             </a>
-            <div class="d-flex">
-                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-              </li>
-       
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Semanas
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="semana1.html">Semana 1</a></li>
+                            <li><a class="dropdown-item" href="semana2.html">Semana 2</a></li>
+                            <li><hr class="dropdown-divider border-secondary"></li>
+                            <li><a class="dropdown-item" href="#">Ver todo</a></li>
+                        </ul>
+                    </li>
+                </ul>
                 
-              <li class="nav-item">
-                <a class="nav-link disabled " href="#"><span class="fas fa-user-circle text-white fs-4"></span></a>
-              </li>
-            </ul>
-  
-          </div>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user-circle text-white fs-4"></i></a>
+                    </li>
+                </ul>
             </div>
         </div>
-        
     </nav>
 
     <div x-data="appCore()" x-init="initApp()">
@@ -156,14 +168,14 @@
         <div class="container mt-4">
             
             <div class="mb-4 text-center text-md-start">
-                <small class="text-muted text-uppercase fw-bold">Programa 2026</small>
+                <small class="text-readable-xs text-uppercase fw-bold">Programa 2026</small>
                 <h2 class="fw-bold text-white">Rutina Híbrida Semanal</h2>
             </div>
 
             <div class="nav-wall animate__animated animate__fadeInDown">
                 <div class="nav nav-pills d-flex flex-nowrap">
                     <template x-for="day in uniqueDays" :key="day">
-                        <button class="nav-link" 
+                        <button class="nav-link-wall" 
                                 :class="activeTab === day ? 'active' : ''"
                                 @click="setActiveTab(day)"
                                 x-text="day">
@@ -182,19 +194,16 @@
                             <div class="img-area" @click="openModal(ex.image_url)">
                                 
                                 <div class="badge-glass badge-tier">
-                                    <template x-if="ex.tier === 'W'">
-                                        <i class="fas fa-person-walking tier-W" title="Calentamiento"></i>
-                                    </template>
-                                    <template x-if="ex.tier === 'CR'">
-                                        <i class="fas fa-heart-pulse tier-CR" title="Cardio"></i>
-                                    </template>
+                                    <template x-if="ex.tier === 'WU'"><i class="fas fa-fire tier-WU" title="Warm Up"></i></template>
+                                    <template x-if="ex.tier === 'CR'"><i class="fas fa-heart-pulse tier-CR" title="Cardio"></i></template>
+                                    <template x-if="ex.tier === 'R'"><i class="fas fa-bed tier-R" title="Descanso"></i></template>
                                     <template x-if="['S','A','B','C','D'].includes(ex.tier)">
                                         <span :class="`tier-${ex.tier}`" x-text="ex.tier"></span>
                                     </template>
                                 </div>
 
                                 <div class="badge-glass badge-diff" 
-                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Nivel de Esfuerzo">
+                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Esfuerzo Percibido">
                                     <template x-for="i in 3">
                                         <i class="fas fa-dumbbell icon-dumbbell"
                                            :class="i <= ex.difficulty ? `diff-${ex.difficulty}` : 'diff-off'">
@@ -206,11 +215,10 @@
 
                             <div class="info-area">
                                 <h5 class="fw-bold mb-0 text-white" x-text="ex.exercise_name"></h5>
-                                <small class="text-muted" x-text="`${ex.category}`"></small>
+                                <small class="text-readable-s" x-text="ex.category"></small>
 
                                 <div class="grid-stats">
-                                    <div class="stat-box" data-bs-toggle="tooltip" data-bs-placement="top" 
-                                         title="Peso / Carga (Nota: 'Corp.' = Tu Peso Corporal)">
+                                    <div class="stat-box" data-bs-toggle="tooltip" title="Peso / Carga ('Corp.' = Peso Corporal)">
                                         <i class="fas fa-weight-hanging mb-1 text-secondary"></i>
                                         <span class="stat-val" x-text="ex.weight"></span>
                                         <span class="stat-label">Peso</span>
@@ -225,8 +233,7 @@
                                         <span class="stat-val" x-text="ex.reps"></span>
                                         <span class="stat-label">Reps</span>
                                     </div>
-                                    <div class="stat-box" data-bs-toggle="tooltip" data-bs-html="true" 
-                                         title="TEMPO:<br>Bajada - Pausa - Subida">
+                                    <div class="stat-box" data-bs-toggle="tooltip" data-bs-html="true" title="TEMPO:<br>Bajada - Pausa - Subida">
                                         <i class="fas fa-stopwatch mb-1 text-secondary"></i>
                                         <span class="stat-val" x-text="ex.tempo"></span>
                                         <span class="stat-label">Tempo</span>
@@ -238,7 +245,7 @@
                                     <i class="fas" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                                 </button>
 
-                                <div x-show="open" x-collapse class="mt-3 text-secondary small border-top border-secondary pt-2">
+                                <div x-show="open" x-collapse class="mt-3 text-readable-s small border-top border-secondary pt-2">
                                     <p class="mb-1"><strong class="text-white">Posición:</strong> <span x-text="ex.bench_position"></span></p>
                                     <p class="mb-2"><strong class="text-white">Músculos:</strong> <span x-text="ex.muscles"></span></p>
                                     <a :href="ex.page_url" target="_blank" class="btn btn-sm btn-outline-light w-100 rounded-pill opacity-75">
@@ -256,7 +263,7 @@
             <div class="container animate__animated animate__fadeIn">
                 <i class="bi bi-mortarboard-fill fs-3 text-white mb-3 d-inline-block"></i>
                 <p class="mb-0 fw-bold text-white">Luis Garcia 2026</p>
-                <small class="text-muted">Material Educativo - Ingeniería de Sistemas & Biomecánica</small>
+                <small class="footer-text">Material Educativo - Ingeniería de Sistemas & Biomecánica</small>
             </div>
         </footer>
 
@@ -272,9 +279,12 @@
     
     <script>
         const WORKOUT_DATA = [
-           
+            // === PRE-WORKOUT (Tier: WU - Warm Up) ===
+        
+    // === LUNES - TORSO PODER ===
+            // Calentamiento LUNES
             {
-              "week_day": "C/Dia",
+              "week_day": "LUNES",
               "tier": "WU",
               "difficulty": 1,
               "exercise_name": "Pre-Workout",
@@ -286,16 +296,15 @@
               "tempo": "Controlado",
               "bench_position": "Suelo",
               "muscles": "Todos",
-              "image_url": "https://fitcron.com/wp-content/uploads/2024/02/calentamiento.jpg",
+              "image_url": "https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif",
               "page_url": "https://fitcron.com/exercise/pre-workout/"
             },
-        
-            // === LUNES - TORSO PODER ===
+            // Ejercicios principales LUNES
             {
               "week_day": "LUNES",
               "tier": "S",
               "difficulty": 3,
-              "exercise_name": "Dominadas",
+              "exercise_name": "Dominada",
               "toon_id": "406",
               "category": "Espalda",
               "weight": "Corp.",
@@ -311,7 +320,7 @@
               "week_day": "LUNES",
               "tier": "A",
               "difficulty": 2,
-              "exercise_name": "Fondos (Dips)",
+              "exercise_name": "Fondos Cerrados en Paralelas",
               "toon_id": "598",
               "category": "Tríceps",
               "weight": "Corp.",
@@ -327,7 +336,7 @@
               "week_day": "LUNES",
               "tier": "S",
               "difficulty": 3,
-              "exercise_name": "Press Militar",
+              "exercise_name": "Press Militar con Barra",
               "toon_id": "374",
               "category": "Hombro",
               "weight": "11 kg",
@@ -343,7 +352,7 @@
               "week_day": "LUNES",
               "tier": "A",
               "difficulty": 2,
-              "exercise_name": "Press Inclinado",
+              "exercise_name": "Press Inclinado en Supinación con Mancuernas",
               "toon_id": "605",
               "category": "Pecho",
               "weight": "11 kg",
@@ -359,7 +368,7 @@
               "week_day": "LUNES",
               "tier": "S",
               "difficulty": 2,
-              "exercise_name": "Remo en T",
+              "exercise_name": "Remo Inclinado en Pronación con Mancuernas",
               "toon_id": "424",
               "category": "Espalda",
               "weight": "11 kg",
@@ -387,13 +396,48 @@
               "image_url": "https://fitcron.com/wp-content/uploads/2021/03/26121301-Jump-Rope-male_Cardio_720.gif",
               "page_url": "#"
             },
+            // Enfriamiento LUNES
+            {
+              "week_day": "LUNES",
+              "tier": "CD",
+              "difficulty": 1,
+              "exercise_name": "Post-Workout",
+              "toon_id": "49",
+              "category": "Estiramiento",
+              "weight": "-",
+              "sets": "1",
+              "reps": "5-10 min",
+              "tempo": "Controlado",
+              "bench_position": "Suelo",
+              "muscles": "Todos",
+              "image_url": "https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif",
+              "page_url": "https://fitcron.com/exercise/post-workout/"
+            },
         
             // === MARTES - GLÚTEO, CORE Y GRADAS ===
+            // Calentamiento MARTES
+            {
+              "week_day": "MARTES",
+              "tier": "WU",
+              "difficulty": 1,
+              "exercise_name": "Pre-Workout",
+              "toon_id": "50",
+              "category": "Estiramiento",
+              "weight": "-",
+              "sets": "1",
+              "reps": "5-10 min",
+              "tempo": "Controlado",
+              "bench_position": "Suelo",
+              "muscles": "Todos",
+              "image_url": "https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif",
+              "page_url": "https://fitcron.com/exercise/pre-workout/"
+            },
+            // Ejercicios principales MARTES
             {
               "week_day": "MARTES",
               "tier": "S",
               "difficulty": 2,
-              "exercise_name": "Hip Thrust",
+              "exercise_name": "Hip Thrust con Mancuerna",
               "toon_id": "120",
               "category": "Pierna",
               "weight": "11 kg",
@@ -409,7 +453,7 @@
               "week_day": "MARTES",
               "tier": "A",
               "difficulty": 3,
-              "exercise_name": "P. Muerto Rumano",
+              "exercise_name": "Peso Muerto Rumano con Mancuernas",
               "toon_id": "124",
               "category": "Pierna",
               "weight": "11 kg",
@@ -425,7 +469,7 @@
               "week_day": "MARTES",
               "tier": "S",
               "difficulty": 2,
-              "exercise_name": "Rueda Abdominal",
+              "exercise_name": "Wheel Rollout de rodillas",
               "toon_id": "31",
               "category": "Abdomen",
               "weight": "Corp.",
@@ -441,7 +485,7 @@
               "week_day": "MARTES",
               "tier": "A",
               "difficulty": 2,
-              "exercise_name": "Zancadas",
+              "exercise_name": "Zancada Delantera con Mancuernas",
               "toon_id": "115",
               "category": "Pierna",
               "weight": "5.5 kg",
@@ -469,6 +513,23 @@
               "image_url": "https://fitcron.com/wp-content/uploads/2021/04/42561301-Stepdown-Squat_Thighs_720.gif",
               "page_url": "#"
             },
+            // Enfriamiento MARTES
+            {
+              "week_day": "MARTES",
+              "tier": "CD",
+              "difficulty": 1,
+              "exercise_name": "Post-Workout",
+              "toon_id": "49",
+              "category": "Estiramiento",
+              "weight": "-",
+              "sets": "1",
+              "reps": "5-10 min",
+              "tempo": "Controlado",
+              "bench_position": "Suelo",
+              "muscles": "Todos",
+              "image_url": "https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif",
+              "page_url": "https://fitcron.com/exercise/post-workout/"
+            },
         
             // === MIÉRCOLES - YOGA ACTIVO ===
             {
@@ -476,7 +537,7 @@
               "tier": "YO",
               "difficulty": 1,
               "exercise_name": "Yoga Activo",
-              "toon_id": "49",
+              "toon_id": "NA",
               "category": "Estiramiento",
               "weight": "-",
               "sets": "1",
@@ -484,16 +545,34 @@
               "tempo": "Controlado",
               "bench_position": "Suelo",
               "muscles": "Todos",
-              "image_url": "https://fitcron.com/wp-content/uploads/2024/02/estiramiento.jpg",
-              "page_url": "https://fitcron.com/exercise/post-workout/"
+              "image_url": "https://i.pinimg.com/originals/34/f1/4b/34f14b4abd9292c95acabfa1092c3b39.gif",
+              "page_url": "#"
             },
         
             // === JUEVES - BRAZOS (ESCULTURA) ===
+            // Calentamiento JUEVES
+            {
+              "week_day": "JUEVES",
+              "tier": "WU",
+              "difficulty": 1,
+              "exercise_name": "Pre-Workout",
+              "toon_id": "50",
+              "category": "Estiramiento",
+              "weight": "-",
+              "sets": "1",
+              "reps": "5-10 min",
+              "tempo": "Controlado",
+              "bench_position": "Suelo",
+              "muscles": "Todos",
+              "image_url": "https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif",
+              "page_url": "https://fitcron.com/exercise/pre-workout/"
+            },
+            // Ejercicios principales JUEVES
             {
               "week_day": "JUEVES",
               "tier": "S",
               "difficulty": 2,
-              "exercise_name": "Dominadas Sup.",
+              "exercise_name": "Dominada en Supinación",
               "toon_id": "404",
               "category": "Espalda",
               "weight": "Corp.",
@@ -509,7 +588,7 @@
               "week_day": "JUEVES",
               "tier": "A",
               "difficulty": 2,
-              "exercise_name": "Elev. Lateral",
+              "exercise_name": "Elevaciones Laterales Neutras con Mancuernas",
               "toon_id": "367",
               "category": "Hombro",
               "weight": "5.5 kg",
@@ -525,7 +604,7 @@
               "week_day": "JUEVES",
               "tier": "A",
               "difficulty": 1,
-              "exercise_name": "Curl Predicador",
+              "exercise_name": "Curl en Banco Scott en Supinación con Mancuerna",
               "toon_id": "500",
               "category": "Bíceps",
               "weight": "11 kg",
@@ -541,7 +620,7 @@
               "week_day": "JUEVES",
               "tier": "S",
               "difficulty": 3,
-              "exercise_name": "Ext. Katana",
+              "exercise_name": "Extensión Vertical Aislada con Mancuerna",
               "toon_id": "554",
               "category": "Tríceps",
               "weight": "5.5 kg",
@@ -557,7 +636,7 @@
               "week_day": "JUEVES",
               "tier": "A",
               "difficulty": 3,
-              "exercise_name": "Press Francés",
+              "exercise_name": "Press Francés con Mancuernas",
               "toon_id": "551",
               "category": "Tríceps",
               "weight": "5.5 kg",
@@ -585,6 +664,23 @@
               "image_url": "https://fitcron.com/wp-content/uploads/2021/03/26121301-Jump-Rope-male_Cardio_720.gif",
               "page_url": "#"
             },
+            // Enfriamiento JUEVES
+            {
+              "week_day": "JUEVES",
+              "tier": "CD",
+              "difficulty": 1,
+              "exercise_name": "Post-Workout",
+              "toon_id": "49",
+              "category": "Estiramiento",
+              "weight": "-",
+              "sets": "1",
+              "reps": "5-10 min",
+              "tempo": "Controlado",
+              "bench_position": "Suelo",
+              "muscles": "Todos",
+              "image_url": "https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif",
+              "page_url": "https://fitcron.com/exercise/post-workout/"
+            },
         
             // === VIERNES - DESCANSO ===
             {
@@ -600,16 +696,34 @@
               "tempo": "-",
               "bench_position": "Descanso Activo",
               "muscles": "Todo el cuerpo",
-              "image_url": "https://i.pinimg.com/736x/19/82/39/198239a68bfd5cae977994cc8206982f.jpg",
+              "image_url": "https://i.pinimg.com/originals/45/0a/77/450a7755ffea1df5b3874fb16edc2f8f.gif",
               "page_url": "#"
             },
         
             // === SÁBADO - FULL BODY & CORE HIT ===
+            // Calentamiento SÁBADO
+            {
+              "week_day": "SÁBADO",
+              "tier": "WU",
+              "difficulty": 1,
+              "exercise_name": "Pre-Workout",
+              "toon_id": "50",
+              "category": "Estiramiento",
+              "weight": "-",
+              "sets": "1",
+              "reps": "5-10 min",
+              "tempo": "Controlado",
+              "bench_position": "Suelo",
+              "muscles": "Todos",
+              "image_url": "https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif",
+              "page_url": "https://fitcron.com/exercise/pre-workout/"
+            },
+            // Ejercicios principales SÁBADO
             {
               "week_day": "SÁBADO",
               "tier": "A",
               "difficulty": 2,
-              "exercise_name": "Despechadas",
+              "exercise_name": "Flexiones Básicas",
               "toon_id": "590",
               "category": "Tríceps",
               "weight": "Corp.",
@@ -625,7 +739,7 @@
               "week_day": "SÁBADO",
               "tier": "A",
               "difficulty": 3,
-              "exercise_name": "Remo Unilateral",
+              "exercise_name": "Remo Aislado con Mancuerna",
               "toon_id": "421",
               "category": "Espalda",
               "weight": "11 kg",
@@ -641,7 +755,7 @@
               "week_day": "SÁBADO",
               "tier": "S",
               "difficulty": 3,
-              "exercise_name": "Sent. Búlgara",
+              "exercise_name": "Sentadilla a una pierna con Mancuerna",
               "toon_id": "112",
               "category": "Pierna",
               "weight": "5.5 kg",
@@ -657,7 +771,7 @@
               "week_day": "SÁBADO",
               "tier": "S",
               "difficulty": 2,
-              "exercise_name": "Rueda Abdom.",
+              "exercise_name": "Wheel Rollout de rodillas",
               "toon_id": "31",
               "category": "Abdomen",
               "weight": "Corp.",
@@ -685,28 +799,9 @@
               "image_url": "https://fitcron.com/wp-content/uploads/2021/04/42561301-Stepdown-Squat_Thighs_720.gif",
               "page_url": "#"
             },
-        
-            // === DOMINGO - YOGA RESTAURATIVO ===
+            // Enfriamiento SÁBADO
             {
-              "week_day": "DOMINGO",
-              "tier": "YO",
-              "difficulty": 1,
-              "exercise_name": "Yoga Restaurativo",
-              "toon_id": "49",
-              "category": "Estiramiento",
-              "weight": "-",
-              "sets": "1",
-              "reps": "20-30 min",
-              "tempo": "Controlado",
-              "bench_position": "Suelo",
-              "muscles": "Todos",
-              "image_url": "https://fitcron.com/wp-content/uploads/2024/02/estiramiento.jpg",
-              "page_url": "https://fitcron.com/exercise/post-workout/"
-            },
-        
-            // === POST-WORKOUT (Todos los días) ===
-            {
-              "week_day": "C/Dia",
+              "week_day": "SÁBADO",
               "tier": "CD",
               "difficulty": 1,
               "exercise_name": "Post-Workout",
@@ -718,9 +813,28 @@
               "tempo": "Controlado",
               "bench_position": "Suelo",
               "muscles": "Todos",
-              "image_url": "https://fitcron.com/wp-content/uploads/2024/02/estiramiento.jpg",
+              "image_url": "https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif",
               "page_url": "https://fitcron.com/exercise/post-workout/"
+            },
+        
+            // === DOMINGO - YOGA RESTAURATIVO ===
+            {
+              "week_day": "DOMINGO",
+              "tier": "YO",
+              "difficulty": 1,
+              "exercise_name": "Yoga Pasivo",
+              "toon_id": "NA",
+              "category": "Estiramiento",
+              "weight": "-",
+              "sets": "1",
+              "reps": "20-30 min",
+              "tempo": "Controlado",
+              "bench_position": "Suelo",
+              "muscles": "Todos",
+              "image_url": "https://i.pinimg.com/originals/6a/93/a0/6a93a05cc91bf73fddf1a0ed6238c762.gif",
+              "page_url": "#"
             }
+         
         ];
 
         function appCore() {

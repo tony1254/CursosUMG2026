@@ -19,19 +19,20 @@
             --text-muted: #a0a0a0;
         }
 
-        body { background-color: var(--bg-body); color: #fff; font-family: sans-serif; min-height: 100vh; display: flex; flex-direction: column; padding-top: 70px; /* Espacio para navbar fijo */ }
+        body { background-color: var(--bg-body); color: #fff; font-family: sans-serif; min-height: 100vh; display: flex; flex-direction: column; padding-top: 70px; }
 
-        /* --- NAVBAR PRINCIPAL --- */
+        /* NAVBAR PRINCIPAL */
         .main-navbar {
-            background: rgba(5, 5, 5, 0.9);
+            background: rgba(5, 5, 5, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
             height: 60px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
         .brand-logo { font-weight: 800; letter-spacing: 1px; color: white; text-transform: uppercase; font-size: 1.1rem; }
         .brand-icon { color: var(--accent); margin-right: 8px; }
 
-        /* --- NAV WALL (Selector de Días) --- */
+        /* NAV WALL (Selector de Días) */
         .nav-wall {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
@@ -39,17 +40,20 @@
             padding: 15px;
             margin-bottom: 30px;
             overflow-x: auto;
+            white-space: nowrap;
         }
         .nav-pills .nav-link { 
             color: var(--text-muted); border-radius: 10px; padding: 8px 20px; 
             margin-right: 10px; background: rgba(0,0,0,0.3); transition: 0.3s; font-size: 0.9rem;
+            cursor: pointer;
         }
+        .nav-pills .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
         .nav-pills .nav-link.active { 
             background: var(--accent); color: white; font-weight: bold; 
             box-shadow: 0 0 15px rgba(52, 152, 219, 0.4); 
         }
 
-        /* --- TARJETA --- */
+        /* TARJETA */
         .workout-card {
             background-color: var(--bg-card);
             border-radius: 16px;
@@ -60,7 +64,7 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             transition: transform 0.2s;
         }
-        .workout-card:hover { transform: translateY(-3px); }
+        .workout-card:hover { transform: translateY(-3px); border-color: #444; }
 
         .img-area { position: relative; height: 220px; cursor: pointer; overflow: hidden; }
         .img-area img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; opacity: 0.85; }
@@ -69,9 +73,9 @@
         /* BADGES */
         .badge-glass {
             position: absolute; z-index: 10;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8); /* Fondo más oscuro para legibilidad */
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
             border-radius: 8px; padding: 5px 10px;
         }
         .badge-tier { top: 10px; right: 10px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; }
@@ -79,9 +83,9 @@
         .text-tier-S { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
         .text-tier-A { color: #3498db; text-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
         .text-tier-C { color: #e67e22; } 
-        .text-tier-W { color: #9b59b6; }
+        .text-tier-W { color: #9b59b6; } /* Color Warmup */
 
-        .badge-diff { bottom: 10px; left: 10px; display: flex; gap: 5px; }
+        .badge-diff { bottom: 10px; left: 10px; display: flex; gap: 5px; align-items: center;}
         .diff-1 { color: #2ecc71; } .diff-2 { color: #f39c12; } .diff-3 { color: #e74c3c; filter: drop-shadow(0 0 3px #e74c3c); } .diff-off { color: #444; }
 
         /* DATOS */
@@ -93,7 +97,7 @@
         .stat-val { display: block; font-weight: bold; color: var(--accent); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .stat-label { font-size: 0.6rem; color: #888; text-transform: uppercase; }
 
-        .btn-toggle { width: 100%; background: transparent; border: 1px dashed #444; color: #aaa; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+        .btn-toggle { width: 100%; background: transparent; border: 1px dashed #444; color: #aaa; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; cursor: pointer;}
         .btn-toggle:hover { background: rgba(255,255,255,0.05); color: white; border-color: #666; }
 
         /* FOOTER & MODAL */
@@ -101,7 +105,7 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: flex; align-items: center; justify-content: center; }
         .modal-img { max-width: 95%; max-height: 80vh; border-radius: 10px; }
 
-        /* Tooltip Custom Style (Bootstrap override opcional) */
+        /* Tooltip Custom Style */
         .tooltip-inner { background-color: var(--accent); color: white; font-weight: bold; }
         .tooltip.bs-tooltip-top .tooltip-arrow::before { border-top-color: var(--accent); }
     </style>
@@ -121,7 +125,7 @@
         </div>
     </nav>
 
-    <div x-data="appCore()" x-init="initTooltips()">
+    <div x-data="appCore()" x-init="initApp()">
 
         <div class="container mt-4">
             
@@ -135,7 +139,7 @@
                     <template x-for="day in uniqueDays" :key="day">
                         <button class="nav-link" 
                                 :class="activeTab === day ? 'active' : ''"
-                                @click="activeTab = day; refreshTooltips()"
+                                @click="setActiveTab(day)"
                                 x-text="day">
                         </button>
                     </template>
@@ -143,7 +147,7 @@
             </div>
 
             <div class="row">
-                <template x-for="(ex, index) in filteredExercises" :key="ex.toonId + index">
+                <template x-for="(ex, index) in filteredExercises" :key="ex.toonId || index">
                     <div class="col-12 col-md-6 col-lg-4 animate__animated animate__fadeInUp"
                          :style="`animation-delay: ${index * 100}ms`">
                         
@@ -171,24 +175,23 @@
                                 <small class="text-muted" x-text="`${ex.category} | ID: ${ex.toon_id}`"></small>
 
                                 <div class="grid-stats">
-                                    <div class="stat-box" data-bs-toggle="tooltip" data-bs-placement="top" title="Peso / Carga Estimada">
+                                    <div class="stat-box" data-bs-toggle="tooltip" title="Peso / Carga Estimada">
                                         <i class="fas fa-weight-hanging mb-1 text-secondary"></i>
                                         <span class="stat-val" x-text="ex.weight"></span>
                                         <span class="stat-label">Peso</span>
                                     </div>
-                                    <div class="stat-box" data-bs-toggle="tooltip" data-bs-placement="top" title="Series Efectivas">
+                                    <div class="stat-box" data-bs-toggle="tooltip" title="Series Efectivas">
                                         <i class="fas fa-list-ol mb-1 text-secondary"></i>
                                         <span class="stat-val" x-text="ex.sets"></span>
                                         <span class="stat-label">Series</span>
                                     </div>
-                                    <div class="stat-box" data-bs-toggle="tooltip" data-bs-placement="top" title="Repeticiones Objetivo">
+                                    <div class="stat-box" data-bs-toggle="tooltip" title="Repeticiones Objetivo">
                                         <i class="fas fa-redo mb-1 text-secondary"></i>
                                         <span class="stat-val" x-text="ex.reps"></span>
                                         <span class="stat-label">Reps</span>
                                     </div>
                                     <div class="stat-box" data-bs-toggle="tooltip" data-bs-html="true" 
-                                         data-bs-placement="top" 
-                                         title="TEMPO: Segundos de Bajada - Pausa - Subida.<br>Ej: 3-0-1 (3s bajar, 0s pausa, 1s subir)">
+                                         title="TEMPO:<br>Bajada - Pausa - Subida">
                                         <i class="fas fa-stopwatch mb-1 text-secondary"></i>
                                         <span class="stat-val" x-text="ex.tempo"></span>
                                         <span class="stat-label">Tempo</span>
@@ -233,18 +236,42 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // DATOS CONVERTIDOS DE TU FORMATO TEXTO A JSON
         const WORKOUT_DATA = [
-            // --- CALENTAMIENTO (Mantenido) ---
+            // === 1. PRE-WORKOUT (CALENTAMIENTO) ===
             {
-                "week_day": "PRE-WORKOUT", "tier": "W", "difficulty": 1,
-                "exercise_name": "Movilidad Articular", "toon_id": "050", "category": "Warm Up",
-                "weight": "Corp.", "sets": "1", "reps": "20", "tempo": "Fluido",
-                "bench_position": "De pie", "muscles": "General",
-                "image_url": "https://fitcron.com/wp-content/uploads/2024/02/calentamiento.jpg", "page_url": "#"
+                "week_day": "PRE-WORKOUT",
+                "tier": "W", // W = Warmup
+                "difficulty": 1,
+                "exercise_name": "Movilidad Articular",
+                "toon_id": "050",
+                "category": "Warm Up",
+                "weight": "Corp.",
+                "sets": "1",
+                "reps": "20",
+                "tempo": "Fluido",
+                "bench_position": "De pie",
+                "muscles": "Hombros, Cadera, Muñecas",
+                "image_url": "https://fitcron.com/wp-content/uploads/2024/02/calentamiento.jpg", // Imagen genérica o la que uses
+                "page_url": "#"
             },
-            
-            // --- LUNES (Nuevos datos insertados) ---
+            {
+                "week_day": "PRE-WORKOUT",
+                "tier": "W",
+                "difficulty": 1,
+                "exercise_name": "Gato - Vaca",
+                "toon_id": "051",
+                "category": "Activación",
+                "weight": "Corp.",
+                "sets": "2",
+                "reps": "10",
+                "tempo": "3-3-3",
+                "bench_position": "Cuadrupedia",
+                "muscles": "Columna Vertebral",
+                "image_url": "https://fitcron.com/wp-content/uploads/2024/02/estiramiento.jpg",
+                "page_url": "#"
+            },
+
+            // === 2. LUNES (RUTINA COMPLETA) ===
             {
                 "week_day": "LUNES", "tier": "S", "difficulty": 3,
                 "exercise_name": "Dominadas", "toon_id": "406", "category": "Espalda",
@@ -298,10 +325,25 @@
         function appCore() {
             return {
                 data: WORKOUT_DATA,
-                activeTab: 'LUNES', // Arrancar en Lunes directamente
+                activeTab: '', // Se calculará en initApp
                 modalOpen: false,
                 currentImage: '',
                 tooltips: [],
+
+                // Inicialización
+                initApp() {
+                    // Seleccionar el primer día disponible automáticamente (PRE-WORKOUT)
+                    if (this.uniqueDays.length > 0) {
+                        this.activeTab = this.uniqueDays[0];
+                    }
+                    this.refreshTooltips();
+                },
+
+                // Cambio de pestaña
+                setActiveTab(day) {
+                    this.activeTab = day;
+                    this.refreshTooltips();
+                },
 
                 // Getters
                 get uniqueDays() { return [...new Set(this.data.map(item => item.week_day))]; },
@@ -311,26 +353,15 @@
                 openModal(url) { this.currentImage = url; this.modalOpen = true; },
                 closeModal() { this.modalOpen = false; },
 
-                // Inicializar Tooltips de Bootstrap
-                initTooltips() {
-                    this.$nextTick(() => {
-                        this.refreshTooltips();
-                    });
-                },
-                
-                // Refrescar Tooltips al cambiar de pestaña
+                // Tooltips de Bootstrap
                 refreshTooltips() {
-                    // Limpiar tooltips viejos para evitar basura en memoria
-                    if(this.tooltips) {
-                        this.tooltips.forEach(t => t.dispose());
-                    }
+                    // Limpiar tooltips viejos
+                    if(this.tooltips) this.tooltips.forEach(t => t.dispose());
                     
-                    // Esperar a que Alpine renderice el nuevo DOM
+                    // Esperar renderizado y reactivar
                     this.$nextTick(() => {
-                        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-                        this.tooltips = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                            return new bootstrap.Tooltip(tooltipTriggerEl);
-                        });
+                        const els = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                        this.tooltips = els.map(el => new bootstrap.Tooltip(el));
                     });
                 }
             }

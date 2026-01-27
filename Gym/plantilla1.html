@@ -183,11 +183,16 @@
                     </template>
                 </div>
             </div>
-<template x-if="ex.tier === 'RE'">
-        <i class="fas fa-bed tier-R" title="Descanso"></i>
-    </template>
+
             <div class="row">
                 <template x-for="(ex, index) in filteredExercises" :key="ex.toonId || index">
+
+                    <template x-if="ex.tier === 'RE'">aaaaa
+        <i class="fas fa-bed tier-R" title="Descanso"></i>
+                          <template x-if="['S','A','B','C','D'].includes(ex.tier)">
+                                        <span :class="`tier-${ex.tier}`" x-text="ex.tier"></span>
+                                    </template>
+    </template>
                     <div class="col-12 col-md-6 col-lg-4 animate__animated animate__fadeInUp"
                          :style="`animation-delay: ${index * 100}ms`">
                         

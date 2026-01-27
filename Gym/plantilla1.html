@@ -95,7 +95,8 @@
         .tier-CR { color: #ff4757; font-size: 1.2rem; } /* Cardio - Rojo */
         .tier-R  { color: #a55eea; font-size: 1.2rem; } /* Rest - Morado/Indigo relajante */
         .tier-YO { color: #00cec9; font-size: 1.2rem; } /* Turquesa Zen */
-
+        .tier-CD { color: #48dbfb; font-size: 1.2rem; } /* Azul Hielo */
+        
         .badge-diff { bottom: 10px; left: 10px; display: flex; gap: 5px; align-items: center;}
         .diff-1 { color: #2ecc71; } .diff-2 { color: #f39c12; } .diff-3 { color: #e74c3c; filter: drop-shadow(0 0 3px #e74c3c); } .diff-off { color: #444; }
 
@@ -196,7 +197,8 @@
                             <div class="img-area" @click="openModal(ex.image_url)">
                                 
                                 <div class="badge-glass badge-tier">
-                                    <template x-if="ex.tier === 'WU'"><i class="fas fa-fire tier-WU" style="--fa-animation-duration: 2s;" title="Warm Up"></i></template>
+                                    <template x-if="ex.tier === 'WU'"><i class="fas fa-fire fa-fade tier-WU" style="--fa-animation-duration: 1s;" title="Warm Up"></i></template>
+                                     <template x-if="ex.tier === 'CD'"><i class="fas fa-snowflake fa-shake tier-CD" title="Enfriamiento / Cool Down"></i></template>
                                     <template x-if="ex.tier === 'CR'"><i class="fas fa-heart-pulse tier-CR" title="Cardio"></i></template>
                                     <template x-if="ex.tier === 'R'"><i class="fa-solid fa-bed-pulse fa-beat-fade tier-R" title="Descanso" style="--fa-animation-duration: 2s;"></i></template>
                                     <template x-if="ex.tier === 'YO'"><i class="fas fa-spa tier-YO" title="Yoga Flow"></i></template>

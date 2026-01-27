@@ -21,7 +21,7 @@
 
         body { background-color: var(--bg-body); color: #fff; font-family: sans-serif; min-height: 100vh; display: flex; flex-direction: column; padding-top: 70px; }
 
-        /* NAVBAR PRINCIPAL */
+        /* NAVBAR */
         .main-navbar {
             background: rgba(5, 5, 5, 0.95);
             backdrop-filter: blur(10px);
@@ -32,7 +32,7 @@
         .brand-logo { font-weight: 800; letter-spacing: 1px; color: white; text-transform: uppercase; font-size: 1.1rem; }
         .brand-icon { color: var(--accent); margin-right: 8px; }
 
-        /* NAV WALL (Selector de Días) */
+        /* NAV WALL */
         .nav-wall {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.1);
@@ -53,16 +53,12 @@
             box-shadow: 0 0 15px rgba(52, 152, 219, 0.4); 
         }
 
-        /* TARJETA */
+        /* CARD */
         .workout-card {
             background-color: var(--bg-card);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid #252525;
-            position: relative;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
+            border-radius: 16px; overflow: hidden; border: 1px solid #252525;
+            position: relative; margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: transform 0.2s;
         }
         .workout-card:hover { transform: translateY(-3px); border-color: #444; }
 
@@ -73,40 +69,46 @@
         /* BADGES */
         .badge-glass {
             position: absolute; z-index: 10;
-            background: rgba(0, 0, 0, 0.8); /* Fondo más oscuro para legibilidad */
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255,255,255,0.15);
             border-radius: 8px; padding: 5px 10px;
         }
+        
+        /* TIER BADGE ESTILOS */
         .badge-tier { top: 10px; right: 10px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; }
         
-        .text-tier-S { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-        .text-tier-A { color: #3498db; text-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
-        .text-tier-C { color: #e67e22; } 
-        .text-tier-W { color: #9b59b6; } /* Color Warmup */
+        /* Colores TIER (Ranking) */
+        .tier-S { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .tier-A { color: #00d2ff; text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
+        .tier-B { color: #2ecc71; } /* Buen nivel */
+        .tier-C { color: #f39c12; } /* Promedio */
+        .tier-D { color: #7f8c8d; } /* Bajo */
+
+        /* Colores ESPECIALES (Iconos) */
+        .tier-W { color: #e056fd; font-size: 1.2rem; } /* Warmup (Lila) */
+        .tier-CR { color: #ff4757; font-size: 1.2rem; } /* Cardio (Rojo/Rosa) */
 
         .badge-diff { bottom: 10px; left: 10px; display: flex; gap: 5px; align-items: center;}
         .diff-1 { color: #2ecc71; } .diff-2 { color: #f39c12; } .diff-3 { color: #e74c3c; filter: drop-shadow(0 0 3px #e74c3c); } .diff-off { color: #444; }
 
-        /* DATOS */
+        /* INFO & STATS */
         .info-area { padding: 15px; }
         .grid-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin: 15px 0; }
         .stat-box { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 8px 2px; text-align: center; cursor: help; transition: 0.2s; }
         .stat-box:hover { background: rgba(255,255,255,0.08); }
-        
         .stat-val { display: block; font-weight: bold; color: var(--accent); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .stat-label { font-size: 0.6rem; color: #888; text-transform: uppercase; }
 
         .btn-toggle { width: 100%; background: transparent; border: 1px dashed #444; color: #aaa; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; cursor: pointer;}
         .btn-toggle:hover { background: rgba(255,255,255,0.05); color: white; border-color: #666; }
 
-        /* FOOTER & MODAL */
         footer { margin-top: auto; padding: 30px; background: #000; border-top: 1px solid #222; text-align: center; }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: flex; align-items: center; justify-content: center; }
         .modal-img { max-width: 95%; max-height: 80vh; border-radius: 10px; }
 
-        /* Tooltip Custom Style */
-        .tooltip-inner { background-color: var(--accent); color: white; font-weight: bold; }
+        /* Tooltips Custom */
+        .tooltip-inner { background-color: var(--accent); color: white; font-weight: bold; font-size: 0.85rem; }
         .tooltip.bs-tooltip-top .tooltip-arrow::before { border-top-color: var(--accent); }
     </style>
 </head>
@@ -154,13 +156,21 @@
                         <div class="workout-card" x-data="{ open: false }">
                             
                             <div class="img-area" @click="openModal(ex.image_url)">
+                                
                                 <div class="badge-glass badge-tier">
-                                    <span :class="`text-tier-${ex.tier}`" x-text="ex.tier"></span>
+                                    <template x-if="ex.tier === 'W'">
+                                        <i class="fas fa-person-walking tier-W" title="Calentamiento"></i>
+                                    </template>
+                                    <template x-if="ex.tier === 'CR'">
+                                        <i class="fas fa-heart-pulse tier-CR" title="Cardio"></i>
+                                    </template>
+                                    <template x-if="['S','A','B','C','D'].includes(ex.tier)">
+                                        <span :class="`tier-${ex.tier}`" x-text="ex.tier"></span>
+                                    </template>
                                 </div>
+
                                 <div class="badge-glass badge-diff" 
-                                     data-bs-toggle="tooltip" 
-                                     data-bs-placement="top" 
-                                     title="Nivel de Dificultad">
+                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Nivel de Esfuerzo">
                                     <template x-for="i in 3">
                                         <i class="fas fa-dumbbell icon-dumbbell"
                                            :class="i <= ex.difficulty ? `diff-${ex.difficulty}` : 'diff-off'">
@@ -172,10 +182,11 @@
 
                             <div class="info-area">
                                 <h5 class="fw-bold mb-0 text-white" x-text="ex.exercise_name"></h5>
-                                <small class="text-muted" x-text="`${ex.category} | ID: ${ex.toon_id}`"></small>
+                                <small class="text-muted" x-text="`${ex.category}`"></small>
 
                                 <div class="grid-stats">
-                                    <div class="stat-box" data-bs-toggle="tooltip" title="Peso / Carga Estimada">
+                                    <div class="stat-box" data-bs-toggle="tooltip" data-bs-placement="top" 
+                                         title="Peso / Carga (Nota: 'Corp.' = Tu Peso Corporal)">
                                         <i class="fas fa-weight-hanging mb-1 text-secondary"></i>
                                         <span class="stat-val" x-text="ex.weight"></span>
                                         <span class="stat-label">Peso</span>
@@ -237,128 +248,479 @@
     
     <script>
         const WORKOUT_DATA = [
-            // === 1. PRE-WORKOUT (CALENTAMIENTO) ===
+           
             {
-                "week_day": "PRE-WORKOUT",
-                "tier": "W", // W = Warmup
-                "difficulty": 1,
-                "exercise_name": "Movilidad Articular",
-                "toon_id": "050",
-                "category": "Warm Up",
-                "weight": "Corp.",
-                "sets": "1",
-                "reps": "20",
-                "tempo": "Fluido",
-                "bench_position": "De pie",
-                "muscles": "Hombros, Cadera, Muñecas",
-                "image_url": "https://fitcron.com/wp-content/uploads/2024/02/calentamiento.jpg", // Imagen genérica o la que uses
-                "page_url": "#"
+              "week_day": "ALL",
+              "tier": "WU",
+              "difficulty": 1,
+              "exercise_name": "Pre-Workout",
+              "toon_id": "50",
+              "category": "Estiramiento",
+              "weight": "-",
+              "sets": "1",
+              "reps": "5-10 min",
+              "tempo": "Controlado",
+              "bench_position": "Suelo",
+              "muscles": "Todos",
+              "image_url": "https://fitcron.com/wp-content/uploads/2024/02/calentamiento.jpg",
+              "page_url": "https://fitcron.com/exercise/pre-workout/"
+            },
+        
+            // === LUNES - TORSO PODER ===
+            {
+              "week_day": "LUNES",
+              "tier": "S",
+              "difficulty": 3,
+              "exercise_name": "Dominadas",
+              "toon_id": "406",
+              "category": "Espalda",
+              "weight": "Corp.",
+              "sets": "4",
+              "reps": "Fallo",
+              "tempo": "2-0-1",
+              "bench_position": "Barra Fija (Agarre Prono)",
+              "muscles": "Dorsal, Trapecio, Bíceps",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/14291301-Wide-Grip-Pull-Up_Back_720.gif",
+              "page_url": "https://fitcron.com/exercise/dominada-dorsal/"
             },
             {
-                "week_day": "PRE-WORKOUT",
-                "tier": "W",
-                "difficulty": 1,
-                "exercise_name": "Gato - Vaca",
-                "toon_id": "051",
-                "category": "Activación",
-                "weight": "Corp.",
-                "sets": "2",
-                "reps": "10",
-                "tempo": "3-3-3",
-                "bench_position": "Cuadrupedia",
-                "muscles": "Columna Vertebral",
-                "image_url": "https://fitcron.com/wp-content/uploads/2024/02/estiramiento.jpg",
-                "page_url": "#"
-            },
-
-            // === 2. LUNES (RUTINA COMPLETA) ===
-            {
-                "week_day": "LUNES", "tier": "S", "difficulty": 3,
-                "exercise_name": "Dominadas", "toon_id": "406", "category": "Espalda",
-                "weight": "Corp.", "sets": "4", "reps": "Fallo", "tempo": "2-0-1",
-                "bench_position": "Barra Fija (Agarre Prono)", "muscles": "Dorsal,Trapecio,Bíceps",
-                "image_url": "https://fitcron.com/wp-content/uploads/2021/04/14291301-Wide-Grip-Pull-Up_Back_720.gif",
-                "page_url": "https://fitcron.com/exercise/dominada-dorsal/"
+              "week_day": "LUNES",
+              "tier": "A",
+              "difficulty": 2,
+              "exercise_name": "Fondos (Dips)",
+              "toon_id": "598",
+              "category": "Tríceps",
+              "weight": "Corp.",
+              "sets": "3",
+              "reps": "Fallo",
+              "tempo": "3-1-1",
+              "bench_position": "Banco (Codos atrás) / Barras",
+              "muscles": "Tríceps, Antebrazo",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/03/08141301-Triceps-Dip_Upper-Arms_720.gif",
+              "page_url": "https://fitcron.com/exercise/fondos-cerrados-en-paralelas-triceps/"
             },
             {
-                "week_day": "LUNES", "tier": "A", "difficulty": 2,
-                "exercise_name": "Fondos (Dips)", "toon_id": "598", "category": "Tríceps",
-                "weight": "Corp.", "sets": "3", "reps": "Fallo", "tempo": "3-1-1",
-                "bench_position": "Banco (Codos atrás) / Barras", "muscles": "Tríceps,Antebrazo",
-                "image_url": "https://fitcron.com/wp-content/uploads/2021/03/08141301-Triceps-Dip_Upper-Arms_720.gif",
-                "page_url": "https://fitcron.com/exercise/fondos-cerrados-en-paralelas-triceps/"
+              "week_day": "LUNES",
+              "tier": "S",
+              "difficulty": 3,
+              "exercise_name": "Press Militar",
+              "toon_id": "374",
+              "category": "Hombro",
+              "weight": "11 kg",
+              "sets": "4",
+              "reps": "10",
+              "tempo": "3-0-1",
+              "bench_position": "De Pie (Core contraído)",
+              "muscles": "Trapecio, Deltoides",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/11651301-Barbell-Standing-Military-Press-without-rack_Shoulders_720.gif",
+              "page_url": "https://fitcron.com/exercise/press-militar-con-barra-deltoides/"
             },
             {
-                "week_day": "LUNES", "tier": "S", "difficulty": 3,
-                "exercise_name": "Press Militar", "toon_id": "374", "category": "Hombro",
-                "weight": "11 kg", "sets": "4", "reps": "10", "tempo": "3-0-1",
-                "bench_position": "De Pie (Core contraído)", "muscles": "Trapecio,Deltoides",
-                "image_url": "https://fitcron.com/wp-content/uploads/2021/04/11651301-Barbell-Standing-Military-Press-without-rack_Shoulders_720.gif",
-                "page_url": "https://fitcron.com/exercise/press-militar-con-barra-deltoides/"
+              "week_day": "LUNES",
+              "tier": "A",
+              "difficulty": 2,
+              "exercise_name": "Press Inclinado",
+              "toon_id": "605",
+              "category": "Pecho",
+              "weight": "11 kg",
+              "sets": "3",
+              "reps": "12",
+              "tempo": "3-1-1",
+              "bench_position": "Banco a 45°",
+              "muscles": "Pectoral, Tríceps",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/03/03241301-Dumbbell-Incline-Palm-in-Press_Chest_720.gif",
+              "page_url": "https://fitcron.com/exercise/press-inclinado-en-supinacion-con-mancuernas-pectoral/"
             },
             {
-                "week_day": "LUNES", "tier": "A", "difficulty": 2,
-                "exercise_name": "Press Inclinado", "toon_id": "605", "category": "Pecho",
-                "weight": "11 kg", "sets": "3", "reps": "12", "tempo": "3-1-1",
-                "bench_position": "Banco a 45°", "muscles": "Pectoral,Tríceps",
-                "image_url": "https://fitcron.com/wp-content/uploads/2021/03/03241301-Dumbbell-Incline-Palm-in-Press_Chest_720.gif",
-                "page_url": "https://fitcron.com/exercise/press-inclinado-en-supinacion-con-mancuernas-pectoral/"
+              "week_day": "LUNES",
+              "tier": "S",
+              "difficulty": 2,
+              "exercise_name": "Remo en T",
+              "toon_id": "424",
+              "category": "Espalda",
+              "weight": "11 kg",
+              "sets": "3",
+              "reps": "12",
+              "tempo": "2-1-1",
+              "bench_position": "Banco a 45° (Boca abajo)",
+              "muscles": "Dorsal, Trapecio, Bíceps",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/03271301-Dumbbell-Incline-Row_Back_720.gif",
+              "page_url": "https://fitcron.com/exercise/remo-inclinado-en-pronacion-con-mancuernas-dorsal/"
             },
             {
-                "week_day": "LUNES", "tier": "S", "difficulty": 2,
-                "exercise_name": "Remo en T", "toon_id": "424", "category": "Espalda",
-                "weight": "11 kg", "sets": "4", "reps": "12", "tempo": "2-1-1",
-                "bench_position": "Banco a 45° (Boca abajo)", "muscles": "Dorsal,Trapecio,Bíceps",
-                "image_url": "https://fitcron.com/wp-content/uploads/2021/04/03271301-Dumbbell-Incline-Row_Back_720.gif",
-                "page_url": "https://fitcron.com/exercise/remo-inclinado-en-pronacion-con-mancuernas-dorsal/"
+              "week_day": "LUNES",
+              "tier": "CR",
+              "difficulty": 3,
+              "exercise_name": "Cardio Final",
+              "toon_id": "NA",
+              "category": "Cardio",
+              "weight": "-",
+              "sets": "1",
+              "reps": "15 min",
+              "tempo": "30s cuerda / 30s jacks",
+              "bench_position": "Cuerda + Saltos Payaso",
+              "muscles": "Corazón, Piernas",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/03/26121301-Jump-Rope-male_Cardio_720.gif",
+              "page_url": "#"
+            },
+        
+            // === MARTES - GLÚTEO, CORE Y GRADAS ===
+            {
+              "week_day": "MARTES",
+              "tier": "S",
+              "difficulty": 2,
+              "exercise_name": "Hip Thrust",
+              "toon_id": "120",
+              "category": "Pierna",
+              "weight": "11 kg",
+              "sets": "4",
+              "reps": "15",
+              "tempo": "2-2-1",
+              "bench_position": "Espalda apoyada en Banco",
+              "muscles": "Glúteo, Aductor, Cuádriceps, Gemelo",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/33351301-Dumbbell-Glute-Bridge_Hip_720.gif",
+              "page_url": "https://fitcron.com/exercise/elevacion-de-gluteos-con-mancuerna-pierna/"
             },
             {
-                "week_day": "LUNES", "tier": "C", "difficulty": 3,
-                "exercise_name": "Cardio Final", "toon_id": "NA", "category": "Cardio",
-                "weight": "-", "sets": "1", "reps": "15 min", "tempo": "Continuo",
-                "bench_position": "Cuerda + Saltos Payaso", "muscles": "Todo el cuerpo",
-                "image_url": "https://fitcron.com/wp-content/uploads/2021/03/26121301-Jump-Rope-male_Cardio_720.gif",
-                "page_url": "https://fitcron.com/exercise/cardio-combinado/"
+              "week_day": "MARTES",
+              "tier": "A",
+              "difficulty": 3,
+              "exercise_name": "P. Muerto Rumano",
+              "toon_id": "124",
+              "category": "Pierna",
+              "weight": "11 kg",
+              "sets": "3",
+              "reps": "12",
+              "tempo": "3-0-1",
+              "bench_position": "De Pie (Rodillas semirrígidas)",
+              "muscles": "Glúteo, Aductor, Cuádriceps, Gemelo",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/14591301-Dumbbell-Romanian-Deadlift_Hips_720.gif",
+              "page_url": "https://fitcron.com/exercise/peso-muerto-rumano-con-mancuernas-pierna/"
+            },
+            {
+              "week_day": "MARTES",
+              "tier": "S",
+              "difficulty": 2,
+              "exercise_name": "Rueda Abdominal",
+              "toon_id": "31",
+              "category": "Abdomen",
+              "weight": "Corp.",
+              "sets": "3",
+              "reps": "Fallo",
+              "tempo": "3-1-1",
+              "bench_position": "Suelo / Rueda de ejercicio",
+              "muscles": "Abdomen, Oblicuos",
+              "image_url": "https://fitcron.com/wp-content/uploads/2024/05/08571301-Wheel-Rollout_Waist-FIX_720.gif",
+              "page_url": "https://fitcron.com/exercise/wheel-rollout-de-rodillas/"
+            },
+            {
+              "week_day": "MARTES",
+              "tier": "A",
+              "difficulty": 2,
+              "exercise_name": "Zancadas",
+              "toon_id": "115",
+              "category": "Pierna",
+              "weight": "5.5 kg",
+              "sets": "3",
+              "reps": "20 pasos",
+              "tempo": "2-0-1",
+              "bench_position": "De Pie (Paso largo)",
+              "muscles": "Glúteo, Aductor, Cuádriceps, Gemelo",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/03361301-Dumbbell-Lunge_Hips_720.gif",
+              "page_url": "https://fitcron.com/exercise/zancada-delantera-con-mancuernas-pierna/"
+            },
+            {
+              "week_day": "MARTES",
+              "tier": "CR",
+              "difficulty": 2,
+              "exercise_name": "Cardio Final",
+              "toon_id": "NA",
+              "category": "Cardio",
+              "weight": "-",
+              "sets": "1",
+              "reps": "15 min",
+              "tempo": "1 min gradas / 1 min cuerda",
+              "bench_position": "Gradas de casa + Cuerda",
+              "muscles": "Corazón, Piernas",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/42561301-Stepdown-Squat_Thighs_720.gif",
+              "page_url": "#"
+            },
+        
+            // === MIÉRCOLES - YOGA ACTIVO ===
+            {
+              "week_day": "MIÉRCOLES",
+              "tier": "YO",
+              "difficulty": 1,
+              "exercise_name": "Yoga Activo",
+              "toon_id": "49",
+              "category": "Estiramiento",
+              "weight": "-",
+              "sets": "1",
+              "reps": "20-30 min",
+              "tempo": "Controlado",
+              "bench_position": "Suelo",
+              "muscles": "Todos",
+              "image_url": "https://fitcron.com/wp-content/uploads/2024/02/estiramiento.jpg",
+              "page_url": "https://fitcron.com/exercise/post-workout/"
+            },
+        
+            // === JUEVES - BRAZOS (ESCULTURA) ===
+            {
+              "week_day": "JUEVES",
+              "tier": "S",
+              "difficulty": 2,
+              "exercise_name": "Dominadas Sup.",
+              "toon_id": "404",
+              "category": "Espalda",
+              "weight": "Corp.",
+              "sets": "4",
+              "reps": "Fallo",
+              "tempo": "2-0-1",
+              "bench_position": "Barra (Palmas hacia ti)",
+              "muscles": "Dorsal, Trapecio, Bíceps",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/13261301-Chin-Up_Back_720.gif",
+              "page_url": "https://fitcron.com/exercise/dominada-en-supinacion-dorsal/"
+            },
+            {
+              "week_day": "JUEVES",
+              "tier": "A",
+              "difficulty": 2,
+              "exercise_name": "Elev. Lateral",
+              "toon_id": "367",
+              "category": "Hombro",
+              "weight": "5.5 kg",
+              "sets": "3",
+              "reps": "15",
+              "tempo": "2-1-1",
+              "bench_position": "De Pie (Codos apenas flex.)",
+              "muscles": "Trapecio, Deltoides",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/03341301-Dumbbell-Lateral-Raise_shoulder-AFIX_720.gif",
+              "page_url": "https://fitcron.com/exercise/elevaciones-laterales-neutras-con-mancuernas-deltoides/"
+            },
+            {
+              "week_day": "JUEVES",
+              "tier": "A",
+              "difficulty": 1,
+              "exercise_name": "Curl Predicador",
+              "toon_id": "500",
+              "category": "Bíceps",
+              "weight": "11 kg",
+              "sets": "3",
+              "reps": "12",
+              "tempo": "3-0-1",
+              "bench_position": "Sentado con Accesorio Predicador",
+              "muscles": "Antebrazo, Bíceps",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/03721301-Dumbbell-Preacher-Curl_Upper-Arms_720.gif",
+              "page_url": "https://fitcron.com/exercise/curl-en-banco-scott-en-supinacion-con-mancuerna-biceps/"
+            },
+            {
+              "week_day": "JUEVES",
+              "tier": "S",
+              "difficulty": 3,
+              "exercise_name": "Ext. Katana",
+              "toon_id": "554",
+              "category": "Tríceps",
+              "weight": "5.5 kg",
+              "sets": "4",
+              "reps": "12",
+              "tempo": "3-1-1",
+              "bench_position": "De Pie (Brazo tras la nuca)",
+              "muscles": "Tríceps, Antebrazo",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/03621301-Dumbbell-One-Arm-Triceps-Extension-on-bench_Upper-Arms_720.gif",
+              "page_url": "https://fitcron.com/exercise/extension-vertical-aislada-con-mancuerna-triceps/"
+            },
+            {
+              "week_day": "JUEVES",
+              "tier": "A",
+              "difficulty": 3,
+              "exercise_name": "Press Francés",
+              "toon_id": "551",
+              "category": "Tríceps",
+              "weight": "5.5 kg",
+              "sets": "3",
+              "reps": "12",
+              "tempo": "3-1-1",
+              "bench_position": "Banco en posición Plana",
+              "muscles": "Tríceps, Antebrazo",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/03521301-Dumbbell-Neutral-Grip-Bench-Press_Upper-Arms_720.gif",
+              "page_url": "https://fitcron.com/exercise/press-frances-con-mancuernas-triceps/"
+            },
+            {
+              "week_day": "JUEVES",
+              "tier": "CR",
+              "difficulty": 3,
+              "exercise_name": "Cardio Final",
+              "toon_id": "NA",
+              "category": "Cardio",
+              "weight": "-",
+              "sets": "1",
+              "reps": "15 min",
+              "tempo": "45s cuerda / 15s jacks",
+              "bench_position": "Cuerda + Saltos Payaso",
+              "muscles": "Corazón, Piernas",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/03/26121301-Jump-Rope-male_Cardio_720.gif",
+              "page_url": "#"
+            },
+        
+            // === VIERNES - DESCANSO ===
+            {
+              "week_day": "VIERNES",
+              "tier": "R",
+              "difficulty": 1,
+              "exercise_name": "Descanso",
+              "toon_id": "NA",
+              "category": "Recuperación",
+              "weight": "-",
+              "sets": "-",
+              "reps": "-",
+              "tempo": "-",
+              "bench_position": "Descanso Activo",
+              "muscles": "Todo el cuerpo",
+              "image_url": "https://i.pinimg.com/736x/19/82/39/198239a68bfd5cae977994cc8206982f.jpg",
+              "page_url": "#"
+            },
+        
+            // === SÁBADO - FULL BODY & CORE HIT ===
+            {
+              "week_day": "SÁBADO",
+              "tier": "A",
+              "difficulty": 2,
+              "exercise_name": "Despechadas",
+              "toon_id": "590",
+              "category": "Tríceps",
+              "weight": "Corp.",
+              "sets": "3",
+              "reps": "Fallo",
+              "tempo": "2-1-1",
+              "bench_position": "Suelo (Manos ancho hombros)",
+              "muscles": "Tríceps, Antebrazo",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/03/06721301-Reverse-Dip_Upper-Arms_720.gif",
+              "page_url": "https://fitcron.com/exercise/flexiones-basicas-triceps/"
+            },
+            {
+              "week_day": "SÁBADO",
+              "tier": "A",
+              "difficulty": 3,
+              "exercise_name": "Remo Unilateral",
+              "toon_id": "421",
+              "category": "Espalda",
+              "weight": "11 kg",
+              "sets": "3",
+              "reps": "15",
+              "tempo": "2-1-1",
+              "bench_position": "Mano apoyada en Banco Plano",
+              "muscles": "Dorsal, Trapecio, Bíceps",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/02921301-Dumbbell-Bent-over-Row_back_Back_720.gif",
+              "page_url": "https://fitcron.com/exercise/remo-aislado-con-mancuerna-dorsal/"
+            },
+            {
+              "week_day": "SÁBADO",
+              "tier": "S",
+              "difficulty": 3,
+              "exercise_name": "Sent. Búlgara",
+              "toon_id": "112",
+              "category": "Pierna",
+              "weight": "5.5 kg",
+              "sets": "4",
+              "reps": "10",
+              "tempo": "3-1-1",
+              "bench_position": "Un pie atrás apoyado en Banco",
+              "muscles": "Glúteo, Aductor, Cuádriceps, Gemelo",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/04101301-Dumbbell-Single-Leg-Split-Squat_Thighs_720.gif",
+              "page_url": "https://fitcron.com/exercise/sentadilla-a-una-pierna-con-mancuerna-pierna/"
+            },
+            {
+              "week_day": "SÁBADO",
+              "tier": "S",
+              "difficulty": 2,
+              "exercise_name": "Rueda Abdom.",
+              "toon_id": "31",
+              "category": "Abdomen",
+              "weight": "Corp.",
+              "sets": "3",
+              "reps": "Fallo",
+              "tempo": "3-1-1",
+              "bench_position": "Suelo / Rueda de ejercicio",
+              "muscles": "Abdomen, Oblicuos",
+              "image_url": "https://fitcron.com/wp-content/uploads/2024/05/08571301-Wheel-Rollout_Waist-FIX_720.gif",
+              "page_url": "https://fitcron.com/exercise/wheel-rollout-de-rodillas/"
+            },
+            {
+              "week_day": "SÁBADO",
+              "tier": "CR",
+              "difficulty": 2,
+              "exercise_name": "Cardio Final",
+              "toon_id": "NA",
+              "category": "Cardio",
+              "weight": "11 kg",
+              "sets": "1",
+              "reps": "20 min",
+              "tempo": "2 min cuerda / 1 min gradas",
+              "bench_position": "Cuerda + Gradas rápidas",
+              "muscles": "Corazón, Piernas",
+              "image_url": "https://fitcron.com/wp-content/uploads/2021/04/42561301-Stepdown-Squat_Thighs_720.gif",
+              "page_url": "#"
+            },
+        
+            // === DOMINGO - YOGA RESTAURATIVO ===
+            {
+              "week_day": "DOMINGO",
+              "tier": "YO",
+              "difficulty": 1,
+              "exercise_name": "Yoga Restaurativo",
+              "toon_id": "49",
+              "category": "Estiramiento",
+              "weight": "-",
+              "sets": "1",
+              "reps": "20-30 min",
+              "tempo": "Controlado",
+              "bench_position": "Suelo",
+              "muscles": "Todos",
+              "image_url": "https://fitcron.com/wp-content/uploads/2024/02/estiramiento.jpg",
+              "page_url": "https://fitcron.com/exercise/post-workout/"
+            },
+        
+            // === POST-WORKOUT (Todos los días) ===
+            {
+              "week_day": "ALL",
+              "tier": "CD",
+              "difficulty": 1,
+              "exercise_name": "Post-Workout",
+              "toon_id": "49",
+              "category": "Estiramiento",
+              "weight": "-",
+              "sets": "1",
+              "reps": "5-10 min",
+              "tempo": "Controlado",
+              "bench_position": "Suelo",
+              "muscles": "Todos",
+              "image_url": "https://fitcron.com/wp-content/uploads/2024/02/estiramiento.jpg",
+              "page_url": "https://fitcron.com/exercise/post-workout/"
             }
         ];
 
         function appCore() {
             return {
                 data: WORKOUT_DATA,
-                activeTab: '', // Se calculará en initApp
-                modalOpen: false,
-                currentImage: '',
-                tooltips: [],
+                activeTab: '', 
+                modalOpen: false, currentImage: '', tooltips: [],
 
-                // Inicialización
                 initApp() {
-                    // Seleccionar el primer día disponible automáticamente (PRE-WORKOUT)
-                    if (this.uniqueDays.length > 0) {
-                        this.activeTab = this.uniqueDays[0];
-                    }
+                    if (this.uniqueDays.length > 0) this.activeTab = this.uniqueDays[0];
                     this.refreshTooltips();
                 },
-
-                // Cambio de pestaña
                 setActiveTab(day) {
                     this.activeTab = day;
                     this.refreshTooltips();
                 },
-
-                // Getters
                 get uniqueDays() { return [...new Set(this.data.map(item => item.week_day))]; },
                 get filteredExercises() { return this.data.filter(item => item.week_day === this.activeTab); },
-
-                // Modal
+                
                 openModal(url) { this.currentImage = url; this.modalOpen = true; },
                 closeModal() { this.modalOpen = false; },
 
-                // Tooltips de Bootstrap
                 refreshTooltips() {
-                    // Limpiar tooltips viejos
                     if(this.tooltips) this.tooltips.forEach(t => t.dispose());
-                    
-                    // Esperar renderizado y reactivar
                     this.$nextTick(() => {
                         const els = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
                         this.tooltips = els.map(el => new bootstrap.Tooltip(el));

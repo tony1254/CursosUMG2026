@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutina Híbrida Pro - Alpine.js</title>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-body: #050505;
+            --bg-card: #141414;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent: #3498db;
+            /* Niveles de dificultad */
+            --diff-easy: #2ecc71;  /* Verde */
+            --diff-med: #f39c12;   /* Naranja */
+            --diff-hard: #e74c3c;  /* Rojo */
+        }
+
+        body { background-color: var(--bg-body); color: var(--text-main); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding-bottom: 80px; }
+
+        /* Header Navigation */
+        .app-header { padding: 20px 15px; background: rgba(20, 20, 20, 0.95); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid #333; backdrop-filter: blur(10px); }
+        .nav-pills .nav-link { color: var(--text-muted); border-radius: 20px; padding: 8px 16px; margin-right: 5px; background-color: rgba(255,255,255,0.05); font-size: 0.85rem; transition: all 0.3s; white-space: nowrap; }
+        .nav-pills .nav-link.active { background-color: var(--accent); color: white; font-weight: 700; box-shadow: 0 0 10px rgba(52, 152, 219, 0.4); }
+
+        /* Card Container */
+        .workout-card { background-color: var(--bg-card); border-radius: 16px; overflow: hidden; margin-bottom: 20px; border: 1px solid #2a2a2a; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+
+        /* Image Area */
+        .card-image-container { position: relative; height: 200px; background-color: #000; cursor: zoom-in; }
+        .card-image-container img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.3s; }
+        .card-image-container:hover img { opacity: 1; }
+
+        /* Badge Tier (Arriba Derecha) */
+        .badge-tier { position: absolute; top: 10px; right: 10px; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .bg-tier-S { background-color: #f1c40f; color: black; }
+        .bg-tier-A { background-color: #3498db; color: white; }
+        .bg-tier-C { background-color: #e67e22; color: white; }
+        .bg-tier-W { background-color: #9b59b6; color: white; } /* Warmup */
+
+        /* Badge Dificultad (Abajo Izquierda) */
+        .badge-difficulty { position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 4px 8px; border-radius: 6px; display: flex; gap: 3px; backdrop-filter: blur(2px); }
+        .diff-icon { font-size: 0.8rem; }
+        .c-easy { color: var(--diff-easy); }
+        .c-med { color: var(--diff-med); }
+        .c-hard { color: var(--diff-hard); }
+
+        /* Card Body */
+        .card-content { padding: 15px; }
+        .ex-name { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 2px; }
+        .ex-sub { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* 4-Grid Metrics System */
+        .metrics-grid-4 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 15px 0; }
+        .metric-box { background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 8px; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .m-icon { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 2px; }
+        .m-label { font-size: 0.6rem; color: #666; text-transform: uppercase; margin-bottom: 2px; }
+        .m-val { font-size: 0.95rem; font-weight: 700; color: var(--accent); text-align: center; line-height: 1.1; }
+
+        /* Expand Button */
+        .btn-expand { width: 100%; background: transparent; border: 1px solid #333; color: var(--text-muted); padding: 8px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+        .btn-expand:hover { background-color: #222; border-color: #555; color: white; }
+
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 10px; }
+        .modal-img { max-width: 100%; max-height: 80vh; border-radius: 8px; box-shadow: 0 0 20px rgba(52, 152, 219, 0.2); }
+    </style>
+</head>
+
+<body>
+
+    <div x-data="workoutApp()">
+
+        <div class="app-header">
+            <h5 class="fw-bold mb-3 text-white"><i class="fas fa-layer-group me-2 text-primary"></i>Plan Híbrido</h5>
+            <ul class="nav nav-pills flex-nowrap overflow-auto pb-1">
+                <template x-for="day in uniqueDays" :key="day">
+                    <li class="nav-item">
+                        <button class="nav-link" :class="{ 'active': activeTab === day }" @click="activeTab = day" x-text="day"></button>
+                    </li>
+                </template>
+            </ul>
+        </div>
+
+        <div class="container mt-3">
+            <div class="row">
+                <template x-for="ex in filteredExercises" :key="ex.toonId">
+                    <div class="col-12 col-md-6 col-lg-4">
+                        
+                        <div class="workout-card" x-data="{ expanded: false }">
+                            
+                            <div class="card-image-container" @click="openModal(ex.imgUrl)">
+                                
+                                <span class="badge-tier" :class="'bg-tier-' + ex.tier">
+                                    <span x-text="ex.tier === 'W' ? 'WARM UP' : (ex.tier === 'C' ? 'CARDIO' : 'TIER ' + ex.tier)"></span>
+                                </span>
+
+                                <div class="badge-difficulty">
+                                    <template x-for="i in ex.difficulty">
+                                        <i class="fas fa-dumbbell diff-icon" 
+                                           :class="{
+                                               'c-easy': ex.difficulty === 1,
+                                               'c-med': ex.difficulty === 2,
+                                               'c-hard': ex.difficulty >= 3
+                                           }"></i>
+                                    </template>
+                                </div>
+                                
+                                <i class="fas fa-search-plus text-white position-absolute top-50 start-50 translate-middle" style="opacity:0.5; font-size:2rem; pointer-events:none"></i>
+                                <img :src="ex.imgUrl" loading="lazy">
+                            </div>
+
+                            <div class="card-content">
+                                
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h5 class="ex-name" x-text="ex.name"></h5>
+                                        <span class="ex-sub" x-text="ex.category + ' | ID ' + ex.toonId"></span>
+                                    </div>
+                                </div>
+
+                                <div class="metrics-grid-4">
+                                    <div class="metric-box">
+                                        <i class="fas fa-weight-hanging m-icon"></i>
+                                        <span class="m-label">Peso</span>
+                                        <span class="m-val" x-text="ex.weight"></span>
+                                    </div>
+                                    <div class="metric-box">
+                                        <i class="fas fa-list-ol m-icon"></i>
+                                        <span class="m-label">Series</span>
+                                        <span class="m-val" x-text="ex.sets"></span>
+                                    </div>
+                                    <div class="metric-box">
+                                        <i class="fas fa-redo m-icon"></i>
+                                        <span class="m-label">Reps</span>
+                                        <span class="m-val" x-text="ex.reps"></span>
+                                    </div>
+                                    <div class="metric-box">
+                                        <i class="fas fa-stopwatch m-icon"></i>
+                                        <span class="m-label">Tempo</span>
+                                        <span class="m-val" x-text="ex.tempo"></span>
+                                    </div>
+                                </div>
+
+                                <button class="btn-expand" @click="expanded = !expanded">
+                                    <span x-text="expanded ? 'Cerrar Detalles' : 'Ver Instrucciones'"></span>
+                                    <i class="fas" :class="expanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                </button>
+
+                                <div x-show="expanded" x-collapse style="display:none; margin-top:10px; border-top:1px solid #333; padding-top:10px;">
+                                    <p style="font-size:0.85rem; color:#ccc; line-height:1.5;">
+                                        <strong class="text-white">Posición:</strong> <span x-text="ex.position"></span><br>
+                                        <strong class="text-white">Foco:</strong> <span x-text="ex.muscles"></span>
+                                    </p>
+                                    <a :href="ex.pageUrl" target="_blank" class="btn btn-primary btn-sm w-100 rounded-pill fw-bold mt-2">
+                                        Ver Guía Completa <i class="fas fa-external-link-alt ms-1"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <div class="modal-overlay" x-show="modalOpen" x-transition.opacity @click.self="modalOpen = false" style="display: none;">
+            <div class="position-relative">
+                <i class="fas fa-times position-absolute top-0 end-0 m-3 text-white fs-2" style="cursor:pointer; z-index:2001" @click="modalOpen = false"></i>
+                <img :src="currentImage" class="modal-img">
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function workoutApp() {
+            return {
+                activeTab: 'PRE-WORKOUT', // Pestaña inicial
+                modalOpen: false,
+                currentImage: '',
+                
+                // DATA JSON
+                exercises: [
+                    // --- PRE WORKOUT (CALENTAMIENTO) ---
+                    {
+                        "day": "PRE-WORKOUT",
+                        "tier": "W",            // W para Warmup (Color Morado)
+                        "difficulty": 1,        // 1 pesita (Fácil/Verde)
+                        "name": "Rotaciones Articulares",
+                        "toonId": "050",
+                        "category": "Movilidad",
+                        "weight": "Corp.",
+                        "sets": "1",
+                        "reps": "15-20",
+                        "tempo": "Fluido",
+                        "position": "De pie",
+                        "muscles": "Hombros, Cadera, Muñecas",
+                        "imgUrl": "https://fitcron.com/wp-content/uploads/2024/02/calentamiento.jpg",
+                        "pageUrl": "#"
+                    },
+                    {
+                        "day": "PRE-WORKOUT",
+                        "tier": "W",
+                        "difficulty": 1,
+                        "name": "Gato - Vaca",
+                        "toonId": "051",
+                        "category": "Movilidad",
+                        "weight": "Corp.",
+                        "sets": "2",
+                        "reps": "10",
+                        "tempo": "3-3",
+                        "position": "Cuadrupedia",
+                        "muscles": "Columna Vertebral",
+                        "imgUrl": "https://fitcron.com/wp-content/uploads/2024/02/estiramiento.jpg", // Placeholder
+                        "pageUrl": "#"
+                    },
+
+                    // --- LUNES (RUTINA A) ---
+                    {
+                        "day": "LUNES",
+                        "tier": "S",
+                        "difficulty": 3,        // 3 pesitas (Difícil/Rojo)
+                        "name": "Dominadas",
+                        "toonId": "406",
+                        "category": "Espalda",
+                        "weight": "Corp.",
+                        "sets": "3",
+                        "reps": "Fallo",
+                        "tempo": "2-0-1",
+                        "position": "Barra Fija (Agarre Prono)",
+                        "muscles": "Dorsal, Trapecio",
+                        "imgUrl": "https://fitcron.com/wp-content/uploads/2021/04/14291301-Wide-Grip-Pull-Up_Back_720.gif",
+                        "pageUrl": "https://fitcron.com/exercise/dominada-dorsal/"
+                    },
+                    {
+                        "day": "LUNES",
+                        "tier": "A",
+                        "difficulty": 2,        // 2 pesitas (Medio/Naranja)
+                        "name": "Fondos (Dips)",
+                        "toonId": "598",
+                        "category": "Tríceps",
+                        "weight": "Corp.",
+                        "sets": "3",
+                        "reps": "Fallo",
+                        "tempo": "3-1-1",
+                        "position": "Paralelas",
+                        "muscles": "Tríceps, Pecho bajo",
+                        "imgUrl": "https://fitcron.com/wp-content/uploads/2021/03/08141301-Triceps-Dip_Upper-Arms_720.gif",
+                        "pageUrl": "https://fitcron.com/exercise/fondos-cerrados-en-paralelas-triceps/"
+                    },
+                    {
+                        "day": "LUNES",
+                        "tier": "S",
+                        "difficulty": 3,
+                        "name": "Press Militar",
+                        "toonId": "374",
+                        "category": "Hombro",
+                        "weight": "11 kg",
+                        "sets": "4",
+                        "reps": "10",
+                        "tempo": "3-0-1",
+                        "position": "De Pie (Core fuerte)",
+                        "muscles": "Deltoides completo",
+                        "imgUrl": "https://fitcron.com/wp-content/uploads/2021/04/11651301-Barbell-Standing-Military-Press-without-rack_Shoulders_720.gif",
+                        "pageUrl": "https://fitcron.com/exercise/press-militar-con-barra-deltoides/"
+                    },
+                    {
+                        "day": "LUNES",
+                        "tier": "C",
+                        "difficulty": 2,
+                        "name": "Cardio Final",
+                        "toonId": "CARD",
+                        "category": "Cardio",
+                        "weight": "-",
+                        "sets": "1",
+                        "reps": "15 min",
+                        "tempo": "Continuo",
+                        "position": "Cuerda / Saltos",
+                        "muscles": "Corazón, Piernas",
+                        "imgUrl": "https://fitcron.com/wp-content/uploads/2021/03/26121301-Jump-Rope-male_Cardio_720.gif",
+                        "pageUrl": "#"
+                    }
+                    // Agrega el resto de los días (Martes, Jueves, Sábado) aquí...
+                ],
+
+                // Helpers
+                get uniqueDays() { return [...new Set(this.exercises.map(i => i.day))]; },
+                get filteredExercises() { return this.exercises.filter(i => i.day === this.activeTab); },
+                openModal(url) { this.currentImage = url; this.modalOpen = true; }
+            }
+        }
+    </script>
+</body>
+</html>

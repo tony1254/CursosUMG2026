@@ -3,574 +3,633 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protocolo Híbrido v2.0 - Dashboard</title>
+    <title>Protocolo Híbrido - App Style</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-bg: #1a1d20;
-            --secondary-bg: #212529;
-            --accent-blue: #0d6efd;
-            --accent-green: #198754;
-            --accent-gold: #ffc107;
-            --text-light: #e9ecef;
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --text-main: #ffffff;
+            --text-sec: #b0b3b8;
+            --accent: #3498db;
+            --gold: #f1c40f;   /* Tier S */
+            --blue: #3498db;   /* Tier A */
+            --orange: #e67e22; /* Cardio */
         }
 
         body {
-            background-color: var(--primary-bg);
-            color: var(--text-light);
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            padding-bottom: 50px;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            padding-bottom: 80px;
         }
 
-        /* Header Styles */
-        .main-header {
-            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border-radius: 0 0 20px 20px;
-        }
-
-        /* Nav Tabs Styles */
-        .nav-tabs {
-            border-bottom: 2px solid #495057;
-        }
-        .nav-tabs .nav-link {
-            color: #adb5bd;
-            border: none;
-            font-weight: 600;
-            padding: 12px 20px;
-            transition: all 0.3s;
-        }
-        .nav-tabs .nav-link:hover {
-            color: #fff;
-            background-color: rgba(255,255,255,0.05);
-        }
-        .nav-tabs .nav-link.active {
-            color: var(--accent-blue);
-            background-color: var(--secondary-bg);
-            border-bottom: 3px solid var(--accent-blue);
-        }
-
-        /* Table Styles */
-        .table-custom {
-            background-color: var(--secondary-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        }
-        .table-custom th {
-            background-color: #343a40;
-            color: #fff;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            border-bottom: 2px solid #495057;
-        }
-        .table-custom td {
-            vertical-align: middle;
-            border-color: #495057;
-            color: #dee2e6;
+        /* Navegación de Pestañas Estilo App */
+        .nav-pills {
+            background-color: var(--bg-card);
+            padding: 10px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            flex-wrap: nowrap; /* Para que no se rompa en líneas en móvil */
         }
         
-        /* Tier Badges */
-        .badge-tier-s { background-color: var(--accent-green); color: white; box-shadow: 0 0 5px rgba(25, 135, 84, 0.5); }
-        .badge-tier-a { background-color: var(--accent-blue); color: white; }
-        .badge-tier-c { background-color: var(--accent-gold); color: black; font-weight: bold; }
-
-        /* Images & GIFs */
-        .gif-thumb {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid #495057;
-            transition: transform 0.2s;
-            cursor: pointer;
+        .nav-pills .nav-link {
+            color: var(--text-sec);
+            white-space: nowrap;
+            margin-right: 5px;
+            border-radius: 10px;
         }
-        .gif-thumb:hover {
-            transform: scale(1.8);
-            border-color: var(--accent-blue);
-            z-index: 100;
-            position: relative;
-            box-shadow: 0 0 15px rgba(0,0,0,0.8);
-        }
-
-        /* Calendar Grid */
-        .calendar-card {
-            background-color: var(--secondary-bg);
-            border: 1px solid #495057;
-            transition: transform 0.2s;
-        }
-        .calendar-card:hover {
-            border-color: var(--accent-blue);
-            transform: translateY(-2px);
-        }
-        .day-header {
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--accent);
+            color: white;
             font-weight: bold;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            color: #6c757d;
-        }
-        .day-active {
-            color: var(--accent-blue);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
         }
 
-        /* Links */
-        a.exercise-link {
-            text-decoration: none;
-            color: #fff;
-            font-weight: 500;
+        /* ESTILO DE TARJETA (CARD) */
+        .exercise-card {
+            background-color: var(--bg-card);
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: transform 0.2s;
         }
-        a.exercise-link:hover {
-            color: var(--accent-blue);
-            text-decoration: underline;
+
+        /* Contenedor de la Imagen */
+        .card-img-wrapper {
+            position: relative;
+            height: 200px; /* Altura fija para uniformidad */
+            background-color: #000;
         }
+
+        .card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Mantiene la proporción llenando el espacio */
+            object-position: center 20%;
+        }
+
+        /* Badges Flotantes */
+        .tier-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            color: #000;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+        .tier-s { background-color: var(--gold); }
+        .tier-a { background-color: var(--blue); color: white; }
+        .tier-c { background-color: var(--orange); color: white; }
+
+        /* Cuerpo de la Tarjeta */
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Métricas Clave (Peso/Reps) */
+        .key-metrics {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .metric-box {
+            background-color: rgba(255,255,255,0.05);
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+        }
+        .metric-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--text-sec);
+            display: block;
+        }
+        .metric-value {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        /* Sección Colapsable (Detalles) */
+        .details-box {
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+            border-left: 3px solid var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .btn-toggle {
+            width: 100%;
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        .btn-toggle:hover {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        /* Ajuste para Cardio */
+        .cardio-instructions {
+            color: #ffcc80;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
     </style>
 </head>
 <body>
 
-    <header class="main-header text-center text-white">
-        <div class="container">
-            <h1 class="display-5 fw-bold"><i class="fas fa-dumbbell me-2"></i> PROTOCOLO HÍBRIDO v2.0</h1>
-            <p class="lead mb-0 opacity-75">Fuerza • Hipertrofia • Agilidad TOON</p>
-        </div>
-    </header>
-
-    <div class="container">
+    <div class="container mt-3">
         
-        <div class="accordion mb-4" id="accordionWarmup">
-            <div class="accordion-item bg-dark border-secondary">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button bg-dark text-warning collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                        <i class="fas fa-fire me-2"></i> <strong>IMPORTANTE: Calentamiento & Estiramiento</strong>
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionWarmup">
-                    <div class="accordion-body text-light">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <div class="card bg-secondary text-white h-100">
-                                    <div class="card-body d-flex align-items-center">
-                                        <img src="https://fitcron.com/wp-content/uploads/2024/02/calentamiento.jpg" class="rounded me-3" width="60" alt="Pre">
-                                        <div>
-                                            <h6 class="card-title text-warning">🔥 PRE-WORKOUT (ID 50)</h6>
-                                            <p class="small mb-1">5-7 min Movilidad articular</p>
-                                            <a href="https://fitcron.com/exercise/pre-workout/" target="_blank" class="btn btn-sm btn-outline-warning">Ver Guía</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card bg-secondary text-white h-100">
-                                    <div class="card-body d-flex align-items-center">
-                                        <img src="https://fitcron.com/wp-content/uploads/2024/02/estiramiento.jpg" class="rounded me-3" width="60" alt="Post">
-                                        <div>
-                                            <h6 class="card-title text-info">🧘 POST-WORKOUT (ID 49)</h6>
-                                            <p class="small mb-1">10 min Estiramiento estático</p>
-                                            <a href="https://fitcron.com/exercise/post-workout/" target="_blank" class="btn btn-sm btn-outline-info">Ver Guía</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="fw-bold m-0">Protocolo Híbrido <span style="color:var(--accent)">v2.0</span></h2>
+            <i class="fas fa-user-astronaut fa-2x text-white"></i>
+        </div>
+
+        <div class="row g-2 mb-4">
+            <div class="col-6">
+                <a href="https://fitcron.com/exercise/pre-workout/" target="_blank" class="btn btn-outline-warning w-100 py-2">
+                    <i class="fas fa-fire mb-1"></i><br>Calentar
+                </a>
+            </div>
+            <div class="col-6">
+                <a href="https://fitcron.com/exercise/post-workout/" target="_blank" class="btn btn-outline-info w-100 py-2">
+                    <i class="fas fa-spa mb-1"></i><br>Estirar
+                </a>
             </div>
         </div>
 
-        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="week-tab" data-bs-toggle="tab" data-bs-target="#week" type="button"><i class="fas fa-calendar-alt me-2"></i>Semana</button>
+                <button class="nav-link active" id="pills-a-tab" data-bs-toggle="pill" data-bs-target="#pills-a" type="button">LUN (A)</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="rutina-a-tab" data-bs-toggle="tab" data-bs-target="#rutina-a" type="button">Rutina A (Lun)</button>
+                <button class="nav-link" id="pills-b-tab" data-bs-toggle="pill" data-bs-target="#pills-b" type="button">MAR (B)</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="rutina-b-tab" data-bs-toggle="tab" data-bs-target="#rutina-b" type="button">Rutina B (Mar)</button>
+                <button class="nav-link" id="pills-c-tab" data-bs-toggle="pill" data-bs-target="#pills-c" type="button">JUE (C)</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="rutina-c-tab" data-bs-toggle="tab" data-bs-target="#rutina-c" type="button">Rutina C (Jue)</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="rutina-d-tab" data-bs-toggle="tab" data-bs-target="#rutina-d" type="button">Rutina D (Sáb)</button>
+                <button class="nav-link" id="pills-d-tab" data-bs-toggle="pill" data-bs-target="#pills-d" type="button">SÁB (D)</button>
             </li>
         </ul>
 
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content" id="pills-tabContent">
 
-            <div class="tab-pane fade show active" id="week" role="tabpanel">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
-                    <div class="col">
-                        <div class="card h-100 calendar-card text-center p-3">
-                            <div class="day-header day-active">LUNES</div>
-                            <h4 class="fw-bold">Torso Poder</h4>
-                            <span class="badge bg-primary">Rutina A</span>
-                        </div>
+            <div class="tab-pane fade show active" id="pills-a" role="tabpanel">
+                
+                <div class="exercise-card">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-s"><i class="fas fa-star"></i> TIER S</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/04/14291301-Wide-Grip-Pull-Up_Back_720.gif" alt="Dominadas">
                     </div>
-                    <div class="col">
-                        <div class="card h-100 calendar-card text-center p-3">
-                            <div class="day-header day-active">MARTES</div>
-                            <h4 class="fw-bold">Glúteo & Core</h4>
-                            <span class="badge bg-primary">Rutina B</span>
+                    <div class="card-body">
+                        <div class="card-title">Dominadas (Pull-ups)</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Peso</span>
+                                <span class="metric-value">Corporal</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Reps</span>
+                                <span class="metric-value">Al Fallo</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 calendar-card text-center p-3">
-                            <div class="day-header">MIÉRCOLES</div>
-                            <h4 class="fw-bold text-success">Yoga Activo</h4>
-                            <span class="badge bg-success">Pecho/Cadera</span>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 calendar-card text-center p-3">
-                            <div class="day-header day-active">JUEVES</div>
-                            <h4 class="fw-bold">Brazos 3D</h4>
-                            <span class="badge bg-primary">Rutina C</span>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 calendar-card text-center p-3">
-                            <div class="day-header">VIERNES</div>
-                            <h4 class="fw-bold text-secondary">Descanso</h4>
-                            <span class="badge bg-secondary">Recuperación</span>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 calendar-card text-center p-3">
-                            <div class="day-header day-active">SÁBADO</div>
-                            <h4 class="fw-bold">Full Body HIT</h4>
-                            <span class="badge bg-danger">Rutina D</span>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card h-100 calendar-card text-center p-3">
-                            <div class="day-header">DOMINGO</div>
-                            <h4 class="fw-bold text-success">Yoga Rest.</h4>
-                            <span class="badge bg-success">Movilidad</span>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descA1">
+                            <i class="fas fa-info-circle me-2"></i>Ver Detalles Técnicos
+                        </button>
+                        <div class="collapse" id="descA1">
+                            <div class="details-box">
+                                <p class="mb-1"><strong>Tempo:</strong> 2-0-1</p>
+                                <p class="mb-1"><strong>Equipo:</strong> Barra Fija</p>
+                                <a href="https://fitcron.com/exercise/dominada-dorsal/" target="_blank" class="text-info text-decoration-none">Ver Guía Completa <i class="fas fa-external-link-alt small"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tab-pane fade" id="rutina-a" role="tabpanel">
-                <div class="card bg-dark border-0">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0"><i class="fas fa-fist-raised me-2"></i> TORSO PODER</h4>
-                        <span class="badge bg-white text-primary">Lunes</span>
+                <div class="exercise-card">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-s"><i class="fas fa-star"></i> TIER S</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/03/03241301-Dumbbell-Incline-Palm-in-Press_Chest_720.gif" alt="Press Inclinado">
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-dark table-hover table-custom mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Tier</th>
-                                    <th>Ejercicio & Link</th>
-                                    <th>Detalles (Peso/Reps)</th>
-                                    <th class="text-center">Ver</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-s">S</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/dominada-dorsal/" class="exercise-link" target="_blank">Dominadas (Pull-up)</a>
-                                        <small class="d-block text-muted">Barra Fija | ID 406</small>
-                                    </td>
-                                    <td>Corp. | <strong>Fallo</strong> | 2-0-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/dominada-dorsal/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/14291301-Wide-Grip-Pull-Up_Back_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-s">S</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/press-inclinado-en-supinacion-con-mancuernas-pectoral/" class="exercise-link" target="_blank">Press Inclinado</a>
-                                        <small class="d-block text-muted">Mancuernas | ID 605</small>
-                                    </td>
-                                    <td>11 kg | <strong>12 reps</strong> | 3-1-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/press-inclinado-en-supinacion-con-mancuernas-pectoral/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/03/03241301-Dumbbell-Incline-Palm-in-Press_Chest_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-s">S</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/press-militar-en-pronacion-con-mancuernas-deltoides/" class="exercise-link" target="_blank">Press Militar</a>
-                                        <small class="d-block text-muted">De Pie | ID 334</small>
-                                    </td>
-                                    <td>11 kg | <strong>10 reps</strong> | 3-0-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/press-militar-en-pronacion-con-mancuernas-deltoides/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/04261301-Dumbbell-Standing-Overhead-Press_shoulder_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-a">A</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/fondos-cerrados-en-paralelas-triceps/" class="exercise-link" target="_blank">Fondos (Dips)</a>
-                                        <small class="d-block text-muted">Paralelas | ID 598</small>
-                                    </td>
-                                    <td>Corp. | <strong>Fallo</strong> | 3-1-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/fondos-cerrados-en-paralelas-triceps/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/03/08141301-Triceps-Dip_Upper-Arms_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-s">S</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/remo-inclinado-en-pronacion-con-mancuernas-dorsal/" class="exercise-link" target="_blank">Remo Inclinado</a>
-                                        <small class="d-block text-muted">Banco | ID 424</small>
-                                    </td>
-                                    <td>11 kg | <strong>12 reps</strong> | 2-1-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/remo-inclinado-en-pronacion-con-mancuernas-dorsal/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/03271301-Dumbbell-Incline-Row_Back_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr class="table-secondary text-dark">
-                                    <td class="text-center"><span class="badge badge-tier-c">C</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/salto-con-cuerda-normal-cardio/" class="exercise-link text-dark" target="_blank"><strong>Cuerda Normal</strong></a>
-                                        <small class="d-block">Salto Fluido | ID 726</small>
-                                    </td>
-                                    <td>30 seg | Ritmo constante</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/salto-con-cuerda-normal-cardio/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/03/26121301-Jump-Rope-male_Cardio_720.gif" class="gif-thumb" style="border-color: #ffc107;"></a></td>
-                                </tr>
-                                <tr class="table-secondary text-dark">
-                                    <td class="text-center"><span class="badge badge-tier-c">C</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/sentadilla-con-salto-con-mancuernas-pierna/" class="exercise-link text-dark" target="_blank"><strong>Sentadilla Salto</strong></a>
-                                        <small class="d-block">Potencia | ID 130</small>
-                                    </td>
-                                    <td>5.5 kg | 30 seg | Explosivo</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/sentadilla-con-salto-con-mancuernas-pierna/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/15521301-Dumbbell-Jumping-Squat_Plyometric_720.gif" class="gif-thumb" style="border-color: #ffc107;"></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card-body">
+                        <div class="card-title">Press Inclinado</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Peso</span>
+                                <span class="metric-value">11 kg</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Reps</span>
+                                <span class="metric-value">12</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descA2">Ver Detalles Técnicos</button>
+                        <div class="collapse" id="descA2">
+                            <div class="details-box">
+                                <p class="mb-1"><strong>Tempo:</strong> 3-1-1</p>
+                                <p class="mb-1"><strong>Equipo:</strong> Banco Inclinable</p>
+                                <a href="https://fitcron.com/exercise/press-inclinado-en-supinacion-con-mancuernas-pectoral/" target="_blank" class="text-info">Ver Guía Completa</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tab-pane fade" id="rutina-b" role="tabpanel">
-                <div class="card bg-dark border-0">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0"><i class="fas fa-running me-2"></i> GLÚTEO & CORE</h4>
-                        <span class="badge bg-white text-primary">Martes</span>
+                <div class="exercise-card">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-s"><i class="fas fa-star"></i> TIER S</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/04/04261301-Dumbbell-Standing-Overhead-Press_shoulder_720.gif" alt="Press Militar">
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-dark table-hover table-custom mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Tier</th>
-                                    <th>Ejercicio & Link</th>
-                                    <th>Detalles (Peso/Reps)</th>
-                                    <th class="text-center">Ver</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-s">S</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/elevacion-de-gluteos-con-mancuerna-pierna/" class="exercise-link" target="_blank">Hip Thrust</a>
-                                        <small class="d-block text-muted">Espalda en Banco | ID 120</small>
-                                    </td>
-                                    <td>11 kg | <strong>15 reps</strong> | 2-2-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/elevacion-de-gluteos-con-mancuerna-pierna/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/33351301-Dumbbell-Glute-Bridge_Hip_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-a">A</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/peso-muerto-rumano-con-mancuernas-pierna/" class="exercise-link" target="_blank">P. Muerto Rumano</a>
-                                        <small class="d-block text-muted">Mancuernas | ID 124</small>
-                                    </td>
-                                    <td>11 kg | <strong>12 reps</strong> | 3-0-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/peso-muerto-rumano-con-mancuernas-pierna/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/14591301-Dumbbell-Romanian-Deadlift_Hips_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-s">S</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/wheel-rollout-de-rodillas/" class="exercise-link" target="_blank">Rueda Abdominal</a>
-                                        <small class="d-block text-muted">Core | ID 31</small>
-                                    </td>
-                                    <td>Corp. | <strong>Fallo</strong> | 3-1-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/wheel-rollout-de-rodillas/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2024/05/08571301-Wheel-Rollout_Waist-FIX_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-a">A</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/zancada-delantera-con-mancuernas-pierna/" class="exercise-link" target="_blank">Zancada Delantera</a>
-                                        <small class="d-block text-muted">Alterna | ID 115</small>
-                                    </td>
-                                    <td>5.5 kg | <strong>20 pasos</strong> | 2-0-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/zancada-delantera-con-mancuernas-pierna/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/03361301-Dumbbell-Lunge_Hips_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr class="table-secondary text-dark">
-                                    <td class="text-center"><span class="badge badge-tier-c">C</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/salto-con-cuerda-alterno-normal-cardio/" class="exercise-link text-dark" target="_blank"><strong>Cuerda Alterno</strong></a>
-                                        <small class="d-block">Tipo Boxeo | ID 723</small>
-                                    </td>
-                                    <td>1 min | Ritmo</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/salto-con-cuerda-alterno-normal-cardio/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/03/36761301-Skip-Jump-Rope-male_Cardio_720.gif" class="gif-thumb" style="border-color: #ffc107;"></a></td>
-                                </tr>
-                                <tr class="table-secondary text-dark">
-                                    <td class="text-center"><span class="badge badge-tier-c">C</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/saltos-rodillas-cuclillas-con-barra-pierna/" class="exercise-link text-dark" target="_blank"><strong>Gradas c/ Peso</strong></a>
-                                        <small class="d-block">Subida | ID 143</small>
-                                    </td>
-                                    <td>11 kg | 1 min | Constante</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/saltos-rodillas-cuclillas-con-barra-pierna/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/14201301-Kneeling-Jump-Squat_Hips_720.gif" class="gif-thumb" style="border-color: #ffc107;"></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card-body">
+                        <div class="card-title">Press Militar</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Peso</span>
+                                <span class="metric-value">11 kg</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Reps</span>
+                                <span class="metric-value">10</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descA3">Ver Detalles Técnicos</button>
+                        <div class="collapse" id="descA3">
+                            <div class="details-box">
+                                <p class="mb-1"><strong>Tempo:</strong> 3-0-1</p>
+                                <p class="mb-1"><strong>Posición:</strong> De Pie</p>
+                                <a href="https://fitcron.com/exercise/press-militar-en-pronacion-con-mancuernas-deltoides/" target="_blank" class="text-info">Ver Guía Completa</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tab-pane fade" id="rutina-c" role="tabpanel">
-                <div class="card bg-dark border-0">
-                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0"><i class="fas fa-hand-rock me-2"></i> BRAZOS ESCULTURA</h4>
-                        <span class="badge bg-white text-primary">Jueves</span>
+                <div class="exercise-card" style="border: 2px solid var(--orange);">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-c"><i class="fas fa-heartbeat"></i> CARDIO</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/03/26121301-Jump-Rope-male_Cardio_720.gif" alt="Cuerda Normal">
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-dark table-hover table-custom mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Tier</th>
-                                    <th>Ejercicio & Link</th>
-                                    <th>Detalles (Peso/Reps)</th>
-                                    <th class="text-center">Ver</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-s">S</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/dominada-en-supinacion-dorsal/" class="exercise-link" target="_blank">Dominada Supina</a>
-                                        <small class="d-block text-muted">Palmas a ti | ID 404</small>
-                                    </td>
-                                    <td>Corp. | <strong>Fallo</strong> | 2-0-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/dominada-en-supinacion-dorsal/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/13261301-Chin-Up_Back_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-a">A</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/elevaciones-laterales-neutras-con-mancuernas-deltoides/" class="exercise-link" target="_blank">Elev. Laterales</a>
-                                        <small class="d-block text-muted">Hombros | ID 367</small>
-                                    </td>
-                                    <td>5.5 kg | <strong>15 reps</strong> | 2-1-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/elevaciones-laterales-neutras-con-mancuernas-deltoides/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/03341301-Dumbbell-Lateral-Raise_shoulder-AFIX_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-a">A</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/curl-en-banco-scott-en-supinacion-con-mancuerna-biceps/" class="exercise-link" target="_blank">Curl Banco Scott</a>
-                                        <small class="d-block text-muted">Aislado | ID 500</small>
-                                    </td>
-                                    <td>11 kg | <strong>12 reps</strong> | 3-0-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/curl-en-banco-scott-en-supinacion-con-mancuerna-biceps/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/03721301-Dumbbell-Preacher-Curl_Upper-Arms_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-s">S</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/extension-vertical-aislada-con-mancuerna-triceps/" class="exercise-link" target="_blank">Extensión Katana</a>
-                                        <small class="d-block text-muted">Sentado | ID 554</small>
-                                    </td>
-                                    <td>5.5 kg | <strong>12 reps</strong> | 3-1-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/extension-vertical-aislada-con-mancuerna-triceps/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/03621301-Dumbbell-One-Arm-Triceps-Extension-on-bench_Upper-Arms_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-a">A</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/press-frances-con-mancuernas-triceps/" class="exercise-link" target="_blank">Press Francés</a>
-                                        <small class="d-block text-muted">Banco Plano | ID 551</small>
-                                    </td>
-                                    <td>5.5 kg | <strong>12 reps</strong> | 3-1-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/press-frances-con-mancuernas-triceps/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/03521301-Dumbbell-Neutral-Grip-Bench-Press_Upper-Arms_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr class="table-secondary text-dark">
-                                    <td class="text-center"><span class="badge badge-tier-c">C</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/salto-con-cuerda-lateral-cardio/" class="exercise-link text-dark" target="_blank"><strong>Cuerda Lateral</strong></a>
-                                        <small class="d-block">Agilidad | ID 725</small>
-                                    </td>
-                                    <td>1 min | Salto lado a lado</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/salto-con-cuerda-lateral-cardio/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/03/36751301-Side-to-Side-Jump-Rope-male_Cardio_720.gif" class="gif-thumb" style="border-color: #ffc107;"></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card-body">
+                        <div class="card-title text-warning">Salto Cuerda Normal</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Tiempo</span>
+                                <span class="metric-value">30s</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Modo</span>
+                                <span class="metric-value">Fluido</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descAC1" style="background-color: var(--orange); color: black;">
+                            <i class="fas fa-exclamation-circle me-2"></i>Instrucciones
+                        </button>
+                        <div class="collapse show" id="descAC1">
+                            <div class="details-box">
+                                <p class="cardio-instructions">Mantén un ritmo constante sin tropezar. Enfócate en la muñeca, no en el brazo.</p>
+                                <a href="https://fitcron.com/exercise/salto-con-cuerda-normal-cardio/" target="_blank" class="text-warning">Ver ID 726</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="tab-pane fade" id="rutina-d" role="tabpanel">
-                <div class="card bg-dark border-0">
-                    <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
-                        <h4 class="mb-0"><i class="fas fa-bolt me-2"></i> FULL BODY & HIT</h4>
-                        <span class="badge bg-white text-danger">Sábado</span>
+            </div> <div class="tab-pane fade" id="pills-b" role="tabpanel">
+                
+                <div class="exercise-card">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-s"><i class="fas fa-star"></i> TIER S</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/04/33351301-Dumbbell-Glute-Bridge_Hip_720.gif" alt="Hip Thrust">
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-dark table-hover table-custom mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Tier</th>
-                                    <th>Ejercicio & Link</th>
-                                    <th>Detalles (Peso/Reps)</th>
-                                    <th class="text-center">Ver</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-s">S</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/flexiones-pectoral/" class="exercise-link" target="_blank">Flexiones (Push-ups)</a>
-                                        <small class="d-block text-muted">Pecho Normal | ID 625</small>
-                                    </td>
-                                    <td>Corp. | <strong>Fallo</strong> | 2-1-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/flexiones-pectoral/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/03/06621301-Push-up-m_Chest-FIX_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-a">A</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/remo-aislado-con-mancuerna-dorsal/" class="exercise-link" target="_blank">Remo Aislado</a>
-                                        <small class="d-block text-muted">Unilateral | ID 421</small>
-                                    </td>
-                                    <td>11 kg | <strong>15 p/brazo</strong> | 2-1-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/remo-aislado-con-mancuerna-dorsal/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/02921301-Dumbbell-Bent-over-Row_back_Back_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-s">S</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/sentadilla-a-una-pierna-con-mancuerna-pierna/" class="exercise-link" target="_blank">Sent. Búlgara</a>
-                                        <small class="d-block text-muted">Pie atrás | ID 112</small>
-                                    </td>
-                                    <td>5.5 kg | <strong>10 p/pierna</strong> | 3-1-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/sentadilla-a-una-pierna-con-mancuerna-pierna/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/04101301-Dumbbell-Single-Leg-Split-Squat_Thighs_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center"><span class="badge badge-tier-s">S</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/wheel-rollout-de-rodillas/" class="exercise-link" target="_blank">Rueda Abdominal</a>
-                                        <small class="d-block text-muted">Core | ID 31</small>
-                                    </td>
-                                    <td>Corp. | <strong>Fallo</strong> | 3-1-1</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/wheel-rollout-de-rodillas/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2024/05/08571301-Wheel-Rollout_Waist-FIX_720.gif" class="gif-thumb"></a></td>
-                                </tr>
-                                <tr class="table-secondary text-dark">
-                                    <td class="text-center"><span class="badge badge-tier-c">C</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/zancadas-con-salto-pierna/" class="exercise-link text-dark" target="_blank"><strong>Zancada Salto</strong></a>
-                                        <small class="d-block">Potencia | ID 126</small>
-                                    </td>
-                                    <td>1 min | Mov. dinámico</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/zancadas-con-salto-pierna/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/04/15541301-Dumbbell-Split-Jump_Plyometric_720.gif" class="gif-thumb" style="border-color: #ffc107;"></a></td>
-                                </tr>
-                                <tr class="table-secondary text-dark">
-                                    <td class="text-center"><span class="badge badge-tier-c">C</span></td>
-                                    <td>
-                                        <a href="https://fitcron.com/exercise/salto-con-cuerda-alto-cardio/" class="exercise-link text-dark" target="_blank"><strong>Cuerda Alto</strong></a>
-                                        <small class="d-block">Rodillas Arriba | ID 724</small>
-                                    </td>
-                                    <td>2 min | Máximo</td>
-                                    <td class="text-center"><a href="https://fitcron.com/exercise/salto-con-cuerda-alto-cardio/" target="_blank"><img src="https://fitcron.com/wp-content/uploads/2021/03/36781301-High-Jump-Rope-male_Cardio_720.gif" class="gif-thumb" style="border-color: #ffc107;"></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card-body">
+                        <div class="card-title">Hip Thrust</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Peso</span>
+                                <span class="metric-value">11 kg</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Reps</span>
+                                <span class="metric-value">15</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descB1">Ver Detalles</button>
+                        <div class="collapse" id="descB1">
+                            <div class="details-box">
+                                <p><strong>Tempo:</strong> 2-2-1 (Pausa 2s arriba)</p>
+                                <a href="https://fitcron.com/exercise/elevacion-de-gluteos-con-mancuerna-pierna/" target="_blank" class="text-info">Ver Guía ID 120</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </div> </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                <div class="exercise-card">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-a">TIER A</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/04/14591301-Dumbbell-Romanian-Deadlift_Hips_720.gif" alt="RDL">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">P. Muerto Rumano</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Peso</span>
+                                <span class="metric-value">11 kg</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Reps</span>
+                                <span class="metric-value">12</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descB2">Ver Detalles</button>
+                        <div class="collapse" id="descB2">
+                            <div class="details-box">
+                                <p><strong>Tempo:</strong> 3-0-1 (Baja lento)</p>
+                                <a href="https://fitcron.com/exercise/peso-muerto-rumano-con-mancuernas-pierna/" target="_blank" class="text-info">Ver Guía ID 124</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-s"><i class="fas fa-star"></i> TIER S</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2024/05/08571301-Wheel-Rollout_Waist-FIX_720.gif" alt="Rueda">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">Rueda Abdominal</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Peso</span>
+                                <span class="metric-value">Corp.</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Reps</span>
+                                <span class="metric-value">Fallo</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descB3">Ver Detalles</button>
+                        <div class="collapse" id="descB3">
+                            <div class="details-box">
+                                <p><strong>Tempo:</strong> 3-1-1</p>
+                                <p class="text-warning">¡No arquees la espalda baja!</p>
+                                <a href="https://fitcron.com/exercise/wheel-rollout-de-rodillas/" target="_blank" class="text-info">Ver Guía ID 31</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-card" style="border: 2px solid var(--orange);">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-c">CARDIO</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/04/14201301-Kneeling-Jump-Squat_Hips_720.gif" alt="Gradas">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title text-warning">Gradas con Peso</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Peso</span>
+                                <span class="metric-value">11 kg</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Tiempo</span>
+                                <span class="metric-value">1 min</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descBC1" style="background-color: var(--orange); color: black;">
+                            Instrucciones
+                        </button>
+                        <div class="collapse show" id="descBC1">
+                            <div class="details-box">
+                                <p class="cardio-instructions">Sube manteniendo el ritmo. Abraza la mancuerna al pecho (Goblet) o a los lados.</p>
+                                <a href="https://fitcron.com/exercise/saltos-rodillas-cuclillas-con-barra-pierna/" target="_blank" class="text-warning">Ver ID 143</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <div class="tab-pane fade" id="pills-c" role="tabpanel">
+                
+                <div class="exercise-card">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-s"><i class="fas fa-star"></i> TIER S</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/04/13261301-Chin-Up_Back_720.gif" alt="Chin Up">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">Dominada Supina</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Agarre</span>
+                                <span class="metric-value">Palmas a ti</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Reps</span>
+                                <span class="metric-value">Al Fallo</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descC1">Ver Detalles</button>
+                        <div class="collapse" id="descC1">
+                            <div class="details-box">
+                                <p><strong>Enfoque:</strong> Bíceps y Dorsal.</p>
+                                <a href="https://fitcron.com/exercise/dominada-en-supinacion-dorsal/" target="_blank" class="text-info">Ver Guía ID 404</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-a">TIER A</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/04/03721301-Dumbbell-Preacher-Curl_Upper-Arms_720.gif" alt="Scott Curl">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">Curl Banco Scott</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Peso</span>
+                                <span class="metric-value">11 kg</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Reps</span>
+                                <span class="metric-value">12</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descC2">Ver Detalles</button>
+                        <div class="collapse" id="descC2">
+                            <div class="details-box">
+                                <p><strong>Tempo:</strong> 3-0-1 (Baja controlado)</p>
+                                <a href="https://fitcron.com/exercise/curl-en-banco-scott-en-supinacion-con-mancuerna-biceps/" target="_blank" class="text-info">Ver Guía ID 500</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-s"><i class="fas fa-star"></i> TIER S</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/04/03621301-Dumbbell-One-Arm-Triceps-Extension-on-bench_Upper-Arms_720.gif" alt="Katana">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">Extensión Katana</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Peso</span>
+                                <span class="metric-value">5.5 kg</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Reps</span>
+                                <span class="metric-value">12</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descC3">Ver Detalles</button>
+                        <div class="collapse" id="descC3">
+                            <div class="details-box">
+                                <p><strong>Enfoque:</strong> Cabeza larga del tríceps.</p>
+                                <a href="https://fitcron.com/exercise/extension-vertical-aislada-con-mancuerna-triceps/" target="_blank" class="text-info">Ver Guía ID 554</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-card" style="border: 2px solid var(--orange);">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-c">CARDIO</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/03/36751301-Side-to-Side-Jump-Rope-male_Cardio_720.gif" alt="Cuerda Lateral">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title text-warning">Cuerda Salto Lateral</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Tiempo</span>
+                                <span class="metric-value">1 min</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Enfoque</span>
+                                <span class="metric-value">Agilidad</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descCC1" style="background-color: var(--orange); color: black;">
+                            Instrucciones
+                        </button>
+                        <div class="collapse show" id="descCC1">
+                            <div class="details-box">
+                                <p class="cardio-instructions">Salta de lado a lado (pies juntos) mientras giras la cuerda. Mejora coordinación lateral.</p>
+                                <a href="https://fitcron.com/exercise/salto-con-cuerda-lateral-cardio/" target="_blank" class="text-warning">Ver ID 725</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <div class="tab-pane fade" id="pills-d" role="tabpanel">
+                
+                <div class="exercise-card">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-s"><i class="fas fa-star"></i> TIER S</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/03/06621301-Push-up-m_Chest-FIX_720.gif" alt="Flexiones">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">Flexiones (Push-ups)</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Peso</span>
+                                <span class="metric-value">Corp.</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Reps</span>
+                                <span class="metric-value">Fallo</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descD1">Ver Detalles</button>
+                        <div class="collapse" id="descD1">
+                            <div class="details-box">
+                                <p><strong>Técnica:</strong> Pecho al suelo, codos en 45 grados.</p>
+                                <a href="https://fitcron.com/exercise/flexiones-pectoral/" target="_blank" class="text-info">Ver Guía ID 625</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-s"><i class="fas fa-star"></i> TIER S</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/04/04101301-Dumbbell-Single-Leg-Split-Squat_Thighs_720.gif" alt="Bulgara">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title">Sentadilla Búlgara</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Peso</span>
+                                <span class="metric-value">5.5 kg</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Reps</span>
+                                <span class="metric-value">10/pierna</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descD2">Ver Detalles</button>
+                        <div class="collapse" id="descD2">
+                            <div class="details-box">
+                                <p><strong>Nota:</strong> Pie trasero en banco plano. Baja hasta que la rodilla trasera roce el suelo.</p>
+                                <a href="https://fitcron.com/exercise/sentadilla-a-una-pierna-con-mancuerna-pierna/" target="_blank" class="text-info">Ver Guía ID 112</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-card" style="border: 2px solid var(--orange);">
+                    <div class="card-img-wrapper">
+                        <span class="tier-badge tier-c">CARDIO HIT</span>
+                        <img src="https://fitcron.com/wp-content/uploads/2021/03/36781301-High-Jump-Rope-male_Cardio_720.gif" alt="Cuerda Alto">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-title text-warning">Cuerda Rodillas Altas</div>
+                        <div class="key-metrics">
+                            <div class="metric-box">
+                                <span class="metric-label">Tiempo</span>
+                                <span class="metric-value">2 min</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="metric-label">Intensidad</span>
+                                <span class="metric-value">Máxima</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#descDC1" style="background-color: var(--orange); color: black;">
+                            Instrucciones
+                        </button>
+                        <div class="collapse show" id="descDC1">
+                            <div class="details-box">
+                                <p class="cardio-instructions">Eleva las rodillas hacia el pecho en cada salto. Es el ejercicio más intenso de la semana.</p>
+                                <a href="https://fitcron.com/exercise/salto-con-cuerda-alto-cardio/" target="_blank" class="text-warning">Ver ID 724</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> </div> </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

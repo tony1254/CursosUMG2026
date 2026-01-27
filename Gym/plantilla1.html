@@ -196,7 +196,7 @@
                                 <div class="badge-glass badge-tier">
                                     <template x-if="ex.tier === 'WU'"><i class="fas fa-fire tier-WU" title="Warm Up"></i></template>
                                     <template x-if="ex.tier === 'CR'"><i class="fas fa-heart-pulse tier-CR" title="Cardio"></i></template>
-                                    <template x-if="ex.tier === 'R'"><i class="fa-solid fa-bed-pulse fa-beat-fadetier-R" title="Descanso"></i></template>
+                                    <template x-if="ex.tier === 'RE'"><i class="fa-solid fa-bed-pulse fa-beat-fadetier-R" title="Descanso"></i></template>
                                     <template x-if="['S','A','B','C','D'].includes(ex.tier)">
                                         <span :class="`tier-${ex.tier}`" x-text="ex.tier"></span>
                                     </template>
@@ -685,7 +685,7 @@
             // === VIERNES - DESCANSO ===
             {
               "week_day": "VIERNES",
-              "tier": "R",
+              "tier": "RE",
               "difficulty": 1,
               "exercise_name": "Descanso",
               "toon_id": "NA",

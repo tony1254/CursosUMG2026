@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutina Híbrida - Estuardo Lara</title>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --bg-body: #050505;
+            --bg-card: #121212;
+            --accent: #3498db;
+            --text-readable: #d1d1d1; /* Nuevo color para mejor lectura */
+        }
+
+        body { background-color: var(--bg-body); color: #fff; font-family: sans-serif; min-height: 100vh; display: flex; flex-direction: column; padding-top: 70px; }
+
+        /* NAVBAR */
+        .main-navbar {
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .brand-logo { font-weight: 800; letter-spacing: 1px; color: white; text-transform: uppercase; font-size: 1.1rem; }
+        .brand-icon { color: var(--accent); margin-right: 8px; }
+        
+        .navbar-nav .nav-link { color: #bbb; transition: 0.3s; }
+        .navbar-nav .nav-link:hover, .navbar-nav .nav-link.active { color: white; }
+        .dropdown-menu { background-color: #1a1a1a; border: 1px solid #333; }
+        .dropdown-item { color: #ccc; }
+        .dropdown-item:hover { background-color: var(--accent); color: white; }
+
+        /* NAV WALL */
+        .nav-wall {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .nav-pills .nav-link-wall { 
+            color: var(--text-readable); border-radius: 10px; padding: 8px 20px; 
+            margin-right: 10px; background: rgba(0,0,0,0.3); transition: 0.3s; font-size: 0.9rem;
+            cursor: pointer; border: none;
+        }
+        .nav-pills .nav-link-wall:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-pills .nav-link-wall.active { 
+            background: var(--accent); color: white; font-weight: bold; 
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.4); 
+        }
+
+        /* CARD */
+        .workout-card {
+            background-color: var(--bg-card);
+            border-radius: 16px; overflow: hidden; border: 1px solid #252525;
+            position: relative; margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: transform 0.2s;
+        }
+        .workout-card:hover { transform: translateY(-3px); border-color: #444; }
+
+        .img-area { position: relative; height: 220px; cursor: pointer; overflow: hidden; }
+        .img-area img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; opacity: 0.85; }
+        .img-area:hover img { transform: scale(1.05); opacity: 1; }
+
+        /* BADGES */
+        .badge-glass {
+            position: absolute; z-index: 10;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px; padding: 5px 10px;
+        }
+        
+        .badge-tier { top: 10px; right: 10px; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; }
+        
+        /* COLORES DE TIERS */
+        .tier-S { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .tier-A { color: #00d2ff; text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
+        .tier-B { color: #2ecc71; } 
+        .tier-C { color: #f39c12; } 
+        .tier-D { color: #7f8c8d; }
+        
+        /* ESPECIALES */
+        .tier-WU { color: #ff6b6b; font-size: 1.2rem; } /* Warmup - Rojo suave/Fuego */
+        .tier-CR { color: #ff4757; font-size: 1.2rem; } /* Cardio - Rojo */
+        .tier-R  { color: #a55eea; font-size: 1.2rem; } /* Rest - Morado/Indigo relajante */
+        .tier-YO { color: #00cec9; font-size: 1.2rem; } /* Turquesa Zen */
+        .tier-CD { color: #48dbfb; font-size: 1.2rem; } /* Azul Hielo */
+        
+        .badge-diff { bottom: 10px; left: 10px; display: flex; gap: 5px; align-items: center;}
+        .diff-1 { color: #2ecc71; } .diff-2 { color: #f39c12; } .diff-3 { color: #e74c3c; filter: drop-shadow(0 0 3px #e74c3c); } .diff-off { color: #444; }
+
+        /* INFO & STATS */
+        .info-area { padding: 15px; }
+        .grid-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin: 15px 0; }
+        .stat-box { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 8px 2px; text-align: center; cursor: help; transition: 0.2s; }
+        .stat-box:hover { background: rgba(255,255,255,0.08); }
+        .stat-val { display: block; font-weight: bold; color: var(--accent); font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .stat-label { font-size: 0.6rem; color: #888; text-transform: uppercase; }
+
+        /* TEXTOS MEJORADOS (CONTRASTE) */
+        .text-readable-s { color: var(--text-readable); font-size: 0.85rem; }
+        .text-readable-xs { color: #aaa; font-size: 0.8rem; }
+        
+        .btn-toggle { width: 100%; background: transparent; border: 1px dashed #444; color: #bbb; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; cursor: pointer;}
+        .btn-toggle:hover { background: rgba(255,255,255,0.05); color: white; border-color: #666; }
+
+        footer { margin-top: auto; padding: 30px; background: #000; border-top: 1px solid #222; text-align: center; }
+        .footer-text { color: var(--text-readable); }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        .modal-img { max-width: 95%; max-height: 80vh; border-radius: 10px; }
+        .tooltip-inner { background-color: var(--accent); color: white; font-weight: bold; font-size: 0.85rem; }
+        .tooltip.bs-tooltip-top .tooltip-arrow::before { border-top-color: var(--accent); }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar fixed-top navbar-expand-lg main-navbar" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="bi bi-activity brand-icon"></i>
+                <span class="brand-logo">Luis Garcia Training</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Semanas
+                        </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="semana1.html">Semana 1</a></li>
+                            <li><a class="dropdown-item" href="semana2.html">Semana 2</a></li>
+                                                        <li><hr class="dropdown-divider border-secondary"></li>
+                            <li><a class="dropdown-item" href="semana3.html">Semana 3</a></li>
+                            <li><a class="dropdown-item" href="semana4.html">Semana 4</a></li>
+                            <li><a class="dropdown-item" href="semana5.html">Semana 5</a></li>
+                            <li><a class="dropdown-item" href="#">Ver todo</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user-circle text-white fs-4"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div x-data="appCore()" x-init="initApp()">
+
+        <div class="container mt-4">
+            
+            <div class="mb-4 text-center text-md-start">
+                <small class="text-readable-xs text-uppercase fw-bold">Programa 2026</small>
+                <h2 class="fw-bold text-white">Rutina Híbrida Semanal</h2>
+            </div>
+
+            <div class="nav-wall animate__animated animate__fadeInDown">
+                <div class="nav nav-pills d-flex flex-nowrap">
+                    <template x-for="day in uniqueDays" :key="day">
+                        <button class="nav-link-wall" 
+                                :class="activeTab === day ? 'active' : ''"
+                                @click="setActiveTab(day)"
+                                x-text="day">
+                        </button>
+                    </template>
+                </div>
+            </div>
+
+            <div class="row">
+                <template x-for="(ex, index) in filteredExercises" :key="ex.toonId || index">
+
+                    <div class="col-12 col-md-6 col-lg-4 animate__animated animate__fadeInUp"
+                         :style="`animation-delay: ${index * 100}ms`">
+                        
+                        <div class="workout-card" x-data="{ open: false }">
+                            
+                            <div class="img-area" @click="openModal(ex.image_url)">
+                                
+                                <div class="badge-glass badge-tier">
+                                    <template x-if="ex.tier === 'WU'"><i class="fas fa-fire fa-fade tier-WU" style="--fa-animation-duration: 1s;" title="Warm Up"></i></template>
+                                     <template x-if="ex.tier === 'CD'"><i class="fas fa-snowflake  fa-spin tier-CD" style="--fa-animation-duration: 4s;" title="Enfriamiento / Cool Down"></i></template>
+                                    <template x-if="ex.tier === 'CR'"><i class="fas fa-heart-pulse tier-CR" title="Cardio"></i></template>
+                                    <template x-if="ex.tier === 'R'"><i class="fa-solid fa-bed-pulse fa-beat-fade tier-R" title="Descanso" style="--fa-animation-duration: 2s;"></i></template>
+                                    <template x-if="ex.tier === 'YO'"><i class="fas fa-spa tier-YO" title="Yoga Flow"></i></template>
+                                    <template x-if="['S','A','B','C','D'].includes(ex.tier)">
+                                        <span :class="`tier-${ex.tier}`" x-text="ex.tier"></span>
+                                    </template>
+                                </div>
+
+                                <div class="badge-glass badge-diff" 
+                                     data-bs-toggle="tooltip" data-bs-placement="top" title="Esfuerzo Percibido">
+                                    <template x-for="i in 3">
+                                        <i class="fas fa-dumbbell icon-dumbbell"
+                                           :class="i <= ex.difficulty ? `diff-${ex.difficulty}` : 'diff-off'">
+                                        </i>
+                                    </template>
+                                </div>
+                                <img :src="ex.image_url" alt="Ejercicio">
+                            </div>
+
+                            <div class="info-area">
+                                <h5 class="fw-bold mb-0 text-white" x-text="ex.exercise_name"></h5>
+                                <small class="text-readable-s" x-text="ex.category"></small>
+
+                                <div class="grid-stats">
+                                    <div class="stat-box" data-bs-toggle="tooltip" title="Peso / Carga ('Corp.' = Peso Corporal)">
+                                        <i class="fas fa-weight-hanging mb-1 text-secondary"></i>
+                                        <span class="stat-val" x-text="ex.weight"></span>
+                                        <span class="stat-label">Peso</span>
+                                    </div>
+                                    <div class="stat-box" data-bs-toggle="tooltip" title="Series Efectivas">
+                                        <i class="fas fa-list-ol mb-1 text-secondary"></i>
+                                        <span class="stat-val" x-text="ex.sets"></span>
+                                        <span class="stat-label">Series</span>
+                                    </div>
+                                    <div class="stat-box" data-bs-toggle="tooltip" title="Repeticiones Objetivo">
+                                        <i class="fas fa-redo mb-1 text-secondary"></i>
+                                        <span class="stat-val" x-text="ex.reps"></span>
+                                        <span class="stat-label">Reps</span>
+                                    </div>
+                                    <div class="stat-box" data-bs-toggle="tooltip" data-bs-html="true" title="TEMPO:<br>Bajada - Pausa - Subida">
+                                        <i class="fas fa-stopwatch mb-1 text-secondary"></i>
+                                        <span class="stat-val" x-text="ex.tempo"></span>
+                                        <span class="stat-label">Tempo</span>
+                                    </div>
+                                </div>
+
+                                <button class="btn-toggle" @click="open = !open">
+                                    <span x-text="open ? 'Ocultar Detalles' : 'Ver Instrucciones'"></span>
+                                    <i class="fas" :class="open ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                </button>
+
+                                <div x-show="open" x-collapse class="mt-3 text-readable-s small border-top border-secondary pt-2">
+                                    <p class="mb-1"><strong class="text-white">Posición:</strong> <span x-text="ex.bench_position"></span></p>
+                                    <p class="mb-2"><strong class="text-white">Músculos:</strong> <span x-text="ex.muscles"></span></p>
+                                    <a :href="ex.page_url" target="_blank" class="btn btn-sm btn-outline-light w-100 rounded-pill opacity-75">
+                                        <i class="fas fa-external-link-alt me-2"></i>Guía Web
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <footer>
+            <div class="container animate__animated animate__fadeIn">
+                <i class="bi bi-mortarboard-fill fs-3 text-white mb-3 d-inline-block"></i>
+                <p class="mb-0 fw-bold text-white">Luis Garcia 2026</p>
+                <small class="footer-text">Material Educativo - Ingeniería de Sistemas & Biomecánica</small>
+            </div>
+        </footer>
+
+        <div class="modal-overlay" x-show="modalOpen" x-transition.opacity style="display:none" @click.self="closeModal()">
+            <div class="position-relative">
+                <i class="fas fa-times text-white fs-2 position-absolute top-0 end-0 m-3" style="cursor:pointer; z-index:10000; filter:drop-shadow(0 0 5px black)" @click="closeModal()"></i>
+                <img :src="currentImage" class="modal-img">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        const WORKOUT_DATA =
+[
+  {"week_day":"LUNES","tier":"WU","difficulty":1,"exercise_name":"Activación","toon_id":"f841","category":"Estiramiento","weight":"BW","sets":"1","reps":"5-10 min","tempo":"continuo","bench_position":"Ninguno","muscles":"Todos","image_url":"https://i.pinimg.com/originals/f8/41/bd/f841bd8e999598f215fd67924156e2c0.gif","page_url":"https://i.pinimg.com/originals/f8/41/bd/f841bd8e999598f215fd67924156e2c0.gif"},
+  {"week_day":"LUNES","tier":"S","difficulty":2,"exercise_name":"Sentadilla con Banda","toon_id":"1004","category":"Pierna","weight":"Banda","sets":"4","reps":"12-15","tempo":"2-1-2","bench_position":"Plano","muscles":"Glúteo|Aductor|Cuádriceps|Gemelo","image_url":"https://fitcron.com/wp-content/uploads/2021/04/10041301-Band-squat_Hips_720.gif","page_url":"https://fitcron.com/exercise/sentadilla-con-banda-pierna/"},
+  {"week_day":"LUNES","tier":"S","difficulty":1,"exercise_name":"Peso Muerto con Banda","toon_id":"0991","category":"Pierna","weight":"Banda","sets":"4","reps":"12","tempo":"3-1-1","bench_position":"Plano","muscles":"Glúteo|Aductor|Cuádriceps|Gemelo","image_url":"https://fitcron.com/wp-content/uploads/2021/04/09911301-Band-pull-through_Hips_720.gif","page_url":"https://fitcron.com/exercise/peso-muerto-con-bandas-pierna/"},
+  {"week_day":"LUNES","tier":"A","difficulty":1,"exercise_name":"Hip Thrust con Banda","toon_id":"1408","category":"Pierna","weight":"Banda","sets":"4","reps":"15","tempo":"2-1-2","bench_position":"Plano","muscles":"Cuádriceps|Glúteo","image_url":"https://fitcron.com/wp-content/uploads/2021/04/14081301-Band-Hip-Lift_Hips_720.gif","page_url":"https://fitcron.com/exercise/elevacion-de-gluteos-con-banda-pierna/"},
+  {"week_day":"LUNES","tier":"A","difficulty":2,"exercise_name":"Zancada Trasera con Mancuernas","toon_id":"0381","category":"Pierna","weight":"Mochila","sets":"3","reps":"12/p","tempo":"2-0-2","bench_position":"Plano","muscles":"Glúteo|Aductor|Cuádriceps|Gemelo","image_url":"https://fitcron.com/wp-content/uploads/2021/04/03811301-Dumbbell-Rear-Lunge_Thighs_720.gif","page_url":"https://fitcron.com/exercise/zancada-trasera-con-mancuernas-pierna/"},
+  {"week_day":"LUNES","tier":"B","difficulty":2,"exercise_name":"Elevación de Cadera con piernas flexionadas","toon_id":"0484","category":"Abdomen","weight":"BW","sets":"3","reps":"20","tempo":"2-2-2","bench_position":"Suelo","muscles":"Abdomen|Oblicuos","image_url":"https://fitcron.com/wp-content/uploads/2024/05/04841301-Hip-Raise-bent-knee_waist_720.gif","page_url":"https://fitcron.com/exercise/elevacion-de-cadera-con-piernas-flexionadas/"},
+  {"week_day":"LUNES","tier":"CR","difficulty":2,"exercise_name":"Rodilla a Codo Cruzado","toon_id":"3086","category":"Cardio","weight":"BW","sets":"3","reps":"1 min","tempo":"rápido","bench_position":"Suelo","muscles":"Abdomen|Piernas","image_url":"https://fitcron.com/wp-content/uploads/2021/03/30861301-Elbow-To-Knee-Twists-male_Cardio_720.gif","page_url":"https://fitcron.com/exercise/rodilla-al-codo-con-giro-cardio/"},
+  {"week_day":"LUNES","tier":"CD","difficulty":1,"exercise_name":"Enfriamiento","toon_id":"5947","category":"Estiramiento","weight":"BW","sets":"1","reps":"5 min","tempo":"lento","bench_position":"Ninguno","muscles":"Todos","image_url":"https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif","page_url":"https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif"},
+  {"week_day":"MARTES","tier":"YO","difficulty":1,"exercise_name":"Yoga Activo","toon_id":"34f1","category":"Yoga","weight":"BW","sets":"1","reps":"30 min","tempo":"lento","bench_position":"Suelo","muscles":"Cuerpo Completo","image_url":"https://i.pinimg.com/originals/34/f1/4b/34f14b4abd9292c95acabfa1092c3b39.gif","page_url":"https://i.pinimg.com/originals/34/f1/4b/34f14b4abd9292c95acabfa1092c3b39.gif"},
+  {"week_day":"MIÉRCOLES","tier":"WU","difficulty":1,"exercise_name":"Activación","toon_id":"f841","category":"Estiramiento","weight":"BW","sets":"1","reps":"5 min","tempo":"continuo","bench_position":"Ninguno","muscles":"Todos","image_url":"https://i.pinimg.com/originals/f8/41/bd/f841bd8e999598f215fd67924156e2c0.gif","page_url":"https://i.pinimg.com/originals/f8/41/bd/f841bd8e999598f215fd67924156e2c0.gif"},
+  {"week_day":"MIÉRCOLES","tier":"S","difficulty":1,"exercise_name":"Flexiones con Rodillas","toon_id":"0259","category":"Pecho","weight":"BW","sets":"4","reps":"Fallo-2","tempo":"2-0-2","bench_position":"Suelo","muscles":"Pectoral|Tríceps","image_url":"https://fitcron.com/wp-content/uploads/2021/03/02591301-Close-Grip-Push-up_Upper-Arms_720.gif","page_url":"https://fitcron.com/exercise/flexiones-cerradas-pectoral/"},
+  {"week_day":"MIÉRCOLES","tier":"S","difficulty":2,"exercise_name":"Zancada Lateral en Polea","toon_id":"3355","category":"Pierna","weight":"Banda","sets":"4","reps":"12/p","tempo":"2-1-2","bench_position":"Plano","muscles":"Glúteo|Aductor|Cuádriceps|Gemelo","image_url":"https://fitcron.com/wp-content/uploads/2021/04/33551301-Cable-Lateral-Lunge-VERSION-2_Thighs_720.gif","page_url":"https://fitcron.com/exercise/zancada-lateral-en-polea-pierna/"},
+  {"week_day":"MIÉRCOLES","tier":"A","difficulty":1,"exercise_name":"Press Militar con Bandas","toon_id":"0997","category":"Hombro","weight":"Banda","sets":"3","reps":"12","tempo":"2-0-2","bench_position":"Plano","muscles":"Trapecio|Deltoides","image_url":"https://fitcron.com/wp-content/uploads/2021/04/09971301-Band-shoulder-press_Shoulders_720.gif","page_url":"https://fitcron.com/exercise/press-militar-con-bandas-deltoides/"},
+  {"week_day":"MIÉRCOLES","tier":"A","difficulty":1,"exercise_name":"Remo Horizontal con Bandas","toon_id":"3896","category":"Espalda","weight":"Banda","sets":"3","reps":"15","tempo":"2-1-2","bench_position":"Plano","muscles":"Dorsal|Trapecio|Bíceps","image_url":"https://fitcron.com/wp-content/uploads/2021/04/38961301-Band-seated-row-male_Back_720.gif","page_url":"https://fitcron.com/exercise/remo-horizontal-con-bandas-dorsal/"},
+  {"week_day":"MIÉRCOLES","tier":"B","difficulty":1,"exercise_name":"Crunch Superior","toon_id":"3679","category":"Abdomen","weight":"BW","sets":"3","reps":"20","tempo":"1-1-1","bench_position":"Suelo","muscles":"Abdomen|Oblicuos","image_url":"https://fitcron.com/wp-content/uploads/2024/05/36791301-Sit-up-with-Arms-on-Chest_Waist_720.gif","page_url":"https://fitcron.com/exercise/crunch-superior/"},
+  {"week_day":"MIÉRCOLES","tier":"CR","difficulty":2,"exercise_name":"Burpees Modificados","toon_id":"1160","category":"Cardio","weight":"BW","sets":"3","reps":"45 seg","tempo":"rápido","bench_position":"Suelo","muscles":"Cuerpo Completo","image_url":"https://fitcron.com/wp-content/uploads/2021/03/11601301-Burpee_Cardio_720.gif","page_url":"https://fitcron.com/exercise/burpee-cardio/"},
+  {"week_day":"MIÉRCOLES","tier":"CD","difficulty":1,"exercise_name":"Enfriamiento","toon_id":"5947","category":"Estiramiento","weight":"BW","sets":"1","reps":"5 min","tempo":"lento","bench_position":"Ninguno","muscles":"Todos","image_url":"https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif","page_url":"https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif"},
+  {"week_day":"JUEVES","tier":"R","difficulty":0,"exercise_name":"Descanso Pasivo","toon_id":"450a","category":"Descanso","weight":"N/A","sets":"0","reps":"Pasivo","tempo":"libre","bench_position":"Cama","muscles":"Ninguno","image_url":"https://i.pinimg.com/originals/45/0a/77/450a7755ffea1df5b3874fb16edc2f8f.gif","page_url":"https://i.pinimg.com/originals/45/0a/77/450a7755ffea1df5b3874fb16edc2f8f.gif"},
+  {"week_day":"VIERNES","tier":"WU","difficulty":1,"exercise_name":"Activación","toon_id":"f841","category":"Estiramiento","weight":"BW","sets":"1","reps":"5 min","tempo":"continuo","bench_position":"Ninguno","muscles":"Todos","image_url":"https://i.pinimg.com/originals/f8/41/bd/f841bd8e999598f215fd67924156e2c0.gif","page_url":"https://i.pinimg.com/originals/f8/41/bd/f841bd8e999598f215fd67924156e2c0.gif"},
+  {"week_day":"VIERNES","tier":"S","difficulty":2,"exercise_name":"Sentadilla con Banda","toon_id":"1004","category":"Pierna","weight":"Banda","sets":"4","reps":"15","tempo":"2-1-2","bench_position":"Plano","muscles":"Glúteo|Aductor|Cuádriceps|Gemelo","image_url":"https://fitcron.com/wp-content/uploads/2021/04/10041301-Band-squat_Hips_720.gif","page_url":"https://fitcron.com/exercise/sentadilla-con-banda-pierna/"},
+  {"week_day":"VIERNES","tier":"S","difficulty":2,"exercise_name":"Marcha Horizontal Aislada con pierna extendida","toon_id":"3496","category":"Pierna","weight":"BW","sets":"4","reps":"15","tempo":"2-1-2","bench_position":"Suelo","muscles":"Glúteo|Isquios","image_url":"https://fitcron.com/wp-content/uploads/2024/05/34961301-Lying-Straight-Leg-Marches_Waist_720.gif","page_url":"https://fitcron.com/exercise/marcha-horizontal-aislada-con-pierna-extendida/"},
+  {"week_day":"VIERNES","tier":"A","difficulty":2,"exercise_name":"Abducción en Suelo","toon_id":"1774","category":"Pierna","weight":"BW","sets":"3","reps":"20","tempo":"1-1-2","bench_position":"Suelo","muscles":"Glúteo|Abductor","image_url":"https://fitcron.com/wp-content/uploads/2024/05/17741301-Side-Bridge-Hip-Abduction_Hips_720.gif","page_url":"https://fitcron.com/exercise/puente-lateral-con-abduccion-de-cadera/"},
+  {"week_day":"VIERNES","tier":"B","difficulty":1,"exercise_name":"Crunch Superior","toon_id":"3679","category":"Abdomen","weight":"BW","sets":"3","reps":"20","tempo":"1-1-1","bench_position":"Suelo","muscles":"Abdomen|Oblicuos","image_url":"https://fitcron.com/wp-content/uploads/2024/05/36791301-Sit-up-with-Arms-on-Chest_Waist_720.gif","page_url":"https://fitcron.com/exercise/crunch-superior/"},
+  {"week_day":"VIERNES","tier":"CR","difficulty":2,"exercise_name":"Burpees Modificados","toon_id":"1160","category":"Cardio","weight":"BW","sets":"3","reps":"10-12","tempo":"rápido","bench_position":"Suelo","muscles":"Cuerpo Completo","image_url":"https://fitcron.com/wp-content/uploads/2021/03/11601301-Burpee_Cardio_720.gif","page_url":"https://fitcron.com/exercise/burpee-cardio/"},
+  {"week_day":"VIERNES","tier":"CD","difficulty":1,"exercise_name":"Enfriamiento","toon_id":"5947","category":"Estiramiento","weight":"BW","sets":"1","reps":"5 min","tempo":"lento","bench_position":"Ninguno","muscles":"Todos","image_url":"https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif","page_url":"https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif"},
+  {"week_day":"SÁBADO","tier":"WU","difficulty":1,"exercise_name":"Activación","toon_id":"f841","category":"Estiramiento","weight":"BW","sets":"1","reps":"5 min","tempo":"continuo","bench_position":"Ninguno","muscles":"Todos","image_url":"https://i.pinimg.com/originals/f8/41/bd/f841bd8e999598f215fd67924156e2c0.gif","page_url":"https://i.pinimg.com/originals/f8/41/bd/f841bd8e999598f215fd67924156e2c0.gif"},
+  {"week_day":"SÁBADO","tier":"S","difficulty":1,"exercise_name":"Flexiones con Rodillas","toon_id":"0259","category":"Pecho","weight":"BW","sets":"4","reps":"Fallo-2","tempo":"2-0-2","bench_position":"Suelo","muscles":"Pectoral|Tríceps","image_url":"https://fitcron.com/wp-content/uploads/2021/03/02591301-Close-Grip-Push-up_Upper-Arms_720.gif","page_url":"https://fitcron.com/exercise/flexiones-cerradas-pectoral/"},
+  {"week_day":"SÁBADO","tier":"S","difficulty":1,"exercise_name":"Remo Horizontal con Bandas","toon_id":"3896","category":"Espalda","weight":"Banda","sets":"4","reps":"12","tempo":"2-1-2","bench_position":"Plano","muscles":"Dorsal|Trapecio|Bíceps","image_url":"https://fitcron.com/wp-content/uploads/2021/04/38961301-Band-seated-row-male_Back_720.gif","page_url":"https://fitcron.com/exercise/remo-horizontal-con-bandas-dorsal/"},
+  {"week_day":"SÁBADO","tier":"A","difficulty":1,"exercise_name":"Press Militar con Bandas","toon_id":"0997","category":"Hombro","weight":"Banda","sets":"3","reps":"12","tempo":"2-0-2","bench_position":"Plano","muscles":"Trapecio|Deltoides","image_url":"https://fitcron.com/wp-content/uploads/2021/04/09971301-Band-shoulder-press_Shoulders_720.gif","page_url":"https://fitcron.com/exercise/press-militar-con-bandas-deltoides/"},
+  {"week_day":"SÁBADO","tier":"A","difficulty":1,"exercise_name":"Jalón en Supinación con Bandas","toon_id":"3116","category":"Espalda","weight":"Banda","sets":"3","reps":"12","tempo":"2-0-2","bench_position":"Plano","muscles":"Dorsal|Trapecio|Bíceps","image_url":"https://fitcron.com/wp-content/uploads/2021/04/31161301-Band-Fixed-Back-Underhand-Pulldown_Back_720.gif","page_url":"https://fitcron.com/exercise/jalon-en-supinacion-con-bandas-dorsal/"},
+  {"week_day":"SÁBADO","tier":"B","difficulty":1,"exercise_name":"Crunch Inferior con Rodillas Flexionadas","toon_id":"0138","category":"Abdomen","weight":"BW","sets":"3","reps":"12/p","tempo":"2-1-2","bench_position":"Suelo","muscles":"Abdomen|Oblicuos","image_url":"https://fitcron.com/wp-content/uploads/2024/05/01381301-Bottoms-Up-m_waist_720.gif","page_url":"https://fitcron.com/exercise/crunch-inferior-con-rodillas-flexionadas/"},
+  {"week_day":"SÁBADO","tier":"B","difficulty":2,"exercise_name":"Plancha con rodillas","toon_id":"3238","category":"Abdomen","weight":"BW","sets":"2","reps":"10","tempo":"2-1-2","bench_position":"Suelo","muscles":"Abdomen|Oblicuos","image_url":"https://fitcron.com/wp-content/uploads/2021/04/32381301-Kneeling-plank-male_Waist_720.gif","page_url":"https://fitcron.com/exercise/plancha-con-rodillas-abdomen/"},
+  {"week_day":"SÁBADO","tier":"CD","difficulty":1,"exercise_name":"Enfriamiento","toon_id":"5947","category":"Estiramiento","weight":"BW","sets":"1","reps":"5 min","tempo":"lento","bench_position":"Ninguno","muscles":"Todos","image_url":"https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif","page_url":"https://i.pinimg.com/originals/59/47/21/5947219feede3e613851cee846427474.gif"},
+  {"week_day":"DOMINGO","tier":"R","difficulty":0,"exercise_name":"Descanso Total","toon_id":"450a","category":"Descanso","weight":"N/A","sets":"0","reps":"Pasivo","tempo":"libre","bench_position":"Cama","muscles":"Ninguno","image_url":"https://i.pinimg.com/originals/45/0a/77/450a7755ffea1df5b3874fb16edc2f8f.gif","page_url":"https://i.pinimg.com/originals/45/0a/77/450a7755ffea1df5b3874fb16edc2f8f.gif"}
+]
+          ;
+
+        function appCore() {
+            return {
+                data: WORKOUT_DATA,
+                activeTab: '', 
+                modalOpen: false, currentImage: '', tooltips: [],
+
+                initApp() {
+                    if (this.uniqueDays.length > 0) this.activeTab = this.uniqueDays[0];
+                    this.refreshTooltips();
+                },
+                setActiveTab(day) {
+                    this.activeTab = day;
+                    this.refreshTooltips();
+                },
+                get uniqueDays() { return [...new Set(this.data.map(item => item.week_day))]; },
+                get filteredExercises() { return this.data.filter(item => item.week_day === this.activeTab); },
+                
+                openModal(url) { this.currentImage = url; this.modalOpen = true; },
+                closeModal() { this.modalOpen = false; },
+
+                refreshTooltips() {
+                    if(this.tooltips) this.tooltips.forEach(t => t.dispose());
+                    this.$nextTick(() => {
+                        const els = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                        this.tooltips = els.map(el => new bootstrap.Tooltip(el));
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>

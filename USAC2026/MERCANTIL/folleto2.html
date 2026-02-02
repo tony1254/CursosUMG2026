@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Derecho Mercantil II - Títulos de Crédito</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Roboto:wght@300;400;500&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --secondary-dark: #1e1b4b;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --info: #06b6d4;
+            --success: #2ecc71;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            --text-light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+
+        /* Barra de Progreso Superior */
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+            z-index: 9999;
+        }
+
+        /* Hero Section System-Elite */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            color: white;
+            padding: 100px 0 80px;
+            border-bottom: 5px solid var(--accent-purple);
+            position: relative;
+        }
+
+        .badge-class {
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid var(--accent-purple);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+
+        /* Consola de Simulación */
+        .terminal-container {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Source Code Pro', monospace;
+            color: #d4d4d4;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            margin: 20px 0;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+
+        /* Cards e Interactividad */
+        .custom-card {
+            background: white;
+            border: none;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            height: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .custom-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        /* Tablas Estilizadas */
+        .table-responsive {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .table-dark-custom {
+            background: var(--primary-dark);
+            color: white;
+            margin-bottom: 0;
+        }
+
+        /* Footer Mandatorio */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 60px 0;
+            margin-top: 80px;
+            position: relative;
+        }
+
+        .footer-icon {
+            font-size: 3rem;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="scrollProgress"></div>
+
+<header class="hero-section text-center">
+    <div class="container animate__animated animate__fadeIn">
+        <div class="mb-4">
+            <span class="badge-class">2da. Clase: Derecho Mercantil II</span>
+        </div>
+        <i class="bi bi-cpu-fill fs-1 mb-3 animate__animated animate__pulse animate__infinite" style="color: var(--accent-cyan);"></i>
+        <h1 class="display-3 fw-bold mb-3 poppins">Teoría General de los Títulos de Crédito</h1>
+        <p class="lead mb-4">Catedrático: Lic. Manuel de Jesús Quizar Martínez [cite: 4]</p>
+        <div class="d-flex justify-content-center gap-3">
+            <span class="badge bg-info"><i class="bi bi-calendar3 me-2"></i>Noveno Semestre 2026 [cite: 154]</span>
+            <span class="badge bg-danger"><i class="bi bi-shield-lock-fill me-2"></i>Rigor Legal Co.Co. [cite: 26]</span>
+        </div>
+    </div>
+</header>
+
+<main class="container py-5">
+
+    <section class="mb-5 animate__animated animate__fadeInUp">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+                <div class="p-4 bg-white rounded shadow-sm border-start border-5 border-info">
+                    <h2 class="poppins text-info"><i class="bi bi-box-seam me-2"></i>Teoría de la Cosa Mercantil</h2>
+                    <p class="fs-5 mt-3">
+                        Esta teoría considera que los <strong>títulos de crédito son cosas</strong>, entendidos como objetos corporales susceptibles de constituir materia sobre los mismos respecto a una relación jurídica. 
+                    </p>
+                    <div class="alert alert-secondary d-flex align-items-center">
+                        <i class="bi bi-journal-text fs-4 me-3"></i>
+                        <div>
+                            <strong>Regulación Legal:</strong> Ver artículos 385 CoCo, Art. 4 y Art. 375. [cite: 7]
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="terminal-container">
+                    <div class="terminal-header">
+                        <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+                    </div>
+                    <div id="typewriter" style="min-height: 100px;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <h2 class="text-center poppins mb-5 animate__animated animate__fadeIn"><i class="bi bi-diagram-3-fill me-2"></i>Características Fundamentales [cite: 8]</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="custom-card p-4 animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+                    <i class="bi bi-layers-half feature-icon text-primary"></i>
+                    <h4 class="poppins">Incorporación [cite: 12]</h4>
+                    <p>Los títulos de crédito contienen la incorporación de un derecho, de manera que pueda transferirse el documento junto con el derecho que en el mismo se incorpora. [cite: 13]</p>
+                    <span class="badge bg-light text-dark border">Arts. 385, 389 y 390 [cite: 14]</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="custom-card p-4 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+                    <i class="bi bi-pen-fill feature-icon text-success"></i>
+                    <h4 class="poppins">Literalidad [cite: 15]</h4>
+                    <p>El título obliga en la totalidad de lo que esté consignado en el mismo. [cite: 16]</p>
+                    <span class="badge bg-light text-dark border">Arts. 385, 389, 391, 401, 421, 456, 480 y 611 [cite: 17]</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="custom-card p-4 animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+                    <i class="bi bi-person-badge-fill feature-icon text-danger"></i>
+                    <h4 class="poppins">Legitimación [cite: 22]</h4>
+                    <p><strong>Activa:</strong> El titular del derecho puede exigir el cumplimiento. [cite: 23]</p>
+                    <p><strong>Pasiva:</strong> El obligado se libera al cumplir frente al tenedor. [cite: 24]</p>
+                    <span class="badge bg-light text-dark border">Arts. 389, 415, 430, 437, 515, 521, 526 y 534 [cite: 25]</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="custom-card p-4 animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+                    <i class="bi bi-shield-check feature-icon text-warning"></i>
+                    <h4 class="poppins">Autonomía [cite: 27]</h4>
+                    <p>Cada sucesivo titular se vincula de forma originaria con el obligado y no como sucesor, siendo un derecho autónomo. [cite: 28]</p>
+                    <span class="badge bg-light text-dark border">Arts. 385, 393, 394 y 619 [cite: 29]</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="custom-card p-4 animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
+                    <i class="bi bi-file-earmark-ruled-fill feature-icon text-info"></i>
+                    <h4 class="poppins">Formulismo [cite: 34]</h4>
+                    <p>Para su validez, el título debe contener los requisitos exigidos por la ley. [cite: 35]</p>
+                    <span class="badge bg-light text-dark border">Arts. 386, 441, 490, 495, 548, 587, 589, 594 y 613 [cite: 36, 37]</span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="custom-card p-4 animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+                    <i class="bi bi-intersect feature-icon text-dark"></i>
+                    <h4 class="poppins">Abstracción [cite: 45]</h4>
+                    <p>Se desvinculan de su causa generadora; el acto subyacente no tendrá efecto sobre el nuevo tomador. [cite: 46]</p>
+                    <span class="badge bg-light text-dark border">Art. 401 y 421 [cite: 47]</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5 p-5 rounded shadow-lg" style="background: var(--primary-dark); color: white;">
+        <h2 class="text-center poppins mb-5"><i class="bi bi-people-fill me-3"></i>Elementos Personales o Subjetivos [cite: 48]</h2>
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <div class="p-3 border border-secondary rounded hover-lift">
+                    <i class="bi bi-pencil-square text-cyan fs-1 mb-2"></i>
+                    <h5>Librador / Girador [cite: 50]</h5>
+                    <p class="small text-secondary">Creador / Emisor: Es quien crea un título de crédito. [cite: 50]</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 border border-secondary rounded hover-lift">
+                    <i class="bi bi-person-fill-lock text-warning fs-1 mb-2"></i>
+                    <h5>Librado / Girado [cite: 51]</h5>
+                    <p class="small text-secondary">Aceptante: Se obliga al cumplimiento de la obligación previa presentación. [cite: 51, 52]</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3 border border-secondary rounded hover-lift">
+                    <i class="bi bi-person-heart text-success fs-1 mb-2"></i>
+                    <h5>Beneficiario / Tenedor [cite: 53]</h5>
+                    <p class="small text-secondary">Tomador / Titular: Quien tiene la posesión y se beneficia del derecho. [cite: 53]</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <h2 class="poppins mb-4"><i class="bi bi-list-check me-2"></i>Clasificación Doctrinaria [cite: 54]</h2>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle bg-white">
+                <thead class="table-dark-custom">
+                    <tr>
+                        <th>Clasificación [cite: 55]</th>
+                        <th>División [cite: 56]</th>
+                        <th>Descripción [cite: 57]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2" class="fw-bold">Por el creador [cite: 58]</td>
+                        <td class="text-primary fw-bold">Público [cite: 59]</td>
+                        <td>Emitidos por el Estado o entidad autónoma/descentralizada con aval público. [cite: 61]</td>
+                    </tr>
+                    <tr>
+                        <td class="text-primary fw-bold">Privado [cite: 60]</td>
+                        <td>Emitidos por cualquier persona física o moral. [cite: 62]</td>
+                    </tr>
+                    <tr class="table-light">
+                        <td rowspan="2" class="fw-bold">Por su creación [cite: 63]</td>
+                        <td class="text-success fw-bold">Singulares [cite: 64]</td>
+                        <td>Para una persona concreta y operaciones determinadas. [cite: 66]</td>
+                    </tr>
+                    <tr>
+                        <td class="text-success fw-bold">Seriales [cite: 65]</td>
+                        <td>Creados en masa, mediante operación compleja frente a un grupo. [cite: 67]</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="fw-bold">Por efectos de causa [cite: 72]</td>
+                        <td class="text-warning fw-bold">Casuales [cite: 73]</td>
+                        <td>Ligados al negocio jurídico que los causó; prevalece relación adyacente. [cite: 75]</td>
+                    </tr>
+                    <tr>
+                        <td class="text-warning fw-bold">Abstractos [cite: 74]</td>
+                        <td>Se desligan de la relación jurídica o negocio jurídico que les dio origen. [cite: 76]</td>
+                    </tr>
+                    <tr class="table-light">
+                        <td rowspan="2" class="fw-bold">Por ley que los rige [cite: 81]</td>
+                        <td class="text-danger fw-bold">Típicos [cite: 82]</td>
+                        <td>Regulados como tal en el ordenamiento jurídico. [cite: 84]</td>
+                    </tr>
+                    <tr>
+                        <td class="text-danger fw-bold">Atípicos [cite: 83]</td>
+                        <td>No regulados expresamente, pero utilizados en la práctica. [cite: 85]</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3" class="fw-bold">Por derecho incorporado [cite: 90]</td>
+                        <td class="text-info fw-bold">Personales/Corporativos [cite: 91]</td>
+                        <td>Atribuyen calidad de miembro al tenedor (participación social). [cite: 94]</td>
+                    </tr>
+                    <tr>
+                        <td class="text-info fw-bold">Obligaciones/Pago [cite: 92]</td>
+                        <td>Derecho crediticio para exigir el pago. [cite: 95]</td>
+                    </tr>
+                    <tr>
+                        <td class="text-info fw-bold">Reales/Tradición [cite: 93]</td>
+                        <td>Derechos reales sobre la mercancía que el título ampara. [cite: 96]</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="mb-5 py-5 bg-white rounded shadow-sm px-4">
+        <h2 class="text-center poppins mb-5"><i class="bi bi-arrow-repeat me-2"></i>Clasificación Legal y Formas de Circulación [cite: 111, 124, 131, 143]</h2>
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="card h-100 border-primary">
+                    <div class="card-header bg-primary text-white poppins">Nominativa (Art. 415) [cite: 117, 118]</div>
+                    <div class="card-body">
+                        <p class="small">A favor de persona determinada consignada en el texto y registro del creador. [cite: 119]</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><i class="bi bi-check2-circle text-success me-2"></i>Aviso al Registro: SÍ [cite: 121]</li>
+                            <li class="list-group-item"><i class="bi bi-check2-circle text-success me-2"></i>Endosar: SÍ [cite: 122]</li>
+                            <li class="list-group-item"><i class="bi bi-check2-circle text-success me-2"></i>Entregar: SÍ [cite: 123]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100 border-success">
+                    <div class="card-header bg-success text-white poppins">A la Orden (Art. 418) [cite: 137, 138]</div>
+                    <div class="card-body">
+                        <p class="small">A favor de determinada persona. Se transmiten mediante endoso y entrega. [cite: 139, 140]</p>
+                        <ul class="list-group list-group-flush mt-4">
+                            <li class="list-group-item"><i class="bi bi-dash-circle text-muted me-2"></i>Aviso Registro: NO</li>
+                            <li class="list-group-item"><i class="bi bi-check2-circle text-success me-2"></i>Endosar: SÍ [cite: 141]</li>
+                            <li class="list-group-item"><i class="bi bi-check2-circle text-success me-2"></i>Entregar: SÍ [cite: 142]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100 border-dark">
+                    <div class="card-header bg-dark text-white poppins">Al Portador [cite: 149]</div>
+                    <div class="card-body">
+                        <p class="small">No emitidos a favor de persona determinada. Se transmiten por simple tradición. [cite: 150, 152]</p>
+                        <ul class="list-group list-group-flush mt-4">
+                            <li class="list-group-item"><i class="bi bi-dash-circle text-muted me-2"></i>Aviso Registro: NO</li>
+                            <li class="list-group-item"><i class="bi bi-dash-circle text-muted me-2"></i>Endosar: NO</li>
+                            <li class="list-group-item"><i class="bi bi-check2-circle text-success me-2"></i>Entregar: SÍ [cite: 153]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-warning mt-4 animate__animated animate__pulse animate__infinite shadow-sm">
+            <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+            <strong>REGLA DE ORO:</strong> Ningún acto o efecto contra el creador o contra terceros si no se inscribe el título en el Registro (Títulos Nominativos). [cite: 130]
+        </div>
+    </section>
+
+</main>
+
+<footer class="text-center">
+    <div class="container animate__animated animate__fadeIn">
+        <i class="bi bi-mortarboard-fill footer-icon"></i>
+        <h2 class="poppins fw-bold">Luis Garcia 2026 [cite: 154]</h2>
+        <p class="lead">Material Educativo - Ingeniería de Sistemas</p>
+        <hr class="w-25 mx-auto bg-light">
+        <p class="small text-secondary">Basado en la 2da. Clase de Derecho Mercantil II - Lic. Manuel Quizar</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // 1. Barra de Progreso
+    window.onscroll = function() {
+        let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        let scrolled = (winScroll / height) * 100;
+        document.getElementById("scrollProgress").style.width = scrolled + "%";
+    };
+
+    // 2. Efecto Terminal/Typewriter
+    const text = ">> SYS_INIT: Cargando Teoría de la Cosa Mercantil...\n>> ANALYZING: Art. 385 Código de Comercio...\n>> STATUS: Títulos de crédito validados como documentos necesarios para ejercitar el derecho literal y autónomo que en ellos se consigna.\n>> READY: Acceso a características e incorporación...";
+    let i = 0;
+    const typewriterElement = document.getElementById('typewriter');
+    
+    function typeWriter() {
+        if (i < text.length) {
+            typewriterElement.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 30);
+        }
+    }
+
+    // Iniciar al cargar
+    window.onload = typeWriter;
+</script>
+</body>
+</html>

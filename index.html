@@ -1,12 +1,15 @@
-<!DOCTYPE html>. 
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistemas Elite - Autoload Hub</title>
+    <!-- Librerías Externas -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    
     <style> 
         :root {
             --bg-dark: #020617;
@@ -14,12 +17,60 @@
             --accent: #8b5cf6;
             --cyan: #06b6d4;
         }
-        body { background-color: var(--bg-dark); color: #f8fafc; font-family: 'Poppins', sans-serif; }
+        body { 
+            background-color: var(--bg-dark); 
+            color: #f8fafc; 
+            font-family: 'Poppins', sans-serif; 
+            overflow-x: hidden;
+        }
         .hero-banner {
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             padding: 60px 0;
             border-bottom: 4px solid var(--accent);
             text-align: center;
+        }
+        .folder-section {
+            margin-bottom: 1.5rem;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(15, 23, 42, 0.5);
+        }
+        .folder-header {
+            background: var(--card-bg);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            user-select: none;
+        }
+        .folder-header:hover {
+            background: #1e293b;
+        }
+        .folder-title {
+            color: var(--cyan);
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+        }
+        .folder-content {
+            padding: 1.5rem;
+            display: none; /* Colapsado por defecto */
+        }
+        .folder-content.show {
+            display: block;
+        }
+        .chevron-icon {
+            transition: transform 0.3s;
+            color: var(--accent);
+        }
+        .folder-header.active .chevron-icon {
+            transform: rotate(180deg);
         }
         .class-card {
             background: var(--card-bg);
@@ -36,86 +87,156 @@
             border-color: var(--cyan);
             transform: translateY(-5px);
             box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+            color: white;
         }
-        .terminal-loader { font-family: 'Source Code Pro', monospace; color: var(--cyan); font-size: 0.8rem; }
+        .terminal-loader { 
+            font-family: 'Source Code Pro', monospace; 
+            color: var(--cyan); 
+            font-size: 0.8rem; 
+        }
+        .text-accent { color: var(--accent); }
+        .text-cyan { color: var(--cyan); }
+        .badge-folder {
+            font-size: 0.65rem;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
 
 <header class="hero-banner">
     <div class="container">
-        <i class="bi bi-cpu-fill display-3 text-info animate__animated animate__pulse animate__infinite"></i>
+        <i class="bi bi-cpu-fill display-3 text-info animate__animated animate__pulse animate__infinite d-inline-block"></i>
         <h1 class="mt-3">SISTEMAS UMG 2026</h1>
         <div class="terminal-loader" id="status">>> System Idle...</div>
     </div>
 </header>
 
-<main class="container py-5">
-    <div class="row g-4" id="dynamic-grid">
+<main class="container py-5" id="main-content">
+    <div id="dynamic-grid">
+        <div class="col-12 text-center py-5">
+            <div class="spinner-border text-info" role="status"></div>
+            <p class="mt-2 text-secondary">Iniciando protocolo de carga...</p>
         </div>
+    </div>
 </main>
 
 <script>
-    // CONFIGURACIÓN DE TU REPO
     const username = 'tony1254';
     const repo = 'CursosUMG2026';
-    const apiUrl = `https://api.github.com/repos/${username}/${repo}/contents/`;
+    const baseUrl = `https://api.github.com/repos/${username}/${repo}/contents`;
 
-    async function loadRepoFiles() {
+    async function fetchAndGroupFiles(path = "") {
+        const response = await fetch(`${baseUrl}/${path}`);
+        if (!response.ok) return {};
+        
+        const items = await response.json();
+        let grouped = {};
+
+        for (const item of items) {
+            if (item.type === 'dir') {
+                const subGrouped = await fetchAndGroupFiles(item.path);
+                Object.assign(grouped, subGrouped);
+            } else if (item.name.toLowerCase().endsWith('.html') && item.name.toLowerCase() !== 'index.html') {
+                const folderName = path || "RAÍZ";
+                if (!grouped[folderName]) grouped[folderName] = [];
+                grouped[folderName].push(item);
+            }
+        }
+        return grouped;
+    }
+
+    function toggleFolder(header) {
+        const content = header.nextElementSibling;
+        header.classList.toggle('active');
+        content.classList.toggle('show');
+    }
+
+    async function init() {
         const status = document.getElementById('status');
         const grid = document.getElementById('dynamic-grid');
         
-        status.innerText = ">> Scanning repository tree...";
+        status.innerText = ">> Indexing subdirectories...";
 
         try {
-            const response = await fetch(apiUrl);
-            const files = await response.json();
+            const groupedFiles = await fetchAndGroupFiles();
+            const folders = Object.keys(groupedFiles);
 
-            // Filtramos solo archivos .html y que no sean el index.html
-            const htmlFiles = files.filter(file => 
-                file.name.endsWith('.html') && file.name !== 'index.html'
-            );
-
-            if (htmlFiles.length === 0) {
-                grid.innerHTML = `<div class="col-12 text-center text-secondary">No se detectaron archivos de clase (.html)</div>`;
+            if (folders.length === 0) {
+                grid.innerHTML = `<div class="text-center text-secondary py-5">No se detectaron archivos.</div>`;
+                status.innerText = ">> Warning: System empty.";
                 return;
             }
 
-            grid.innerHTML = ''; // Limpiar grid
+            grid.innerHTML = ''; 
 
-            htmlFiles.forEach(file => {
-                // Formatear el nombre para que se vea limpio (ej: clase2.html -> CLASE 2)
-                const displayName = file.name.replace('.html', '').toUpperCase().replace(/_/g, ' ');
-                
-                const card = `
-                    <div class="col-md-6 col-lg-4 animate__animated animate__fadeInUp">
-                        <a href="${file.name}" class="class-card">
-                            <div class="d-flex justify-content-between mb-3">
-                                <span class="badge bg-dark border border-info text-info">HTML ARCHIVE</span>
-                                <i class="bi bi-file-earmark-code text-accent"></i>
-                            </div>
-                            <h4>${displayName}</h4>
-                            <p class="small text-secondary">Módulo cargado desde: /${file.path}</p>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="text-cyan small">Acceder al recurso</span>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </a>
+            folders.forEach((folder, fIndex) => {
+                const section = document.createElement('div');
+                section.className = 'folder-section animate__animated animate__fadeInUp';
+                section.style.animationDelay = `${fIndex * 0.1}s`;
+
+                const folderParts = folder.split('/');
+                const lastFolderName = folderParts[folderParts.length - 1].toUpperCase();
+                const prettyPath = folder.replace(/\//g, ' > ').toUpperCase();
+
+                section.innerHTML = `
+                    <div class="folder-header" onclick="toggleFolder(this)">
+                        <h2 class="folder-title">
+                            <i class="bi bi-folder2-open me-2"></i>${prettyPath}
+                        </h2>
+                        <i class="bi bi-chevron-down chevron-icon fs-4"></i>
+                    </div>
+                    <div class="folder-content">
+                        <div class="row g-4"></div>
                     </div>
                 `;
-                grid.innerHTML += card;
+
+                const row = section.querySelector('.row');
+
+                groupedFiles[folder].forEach((file, index) => {
+                    const displayName = file.name
+                        .replace('.html', '')
+                        .replace(/[-_]/g, ' ')
+                        .toUpperCase();
+                    
+                    const col = document.createElement('div');
+                    col.className = `col-md-6 col-lg-4`;
+                    
+                    col.innerHTML = `
+                        <a href="${file.path}" class="class-card">
+                            <div class="d-flex justify-content-between mb-3 align-items-start">
+                                <span class="badge bg-dark border border-info text-info badge-folder" title="${lastFolderName}">
+                                    ${lastFolderName}
+                                </span>
+                                <i class="bi bi-file-earmark-code text-accent fs-4"></i>
+                            </div>
+                            <h4>${displayName}</h4>
+                            <p class="small text-secondary mb-0">Ruta: ${file.path}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="text-cyan small">Abrir Recurso</span>
+                                <i class="bi bi-chevron-right text-cyan"></i>
+                            </div>
+                        </a>
+                    `;
+                    row.appendChild(col);
+                });
+
+                grid.appendChild(section);
             });
 
-            status.innerText = `>> Success: ${htmlFiles.length} modules loaded.`;
+            status.innerText = `>> Success: ${folders.length} sectors online.`;
 
         } catch (error) {
             console.error(error);
-            status.innerText = ">> Error: Falló la conexión con la API de GitHub.";
-            grid.innerHTML = `<div class="col-12 text-center text-danger">Error al conectar con el servidor de GitHub.</div>`;
+            status.innerText = ">> Error: Connection lost.";
+            grid.innerHTML = `<div class="text-center text-danger py-5">Error de red.</div>`;
         }
     }
 
-    loadRepoFiles();
+    document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>

@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación 1: Ingeniería de Sistemas</title>
+    
+    <!-- CSS Dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@300;400;500&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- MathJax for Logic/Math -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --secondary-dark: #1e1b4b;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --terminal-bg: #1e1e1e;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, .h-style {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Scroll Progress Bar */
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            color: white;
+            padding: 100px 0 80px 0;
+            border-bottom: 5px solid var(--accent-purple);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            color: var(--accent-cyan);
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        /* Section Entry */
+        .academic-section {
+            padding: 60px 0;
+            opacity: 0;
+        }
+        .animate-in {
+            opacity: 1;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* Cards & Components */
+        .el-card {
+            background: white;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .el-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        }
+
+        .el-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-cyan);
+        }
+
+        .el-card.purple::before { background: var(--accent-purple); }
+        .el-card.red::before { background: #ef4444; }
+        .el-card.green::before { background: #10b981; }
+
+        .callout {
+            border-left: 5px solid;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .callout-info { border-left-color: var(--accent-cyan); }
+        .callout-warning { border-left-color: #f1c40f; }
+        .callout-danger { border-left-color: #ef4444; }
+
+        /* Code Styles */
+        .code-example {
+            background: #f1f5f9;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.9em;
+            color: #334155;
+            display: block;
+            margin-top: 5px;
+        }
+        .code-block {
+            background: var(--terminal-bg);
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            border: 1px solid #333;
+        }
+        .code-keyword { color: #569cd6; } /* Blue for keywords */
+        .code-type { color: #4ec9b0; } /* Teal for types */
+        .code-string { color: #ce9178; } /* Orange/Red for strings */
+        .code-comment { color: #6a9955; font-style: italic; } /* Green for comments */
+        .code-highlight { background-color: rgba(255, 255, 0, 0.1); border-left: 3px solid yellow; padding-left: 5px; display: block; }
+
+        .code-good { color: #059669; font-weight: 600; }
+        .code-bad { color: #dc2626; text-decoration: line-through; opacity: 0.7; }
+
+        /* Console Simulation */
+        .console-container {
+            background: var(--terminal-bg);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Source Code Pro', monospace;
+            color: #d1d5db;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .console-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #374151;
+            padding-bottom: 8px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+
+        .console-text { min-height: 100px; line-height: 1.6; }
+        .cursor { display: inline-block; width: 8px; height: 18px; background: var(--accent-cyan); animation: blink 1s infinite; }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .badge-elite {
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="scrollProgress"></div>
+
+    <!-- Hero Section -->
+    <header class="hero-section text-center">
+        <div class="container animate__animated animate__fadeIn">
+            <span class="badge bg-info badge-elite mb-3">Ciclo 2026 · Ingeniería de Sistemas</span>
+            <i class="bi bi-code-slash hero-icon animate__animated animate__pulse animate__infinite"></i>
+            <h1 class="display-3">Semana 1: Fundamentos</h1>
+            <p class="lead">Nomenclatura, Estructura y Taller de Configuración</p>
+        </div>
+    </header>
+
+    <!-- Navigation Quick Links -->
+    <nav class="sticky-top bg-white shadow-sm py-2">
+        <div class="container d-flex justify-content-center gap-2 flex-wrap">
+            <a href="#clean-code" class="btn btn-sm btn-outline-dark">Código Limpio</a>
+            <a href="#estructurada" class="btn btn-sm btn-outline-dark">P. Estructurada</a>
+            <a href="#paradigmas" class="btn btn-sm btn-outline-dark">Paradigmas</a>
+            <a href="#sim" class="btn btn-sm btn-outline-info">Simulador</a>
+            <a href="#cpp-fund" class="btn btn-sm btn-outline-primary">C++ Básico</a>
+            <a href="#taller-config" class="btn btn-sm btn-danger fw-bold">🛠️ Taller Config</a>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+
+        <!-- 1. CÓDIGO LIMPIO Y NOMENCLATURA -->
+        <section id="clean-code" class="academic-section">
+            <h2 class="mb-4 text-primary"><i class="bi bi-stars me-2"></i>Código Limpio: Convenciones de Nombres</h2>
+            <div class="callout callout-info">
+                <p class="mb-0">
+                    En programación, la claridad es poder. Los espacios en blanco no están permitidos en identificadores (variables, funciones, clases).
+                    Utilizamos convenciones estandarizadas para mejorar la legibilidad y el mantenimiento del código.
+                </p>
+            </div>
+
+            <div class="row g-4 mt-2">
+                <!-- camelCase -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="el-card p-4 h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-caret-up-fill text-warning fs-3 me-2"></i>
+                            <h5 class="mb-0">camelCase</h5>
+                        </div>
+                        <p class="small text-muted">La "joroba del camello". Elimina espacios. La primera letra es minúscula, las siguientes palabras inician con mayúscula.</p>
+                        <hr>
+                        <span class="badge bg-secondary mb-2">Variables / Funciones</span>
+                        <span class="code-example code-good"><i class="bi bi-check"></i> estoEstaBien</span>
+                        <span class="code-example code-bad"><i class="bi bi-x"></i> EstoNoEsCorrecto</span>
+                        <span class="code-example code-bad"><i class="bi bi-x"></i> esto_tampoco</span>
+                    </div>
+                </div>
+
+                <!-- PascalCase -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="el-card purple p-4 h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-building text-purple fs-3 me-2" style="color: var(--accent-purple)"></i>
+                            <h5 class="mb-0">PascalCase</h5>
+                        </div>
+                        <p class="small text-muted">También llamado <em>StudlyCase</em>. Similar a camelCase, pero la <strong>primera letra también es mayúscula</strong>.</p>
+                        <hr>
+                        <span class="badge bg-secondary mb-2">Clases / Archivos</span>
+                        <span class="code-example code-good"><i class="bi bi-check"></i> EstoEstaBien</span>
+                        <span class="code-example code-bad"><i class="bi bi-x"></i> estoYaNo</span>
+                        <span class="code-example code-bad"><i class="bi bi-x"></i> esto_menos</span>
+                    </div>
+                </div>
+
+                <!-- snake_case -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="el-card green p-4 h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-bezier2 text-success fs-3 me-2"></i>
+                            <h5 class="mb-0">snake_case</h5>
+                        </div>
+                        <p class="small text-muted">Como una serpiente arrastrándose. Reemplaza espacios con <strong>guiones bajos (_)</strong>. Todo en minúsculas.</p>
+                        <hr>
+                        <span class="badge bg-secondary mb-2">Base de Datos / Python</span>
+                        <span class="code-example code-good"><i class="bi bi-check"></i> esto_esta_bien</span>
+                        <span class="code-example code-bad"><i class="bi bi-x"></i> estoNo</span>
+                        <span class="code-example code-bad"><i class="bi bi-x"></i> EstoMuchoMenos</span>
+                    </div>
+                </div>
+
+                <!-- kebab-case -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="el-card red p-4 h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="bi bi-dash-lg text-danger fs-3 me-2"></i>
+                            <h5 class="mb-0">kebab-case</h5>
+                        </div>
+                        <p class="small text-muted">Como una brocheta. Usa <strong>guiones medios (-)</strong>. Común en URLs y CSS, pero no en nombres de variables de C++.</p>
+                        <hr>
+                        <span class="badge bg-secondary mb-2">URLs / CSS</span>
+                        <span class="code-example code-good"><i class="bi bi-check"></i> ahora-si-me-toco</span>
+                        <span class="code-example code-bad"><i class="bi bi-x"></i> EstoNoEstaBien</span>
+                        <span class="code-example code-bad"><i class="bi bi-x"></i> este_se_parece_pero_no</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PROGRAMACIÓN ESTRUCTURADA -->
+        <section id="estructurada" class="academic-section">
+            <h2 class="mb-4 text-primary"><i class="bi bi-diagram-3-fill me-2"></i>Programación Estructurada (PE)</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-5">
+                    <p class="lead">
+                        Paradigma que mejora la claridad y calidad del software utilizando subrutinas (funciones) y aboliendo el salto incondicional (GOTO).
+                    </p>
+                    <div class="alert alert-secondary">
+                        <strong><i class="bi bi-info-circle me-2"></i>Teorema del Programa Estructurado:</strong>
+                        <br>Todo programa puede escribirse utilizando únicamente tres estructuras de control.
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="row g-3">
+                        <!-- Secuencia -->
+                        <div class="col-md-12">
+                            <div class="el-card p-3 d-flex align-items-center">
+                                <div class="bg-light p-3 rounded me-3 text-center" style="min-width: 80px;">
+                                    <i class="bi bi-arrow-down fs-2 text-primary"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">1. Secuencia</h5>
+                                    <p class="mb-0 small text-muted">Ejecución de una sentencia tras otra en orden lineal, de arriba hacia abajo.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Selección -->
+                        <div class="col-md-12">
+                            <div class="el-card p-3 d-flex align-items-center">
+                                <div class="bg-light p-3 rounded me-3 text-center" style="min-width: 80px;">
+                                    <i class="bi bi-signpost-split fs-2 text-warning"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">2. Selección (Condicional)</h5>
+                                    <p class="mb-0 small text-muted">Ejecución basada en una variable booleana (Verdadero/Falso). <code>if</code>, <code>switch</code>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Iteración -->
+                        <div class="col-md-12">
+                            <div class="el-card p-3 d-flex align-items-center">
+                                <div class="bg-light p-3 rounded me-3 text-center" style="min-width: 80px;">
+                                    <i class="bi bi-arrow-repeat fs-2 text-success"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">3. Iteración (Ciclo/Bucle)</h5>
+                                    <p class="mb-0 small text-muted">Repetición de un conjunto de sentencias mientras una condición sea verdadera. <code>while</code>, <code>for</code>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. PARADIGMAS DE PROGRAMACIÓN -->
+        <section id="paradigmas" class="academic-section">
+            <h2 class="mb-4 text-center"><i class="bi bi-grid-1x2-fill me-2"></i>Paradigmas de Programación</h2>
+            <p class="text-center text-muted mb-5 w-75 mx-auto">Un paradigma es un estilo fundamental de programación, una forma de clasificar los lenguajes según sus características.</p>
+            
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="accordion" id="accordionParadigmas">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pe" aria-expanded="true">
+                                    <i class="bi bi-bricks me-2"></i> Programación Estructurada (PE)
+                                </button>
+                            </h2>
+                            <div id="pe" class="accordion-collapse collapse show" data-bs-parent="#accordionParadigmas">
+                                <div class="accordion-body">
+                                    Enfocada en el orden y la lógica clara mediante secuencias, selecciones e iteraciones. Es la base de C y C++.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#modular">
+                                    <i class="bi bi-puzzle me-2"></i> Programación Modular
+                                </button>
+                            </h2>
+                            <div id="modular" class="accordion-collapse collapse" data-bs-parent="#accordionParadigmas">
+                                <div class="accordion-body">
+                                    Divide el programa en módulos o subprogramas separados, permitiendo trabajar por partes y reutilizar código de manera eficiente.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="accordion" id="accordionParadigmas2">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#funcional">
+                                    <i class="bi bi-function me-2"></i> Programación Funcional
+                                </button>
+                            </h2>
+                            <div id="funcional" class="accordion-collapse collapse" data-bs-parent="#accordionParadigmas2">
+                                <div class="accordion-body">
+                                    Trata la computación como la evaluación de funciones matemáticas y evita el cambio de estado y datos mutables.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#poo">
+                                    <i class="bi bi-box-seam me-2"></i> Programación Orientada a Objetos (POO)
+                                </button>
+                            </h2>
+                            <div id="poo" class="accordion-collapse collapse" data-bs-parent="#accordionParadigmas2">
+                                <div class="accordion-body">
+                                    Basada en "objetos" que contienen datos (atributos) y código (métodos). Es el paradigma dominante en el desarrollo moderno de software.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SIMULADOR INTERACTIVO -->
+        <section id="sim" class="academic-section">
+            <h2 class="text-center mb-4">Práctica de Nomenclatura</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="console-container">
+                        <div class="console-header">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                            <span class="ms-auto small">Evaluador de Estilo</span>
+                        </div>
+                        <div class="console-text" id="consoleOutput">
+                            Sistema listo. Selecciona una convención para probar...<br>
+                            <span class="cursor"></span>
+                        </div>
+                        <div class="mt-3 d-flex gap-2 flex-wrap justify-content-center">
+                            <button class="btn btn-sm btn-outline-light" onclick="runSim('camel')">Prueba camelCase</button>
+                            <button class="btn btn-sm btn-outline-light" onclick="runSim('pascal')">Prueba PascalCase</button>
+                            <button class="btn btn-sm btn-outline-light" onclick="runSim('snake')">Prueba snake_case</button>
+                            <button class="btn btn-sm btn-danger" onclick="runSim('clear')">Limpiar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. FUNDAMENTOS C++ -->
+        <section id="cpp-fund" class="academic-section">
+            <h2 class="mb-5 text-center" style="color: var(--accent-purple)"><i class="bi bi-cpu-fill me-2"></i>Módulo Técnico: Fundamentos C++</h2>
+            
+            <!-- Estructura y Tipos -->
+            <div class="row g-4 mb-5">
+                <!-- Estructura Básica -->
+                <div class="col-lg-6">
+                    <div class="el-card p-4 h-100 border-start border-4 border-primary">
+                        <h4 class="text-primary"><i class="bi bi-file-earmark-code me-2"></i>Estructura de un Programa</h4>
+                        <p class="small text-muted mb-2">Esqueleto mínimo requerido para ejecutar código C++.</p>
+                        <div class="code-block p-2" style="font-size: 0.8rem;">
+<span class="code-comment">// Librería de Entrada/Salida</span>
+<span class="code-keyword">#include</span> &lt;iostream&gt;
+<span class="code-keyword">using</span> <span class="code-keyword">namespace</span> std;
+
+<span class="code-comment">// Función Principal (snake_case no aplica a main)</span>
+<span class="code-type">int</span> main() {
+    <span class="code-comment">// Bloque de instrucciones</span>
+    cout << <span class="code-string">"¡Sistema Iniciado!"</span> << endl;
+    <span class="code-keyword">return</span> 0;
+}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tipos de Datos -->
+                <div class="col-lg-6">
+                    <div class="el-card p-4 h-100">
+                        <h4 class="text-info"><i class="bi bi-database me-2"></i>Tipos de Datos Primitivos</h4>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover small mb-0">
+                                <thead class="table-light">
+                                    <tr><th>Tipo</th><th>Uso</th><th>Memoria</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><code class="code-type">int</code></td><td>Enteros (sin decimales)</td><td>4 bytes</td></tr>
+                                    <tr><td><code class="code-type">float</code></td><td>Decimales (precisión simple)</td><td>4 bytes</td></tr>
+                                    <tr><td><code class="code-type">double</code></td><td>Decimales (alta precisión)</td><td>8 bytes</td></tr>
+                                    <tr><td><code class="code-type">char</code></td><td>Un solo carácter ('A')</td><td>1 byte</td></tr>
+                                    <tr><td><code class="code-type">bool</code></td><td>Lógica (true/false)</td><td>1 byte</td></tr>
+                                    <tr><td><code class="code-string">string</code></td><td>Cadenas de texto ("Hola")</td><td>N/A</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Variables, Constantes y Nomenclatura -->
+            <h3 class="h-style mb-4 ms-2 border-start border-4 border-purple ps-3" style="border-color: var(--accent-purple) !important;">Gestión de Datos y Nomenclatura</h3>
+            <div class="row g-4 mb-5">
+                
+                <!-- Variables (camelCase) -->
+                <div class="col-md-6">
+                    <div class="el-card p-4 h-100">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h5 class="text-success"><i class="bi bi-box-seam me-2"></i>Variables</h5>
+                            <span class="badge bg-success">camelCase</span>
+                        </div>
+                        <p class="small text-muted mt-2">Espacios de memoria cuyo valor puede cambiar. Se escriben iniciando en minúscula.</p>
+                        
+                        <div class="alert alert-light border">
+                            <strong>Sintaxis:</strong> <code>tipo nombreVariable = valor;</code>
+                        </div>
+
+                        <h6>Ejemplos Correctos:</h6>
+                        <div class="code-block p-2 mb-2" style="font-size: 0.8rem;">
+<span class="code-type">int</span> edadUsuario = 21;
+<span class="code-type">float</span> precioProducto = 15.50;
+<span class="code-type">string</span> nombreCompleto = <span class="code-string">"Juan Perez"</span>;
+<span class="code-type">bool</span> esEstudiante = <span class="code-keyword">true</span>;
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Funciones (snake_case) -->
+                <div class="col-md-6">
+                    <div class="el-card p-4 h-100">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <h5 class="text-danger"><i class="bi bi-gear-wide me-2"></i>Funciones</h5>
+                            <span class="badge bg-danger">snake_case</span>
+                        </div>
+                        <p class="small text-muted mt-2">Bloques de código reutilizables. Se escriben en minúsculas separadas por guiones bajos.</p>
+
+                        <div class="alert alert-light border">
+                            <strong>Sintaxis:</strong> <code>tipo nombre_funcion() { ... }</code>
+                        </div>
+
+                        <h6>Ejemplos Correctos:</h6>
+                        <div class="code-block p-2 mb-2" style="font-size: 0.8rem;">
+<span class="code-type">void</span> calcular_promedio() { ... }
+<span class="code-type">int</span> obtener_edad_maxima() { ... }
+<span class="code-type">void</span> imprimir_reporte_final() { ... }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- E/S y Constantes -->
+            <div class="row g-4">
+                 <!-- Constantes -->
+                 <div class="col-md-5">
+                    <div class="el-card p-4 bg-light border border-secondary">
+                        <h5><i class="bi bi-lock-fill me-2"></i>Constantes</h5>
+                        <p class="small text-muted">Valores inmutables. Se declaran con <code>const</code> y usualmente en MAYÚSCULAS.</p>
+                        <div class="code-block p-2" style="font-size: 0.8rem; background: #2d2d2d;">
+<span class="code-keyword">const</span> <span class="code-type">float</span> PI = 3.14159;
+<span class="code-keyword">const</span> <span class="code-type">int</span> MAX_VIDAS = 3;
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entrada y Salida -->
+                <div class="col-md-7">
+                    <div class="el-card p-4 purple">
+                        <h4 class="text-purple"><i class="bi bi-arrow-left-right me-2"></i>Flujo de Entrada / Salida (I/O)</h4>
+                        <p class="small text-muted">Interacción con el usuario mediante consola.</p>
+                        
+                        <div class="row">
+                            <div class="col-6">
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                                        <span><code class="code-keyword">cout</code> (Salida)</span>
+                                        <span class="badge bg-primary"><< Insertar</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-6">
+                                <ul class="list-group list-group-flush small">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                                        <span><code class="code-keyword">cin</code> (Entrada)</span>
+                                        <span class="badge bg-success">>> Extraer</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="code-block p-2 mt-2" style="font-size: 0.8rem;">
+<span class="code-type">int</span> edadUsuario;
+cout << <span class="code-string">"Ingrese su edad: "</span>; <span class="code-comment">// Muestra mensaje</span>
+cin >> edadUsuario;          <span class="code-comment">// Captura dato en variable camelCase</span>
+cout << <span class="code-string">"Edad guardada: "</span> << edadUsuario;
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 5. TALLER PRÁCTICO FINAL (NUEVO) -->
+        <section id="taller-config" class="academic-section mt-5 pb-5">
+            <div class="callout callout-danger shadow-lg">
+                <h2 class="text-danger mb-3"><i class="bi bi-tools me-2"></i>Actividad de Taller: Entorno de Ingeniería</h2>
+                <p class="lead text-dark">
+                    <strong>Objetivo Crítico:</strong> Configurar un entorno de compilación profesional capaz de integrar librerías de terceros (como MySQL) manipulando los argumentos de construcción.
+                </p>
+            </div>
+
+            <!-- Paso 1: Instalación -->
+            <div class="row g-4 mb-5">
+                <div class="col-md-12">
+                    <h4 class="h-style border-bottom border-danger pb-2 mb-4">Fase 1: Instalación del Toolchain (MinGW-w64)</h4>
+                </div>
+                <div class="col-lg-6">
+                    <div class="el-card p-4 h-100">
+                        <h5>1. Descarga y Extracción</h5>
+                        <ol class="list-group list-group-numbered list-group-flush">
+                            <li class="list-group-item">Ir a <a href="https://winlibs.com/" target="_blank" class="fw-bold text-danger">winlibs.com</a>.</li>
+                            <li class="list-group-item">Descargar la versión GCC más reciente (Zip archive).</li>
+                            <li class="list-group-item">Descomprimir en una ruta <strong>sin espacios</strong>. <br>
+                                <span class="badge bg-success">Correcto:</span> <code>C:\mingw64</code><br>
+                                <span class="badge bg-danger">Incorrecto:</span> <code>C:\Archivos de Programa\mingw</code>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="el-card p-4 h-100">
+                        <h5>2. Variables de Entorno (PATH)</h5>
+                        <p class="small">Esto permite usar <code>g++</code> desde cualquier terminal.</p>
+                        <ul class="list-unstyled bg-light p-3 rounded border">
+                            <li><i class="bi bi-windows me-2"></i>Tecla Windows &rarr; Escribir "Variables de entorno".</li>
+                            <li><i class="bi bi-arrow-return-right ms-3"></i>Click en "Variables de Entorno".</li>
+                            <li><i class="bi bi-arrow-return-right ms-3"></i>En "Variables del Sistema", buscar <strong>Path</strong> y editar.</li>
+                            <li><i class="bi bi-plus-circle-fill text-success ms-3"></i> Nuevo &rarr; Pegar ruta: <code>C:\mingw64\bin</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 2: VS Code Tasks -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <h4 class="h-style border-bottom border-purple pb-2 mb-4" style="border-color: var(--accent-purple) !important;">Fase 2: Configuración del Proyecto (tasks.json)</h4>
+                    <p>Para que VS Code entienda cómo compilar incluyendo librerías externas, no basta con dar "Play". Debemos configurar el archivo de tareas.</p>
+                </div>
+            </div>
+
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-4">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i><strong>Acción Requerida:</strong>
+                        <hr>
+                        1. Crea una carpeta en tu proyecto llamada <code>.vscode</code>
+                        <br><br>
+                        2. Dentro, crea un archivo llamado <code>tasks.json</code>
+                        <br><br>
+                        3. Copia la configuración exacta de la derecha, prestando atención a las líneas resaltadas.
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="el-card p-0 overflow-hidden shadow-lg border border-2 border-dark">
+                        <div class="bg-dark text-white p-2 d-flex justify-content-between align-items-center px-3">
+                            <span class="small font-monospace">.vscode/tasks.json</span>
+                            <i class="bi bi-filetype-json"></i>
+                        </div>
+                        <div class="code-block border-0 rounded-0" style="max-height: 500px; overflow-y: auto;">
+{
+    <span class="code-string">"version"</span>: <span class="code-string">"2.0.0"</span>,
+    <span class="code-string">"tasks"</span>: [
+        {
+            <span class="code-string">"type"</span>: <span class="code-string">"cppbuild"</span>,
+            <span class="code-string">"label"</span>: <span class="code-string">"C/C++: g++.exe construir archivo activo con MySQL"</span>,
+            <span class="code-string">"command"</span>: <span class="code-string">"C:\\mingw64\\bin\\g++.exe"</span>,
+            <span class="code-string">"args"</span>: [
+                <span class="code-string">"-fdiagnostics-color=always"</span>,
+                <span class="code-string">"-g"</span>,
+                <span class="code-string">"${file}"</span>,
+                
+                <span class="code-comment">// --- INICIO INTEGRACIÓN MYSQL ---</span>
+                <span class="code-highlight"><span class="code-string">"-I"</span>,</span>
+                <span class="code-highlight"><span class="code-string">"C:/Program Files/MySQL/MySQL Server 8.0/include"</span>,</span>
+                <span class="code-highlight"><span class="code-string">"-L"</span>,</span>
+                <span class="code-highlight"><span class="code-string">"C:/Program Files/MySQL/MySQL Server 8.0/lib"</span>,</span>
+                <span class="code-highlight"><span class="code-string">"-llibmysql"</span>,</span>
+                <span class="code-comment">// --- FIN INTEGRACIÓN MYSQL ---</span>
+
+                <span class="code-string">"-o"</span>,
+                <span class="code-string">"${fileDirname}\\${fileBasenameNoExtension}.exe"</span>
+            ],
+            <span class="code-string">"options"</span>: {
+                <span class="code-string">"cwd"</span>: <span class="code-string">"${fileDirname}"</span>
+            },
+            <span class="code-string">"problemMatcher"</span>: [
+                <span class="code-string">"$gcc"</span>
+            ],
+            <span class="code-string">"group"</span>: {
+                <span class="code-string">"kind"</span>: <span class="code-string">"build"</span>,
+                <span class="code-string">"isDefault"</span>: <span class="code-keyword">true</span>
+            },
+            <span class="code-string">"detail"</span>: <span class="code-string">"Tarea generada por el depurador."</span>
+        }
+    ]
+}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <i class="bi bi-mortarboard-fill h2 mb-3"></i>
+            <p class="mb-1"><strong>Luis Garcia 2026</strong></p>
+            <p class="small text-muted mb-0">Material Educativo - Ingeniería de Sistemas</p>
+            <p class="small text-muted">Facultad de Ingeniería · Programación 1</p>
+        </div>
+    </footer>
+
+    <!-- JS Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Scroll Progress
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scrollProgress").style.width = scrolled + "%";
+        };
+
+        // Scroll Animation Trigger
+        const observerOptions = { threshold: 0.15 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.academic-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Console Simulator Logic
+        const consoleOutput = document.getElementById('consoleOutput');
+        
+        function typeConsole(text, speed = 20) {
+            consoleOutput.innerHTML = "";
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    if (text.substring(i, i+4) === "<br>") {
+                        consoleOutput.innerHTML += "<br>";
+                        i += 4;
+                    } else {
+                        consoleOutput.innerHTML += text.charAt(i);
+                        i++;
+                    }
+                    setTimeout(type, speed);
+                } else {
+                    consoleOutput.innerHTML += '<br><span class="cursor"></span>';
+                }
+            }
+            type();
+        }
+
+        function runSim(type) {
+            switch(type) {
+                case 'camel':
+                    typeConsole("Validando 'miVariableNueva'...<br>> Primera letra minúscula: OK<br>> Sin espacios: OK<br>> Mayúsculas intermedias: OK<br><span style='color:#10b981'>[SUCCESS]</span> Es un camelCase válido.");
+                    break;
+                case 'pascal':
+                    typeConsole("Validando 'ClasePrincipal'...<br>> Primera letra mayúscula: OK<br>> Sin espacios: OK<br><span style='color:#10b981'>[SUCCESS]</span> Es un PascalCase válido para Clases.");
+                    break;
+                case 'snake':
+                    typeConsole("Validando 'contador_de_usuarios'...<br>> Todo minúsculas: OK<br>> Espacios reemplazados por '_': OK<br><span style='color:#10b981'>[SUCCESS]</span> Es un snake_case válido.");
+                    break;
+                case 'clear':
+                    consoleOutput.innerHTML = 'Sistema listo...<br><span class="cursor"></span>';
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

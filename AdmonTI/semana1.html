@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 1: SI en los Negocios Globales - Laudon & Laudon</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@300;400;500;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <!-- MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            /* Paleta Académica Systems-Elite */
+            --primary-dark: #0f172a;
+            --primary-light: #1e1b4b;
+            --accent-cyan: #06b6d4;   /* Info/Conceptos */
+            --accent-purple: #8b5cf6; /* Títulos/Estructura */
+            --success: #2ecc71;       /* Práctica/Valor */
+            --warning: #f1c40f;       /* Historia/Atención */
+            --danger: #e74c3c;        /* Errores */
+            --text-main: #334155;
+            --bg-light: #f8fafc;
+            
+            /* Tipografía */
+            --font-title: 'Poppins', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            --font-code: 'Source Code Pro', monospace;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-main);
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+            line-height: 1.7; /* Mejor lectura para textos largos */
+        }
+
+        /* BARRA DE PROGRESO SUPERIOR */
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
+            border-bottom: 5px solid var(--accent-purple);
+            padding: 5rem 1rem;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .class-label {
+            font-family: var(--font-code);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 50px;
+            border: 1px solid var(--accent-cyan);
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .master-icon {
+            font-size: 4rem;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+            margin-bottom: 1rem;
+        }
+
+        /* CARD SYSTEMS (Estilo Académico Profundo) */
+        .card-system {
+            border: none;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%;
+            border-top: 4px solid transparent;
+            overflow: hidden;
+        }
+
+        .card-system:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .card-system.primary { border-top-color: var(--accent-purple); }
+        .card-system.info { border-top-color: var(--accent-cyan); }
+        .card-system.success { border-top-color: var(--success); }
+        
+        .card-header-custom {
+            background-color: rgba(241, 245, 249, 0.5);
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .text-justified {
+            text-align: justify;
+        }
+
+        /* DIAGRAMAS CSS (Actualizado para el ciclo) */
+        .diagram-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 2rem;
+            background: #f1f5f9;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .node {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid var(--primary-light);
+            text-align: center;
+            position: relative;
+            width: 200px;
+            transition: 0.3s;
+            z-index: 2;
+        }
+
+        .node.active {
+            background: var(--accent-purple);
+            color: white;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: var(--text-main);
+            opacity: 0.5;
+        }
+        
+        .arrow.active {
+            color: var(--accent-cyan);
+            opacity: 1;
+            animation: pulseArrow 1s infinite;
+        }
+
+        @keyframes pulseArrow {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* CHAIN OF VALUE VISUAL */
+        .chain-step {
+            position: relative;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-cyan);
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        .chain-step:hover {
+            transform: translateX(10px);
+            border-left-color: var(--accent-purple);
+        }
+
+        /* COMPARATIVE TABLE STYLE */
+        .comparison-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .comp-col {
+            flex: 1;
+            padding: 1.5rem;
+            min-width: 300px;
+        }
+        .comp-col-left {
+            background-color: #f8fafc;
+            border-right: 1px solid #e2e8f0;
+        }
+        .comp-col-right {
+            background-color: white;
+        }
+
+        /* FOOTER OBLIGATORIO */
+        footer {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 4px solid var(--accent-cyan);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* UTILIDADES DE ANIMACIÓN */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+        
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        .highlight-text {
+            background: linear-gradient(120deg, rgba(6, 182, 212, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DE PROGRESO -->
+    <div id="scrollProgress"></div>
+
+    <!-- HERO SECTION -->
+    <header class="hero-section">
+        <div class="container animate__animated animate__fadeInDown">
+            <span class="class-label">Capítulo 1 · Laudon & Laudon (14ª Ed.)</span>
+            <div class="mt-3">
+                <i class="bi bi-globe2 master-icon animate__animated animate__pulse animate__infinite"></i>
+            </div>
+            <h1 class="display-4 fw-bold" style="font-family: var(--font-title);">Los Sistemas de Información en los Negocios Globales Contemporáneos</h1>
+            <p class="lead mt-3 mx-auto" style="max-width: 900px; opacity: 0.9;">
+                Perspectivas Tecnológicas, Administrativas y Organizacionales de la Empresa Digital.
+            </p>
+        </div>
+    </header>
+
+    <main class="container py-5">
+
+        <!-- INTRODUCCIÓN GENERAL -->
+        <section class="fade-in-section mb-5">
+            <div class="row g-4">
+                <div class="col-lg-12">
+                    <div class="card-system primary p-4">
+                        <div class="d-flex align-items-start">
+                            <i class="bi bi-graph-up-arrow fs-1 text-primary me-3 mt-1"></i>
+                            <div>
+                                <h2 class="h3 fw-bold mb-3" style="color: var(--primary-light);">El Imperativo de la Inversión en SI</h2>
+                                <p class="text-justified mb-3">
+                                    En la actualidad, no es posible abrir un negocio, administrarlo o competir sin una inversión sustancial en sistemas de información. Los sistemas de información (SI) se han transformado en el <strong>núcleo de las empresas modernas</strong>.
+                                </p>
+                                <p class="text-justified mb-0">
+                                    Estos sistemas son complejos y su mejor comprensión se logra al analizarlos desde una doble perspectiva: <span class="highlight-text">tecnología y negocio</span>. Esta interrelación permite que las empresas operen a escala global, logrando reducciones de costos mediante proveedores extranjeros y servicios de Internet que duplican modelos de negocios en varios países sin necesidad de rediseñar infraestructuras costosas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1.1 TRANSFORMACIÓN Y EMPRESA DIGITAL -->
+        <section class="fade-in-section mb-5">
+            <h3 class="fw-bold mb-4" style="color: var(--primary-light); border-bottom: 2px solid var(--accent-cyan); display:inline-block;">
+                1.1 ¿Cómo transforman los SI a los negocios?
+            </h3>
+            
+            <div class="row align-items-center g-4">
+                <div class="col-md-6">
+                    <div class="card-system info h-100 p-4 bg-light">
+                        <h4 class="fw-bold text-info mb-3"><i class="bi bi-buildings-fill me-2"></i>La Empresa Digital Emergente</h4>
+                        <p class="mb-3">
+                            Los SI están cambiando la forma en que las empresas se comunican con sus clientes y gestionan sus operaciones. Un elemento clave es la <strong>Empresa Digital Emergente</strong>.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2 d-flex"><i class="bi bi-check-circle-fill text-success me-2 mt-1"></i> <span>Casi todas las relaciones de negocios significativas con clientes, proveedores y empleados están <strong>mediadas digitalmente</strong>.</span></li>
+                            <li class="d-flex"><i class="bi bi-check-circle-fill text-success me-2 mt-1"></i> <span>Los <strong>procesos de negocios</strong> (tareas y comportamientos para realizar el trabajo) se ejecutan a través de redes digitales que enlazan a toda la organización.</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 text-center">
+                    <i class="bi bi-hdd-network display-1 text-muted opacity-25"></i>
+                    <p class="text-muted mt-2 small">Interconexión Global de Procesos</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1.2 DEFINICIÓN DE SI (TI vs SI) -->
+        <section class="fade-in-section mb-5">
+            <h3 class="fw-bold mb-4" style="color: var(--primary-light); border-bottom: 2px solid var(--accent-cyan); display:inline-block;">
+                1.2 ¿Qué es un Sistema de Información?
+            </h3>
+
+            <!-- DEFINICIÓN TÉCNICA -->
+            <div class="alert alert-light border-start border-5 border-info shadow-sm p-4 mb-5" role="alert">
+                <h4 class="alert-heading fw-bold" style="color: var(--primary-light)"><i class="bi bi-book-half me-2"></i>Definición Técnica</h4>
+                <p class="mb-0 fs-5">
+                    Un conjunto de componentes interrelacionados que <strong>recolectan</strong> (o recuperan), <strong>procesan</strong>, <strong>almacenan</strong> y <strong>distribuyen</strong> información para apoyar los procesos de toma de decisiones y de control en una organización.
+                </p>
+            </div>
+
+            <!-- TI vs SI COMPARACIÓN -->
+            <div class="comparison-row shadow-sm">
+                <div class="comp-col comp-col-left">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-laptop fs-2 text-secondary me-3"></i>
+                        <h4 class="fw-bold mb-0">Tecnología de la Información (TI)</h4>
+                    </div>
+                    <p>Consiste en todo el <strong>hardware y software</strong> que una empresa necesita usar para cumplir sus objetivos de negocios.</p>
+                    <p class="small text-muted mb-0"><i class="bi bi-arrow-return-right"></i> Equipos de cómputo, almacenamiento, dispositivos móviles, sistemas operativos, suites de productividad.</p>
+                </div>
+                <div class="comp-col comp-col-right">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-diagram-3 fs-2 text-info me-3"></i>
+                        <h4 class="fw-bold mb-0 text-info">Sistema de Información (SI)</h4>
+                    </div>
+                    <p>Es un concepto más <strong>amplio</strong> que incluye la tecnología pero también las <strong>dimensiones de organización y administración</strong> para dar sentido a esos datos.</p>
+                  <p>Es un conjunto de componentes interrelacionados que recolectan (o recuperan), procesan, almacenan y distribuyen información para apoyar los procesos de toma de decisiones y de control en una organización.</p>
+                    <div class="badge bg-info text-dark p-2">SI = TI + Organización + Administración</div>
+                </div>
+            </div>
+
+            <!-- DATO VS INFORMACIÓN INTERACTIVO -->
+            <div class="row mt-5 justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card bg-dark text-white border-0 shadow-lg overflow-hidden">
+                        <div class="card-body p-5 position-relative">
+                            <div class="position-absolute top-0 end-0 p-3 opacity-10">
+                                <i class="bi bi-database-check fs-1"></i>
+                            </div>
+                            
+                            <h4 class="text-center mb-4" style="font-family: var(--font-title);">Transformación: Dato → Información</h4>
+                            
+                            <div class="row align-items-center">
+                                <!-- DATO -->
+                                <div class="col-md-5">
+                                    <div class="p-3 border border-secondary rounded bg-white bg-opacity-10">
+                                        <h5 class="text-warning"><i class="bi bi-upc-scan me-2"></i>Dato (Raw)</h5>
+                                        <p class="small mb-2">Flujos de elementos en bruto que representan eventos antes de ser ordenados.</p>
+                                        <div class="bg-black p-2 font-monospace rounded text-warning small">
+                                            > 33041<br>
+                                            > PROD_DET_L<br>
+                                            > SCAN_ID_99
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- FLECHA -->
+                                <div class="col-md-2 text-center my-3 my-md-0">
+                                    <i class="bi bi-arrow-right-circle-fill fs-2 text-info animate__animated animate__pulse animate__infinite"></i>
+                                </div>
+
+                                <!-- INFORMACIÓN -->
+                                <div class="col-md-5">
+                                    <div class="p-3 border border-info rounded bg-white bg-opacity-10">
+                                        <h5 class="text-info"><i class="bi bi-file-earmark-bar-graph me-2"></i>Información</h5>
+                                        <p class="small mb-2">Datos modelados en una forma significativa y útil para los humanos.</p>
+                                        <div class="bg-black p-2 font-monospace rounded text-info small">
+                                            > REPORTE:<br>
+                                            > Ventas Detergente: 500 un.<br>
+                                            > Tienda: Norte
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-center mt-4 mb-0 small text-white-50"><em>Ejemplo: La caja registradora captura escaneos (datos) y el sistema entrega reportes de ventas (información).</em></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COMPONENTES Y ACTIVIDADES (DIAGRAMA) -->
+        <section class="fade-in-section mb-5">
+            <h3 class="fw-bold mb-4" style="color: var(--primary-light);">Componentes de los Sistemas de Información</h3>
+            <p class="mb-4">Para que un sistema de información funcione y produzca resultados útiles, debe llevar a cabo tres actividades fundamentales, a las que se suma un elemento de control.</p>
+
+            <!-- INTERACTIVIDAD DE DIAGRAMA -->
+            <div class="d-flex justify-content-center gap-2 mb-3">
+                <button class="btn btn-outline-dark btn-sm" onclick="animateFlow('input')">1. Entrada</button>
+                <button class="btn btn-outline-dark btn-sm" onclick="animateFlow('process')">2. Proceso</button>
+                <button class="btn btn-outline-dark btn-sm" onclick="animateFlow('output')">3. Salida</button>
+                <button class="btn btn-outline-danger btn-sm" onclick="animateFlow('feedback')">4. Retroalimentación</button>
+            </div>
+
+            <div class="diagram-container position-relative">
+                <!-- Nodos -->
+                <div id="node-input" class="node">
+                    <i class="bi bi-box-arrow-in-right fs-3 mb-2 d-block"></i>
+                    <strong>ENTRADA</strong>
+                    <div class="small text-muted mt-1 text-start lh-sm" style="font-size: 0.8rem;">Captura o recolecta los datos en crudo (interno/externo).</div>
+                </div>
+
+                <i id="arrow-1" class="bi bi-arrow-right arrow"></i>
+
+                <div id="node-process" class="node">
+                    <i class="bi bi-cpu fs-3 mb-2 d-block"></i>
+                    <strong>PROCESAMIENTO</strong>
+                    <div class="small text-muted mt-1 text-start lh-sm" style="font-size: 0.8rem;">Convierte esa entrada en bruto en formato significativo.</div>
+                </div>
+
+                <i id="arrow-2" class="bi bi-arrow-right arrow"></i>
+
+                <div id="node-output" class="node">
+                    <i class="bi bi-file-earmark-text fs-3 mb-2 d-block"></i>
+                    <strong>SALIDA</strong>
+                    <div class="small text-muted mt-1 text-start lh-sm" style="font-size: 0.8rem;">Transfiere información procesada a personas/actividades.</div>
+                </div>
+            </br>
+            </br>
+                <!-- Línea de feedback -->
+                <div id="node-feedback" class="position-absolute start-50 translate-middle-x" style="bottom: 10px; width: 85%; border-top: 2px dashed var(--danger); text-align: center; color: var(--danger); opacity: 0.3; transition: 0.3s;">
+                    <span class="bg-light px-2 fw-bold text-danger" style="position: relative; top: -14px; font-size: 0.85rem;">RETROALIMENTACIÓN (Control)</span>
+                    <i class="bi bi-arrow-return-left position-absolute start-0 top-0 translate-middle" style="font-size: 1.5rem;"></i>
+                    <p class="small text-danger bg-light d-inline-block px-2 mt-1 position-relative" style="top: -10px;">Devuelve la salida para evaluar/corregir la entrada.</p>
+                </div>
+            </div>
+
+            <!-- DEFINICIONES TECNOLÓGICAS (GRID) -->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 mt-2">
+                <div class="col">
+                    <div class="p-3 border rounded bg-white h-100">
+                        <strong class="text-primary d-block mb-2">Hardware</strong>
+                        <span class="small text-muted">Tecnología física de cómputo para procesamiento y entrada.</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="p-3 border rounded bg-white h-100">
+                        <strong class="text-primary d-block mb-2">Software</strong>
+                        <span class="small text-muted">Instrucciones detalladas y programadas que controlan el hardware.</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="p-3 border rounded bg-white h-100">
+                        <strong class="text-primary d-block mb-2">Tec. Almacenamiento</strong>
+                        <span class="small text-muted">Medios físicos para guardar datos (discos, cintas, nube).</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="p-3 border rounded bg-white h-100">
+                        <strong class="text-primary d-block mb-2">Tec. Redes</strong>
+                        <span class="small text-muted">Dispositivos y software para comunicar diversos componentes.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PERSPECTIVA DE NEGOCIOS Y CADENA DE VALOR -->
+        <section class="fade-in-section mb-5">
+            <h3 class="fw-bold mb-4" style="color: var(--primary-light);">La Perspectiva de Negocios y Cadena de Valor</h3>
+            
+            <div class="card-system success p-0 mb-4">
+                <div class="card-header-custom">
+                    <h4 class="h5 fw-bold mb-0 text-success"><i class="bi bi-cash-coin me-2"></i>SI como Generador de Valor</h4>
+                </div>
+                <div class="p-4">
+                    <p class="mb-3">
+                        Desde la perspectiva de negocios, los SI son herramientas para generar valor. La inversión se justifica si genera rendimientos superiores:
+                    </p>
+                    <div class="d-flex justify-content-around flex-wrap gap-3 text-center fw-bold text-secondary">
+                        <span class="p-2 bg-light rounded"><i class="bi bi-arrow-up-circle-fill text-success"></i> Productividad</span>
+                        <span class="p-2 bg-light rounded"><i class="bi bi-currency-dollar text-success"></i> Mayores Ingresos</span>
+                        <span class="p-2 bg-light rounded"><i class="bi bi-trophy-fill text-success"></i> Posicionamiento Estratégico</span>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="fw-bold mt-5 mb-3">Cadena de Valor de la Información</h5>
+            <p class="text-muted mb-4">en donde la información en bruto se adquiere de manera sistemática y después se transforma a través de varias etapas que agregan valor a esa información. La capacidad de una empresa depende de qué tan bien gestione esta transformación: </p>
+
+            <div class="row g-0 align-items-center mb-4 text-center d-none d-md-flex">
+                <div class="col p-3 bg-light border fw-bold text-muted">DATOS</div>
+                <div class="col-1"><i class="bi bi-arrow-right fs-3 text-success"></i></div>
+                <div class="col p-3 bg-white border fw-bold text-info">INFORMACIÓN</div>
+                <div class="col-1"><i class="bi bi-arrow-right fs-3 text-success"></i></div>
+                <div class="col p-3 bg-white border fw-bold text-primary">CONOCIMIENTO</div>
+                <div class="col-1"><i class="bi bi-arrow-right fs-3 text-success"></i></div>
+                <div class="col p-3 bg-primary text-white border fw-bold shadow">SABIDURÍA</div>
+            </div>
+            <p class="small text-center fst-italic mb-5">Sabiduría: La experiencia de aplicar el conocimiento para solucionar problemas.</p>
+
+            <!-- ACTIVOS COMPLEMENTARIOS -->
+            <div class="card border-warning mb-3">
+                <div class="card-header bg-warning bg-opacity-10 fw-bold text-warning-emphasis">
+                    <i class="bi bi-exclamation-circle-fill me-2"></i>CONCEPTO CRÍTICO: Activos Complementarios
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Son aquellos activos adicionales requeridos para derivar valor de una inversión primaria (como la tecnología). 
+                        <strong>Explicación:</strong> No basta con comprar el software; se requiere cambiar los procesos de negocios y capacitar al personal.
+                    </p>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-transparent"><strong>Conocimiento Tácito:</strong> Reside en la mente de los empleados, no documentado.</li>
+                                <li class="list-group-item bg-transparent"><strong>Conocimiento Explícito:</strong> Documentado en manuales o registros.</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 border-start border-warning d-flex align-items-center">
+                            <p class="small fst-italic mb-0">
+                                💡 <strong>Ejemplo Aplicado:</strong> Una empresa invierte en análisis de datos (inversión primaria), pero para que funcione debe crear una <strong>cultura</strong> donde los gerentes tomen decisiones basadas en datos (activo complementario).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1.3 DISCIPLINAS ACADÉMICAS -->
+        <section class="fade-in-section mb-5">
+            <h3 class="fw-bold mb-4" style="color: var(--primary-light); border-bottom: 2px solid var(--accent-cyan); display:inline-block;">
+                1.3 Disciplinas Académicas de Estudio
+            </h3>
+            
+            <p class="mb-4">El estudio de los SI es multidisciplinario. El libro adopta la <strong>Perspectiva Sociotécnica</strong>.</p>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-dark text-white fw-bold">Metodología Técnica</div>
+                        <div class="card-body">
+                            <p>Se enfoca en modelos matemáticos y la tecnología física.</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><i class="bi bi-calculator me-2"></i>Informática</li>
+                                <li class="list-group-item"><i class="bi bi-graph-up me-2"></i>Ciencia de la Administración</li>
+                                <li class="list-group-item"><i class="bi bi-gear me-2"></i>Investigación de Operaciones</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-secondary text-white fw-bold">Metodología del Comportamiento</div>
+                        <div class="card-body">
+                            <p>Se ocupa de la integración estratégica y el impacto en grupos.</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><i class="bi bi-people me-2"></i>Sociología</li>
+                                <li class="list-group-item"><i class="bi bi-person-heart me-2"></i>Psicología</li>
+                                <li class="list-group-item"><i class="bi bi-cash-stack me-2"></i>Economía</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PERSPECTIVA SOCIOTÉCNICA (CONCLUSIÓN) -->
+            <div class="mt-5 p-4 bg-light rounded border border-primary text-center position-relative overflow-hidden">
+                <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient opacity-10" style="background: var(--accent-purple);"></div>
+                <h4 class="fw-bold text-primary position-relative">Perspectiva Sociotécnica</h4>
+                <p class="lead position-relative">
+                    Busca un desempeño óptimo de la organización al combinar la excelencia tecnológica con la social.
+                </p>
+                <div class="alert alert-warning d-inline-block mt-2 position-relative shadow-sm">
+                    <i class="bi bi-mortarboard-fill me-2"></i><strong>Nota para el Estudiante:</strong> Un SI <strong>NO</strong> es solo software; es la combinación de Organización, Administración y Tecnología trabajando en conjunto.
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER OBLIGATORIO -->
+    <footer>
+        <div class="container footer-content">
+            <i class="bi bi-mortarboard-fill fs-2 mb-2 text-info"></i>
+            <p class="mb-0 fw-bold text-white" style="letter-spacing: 1px;">Luis Garcia 2026</p>
+            <small style="color: #94a3b8;">Material Educativo - Ingeniería de Sistemas</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Lógica JS Personalizada -->
+    <script>
+        // 1. SCROLL PROGRESS BAR
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("scrollProgress").style.width = scrolled + "%";
+            checkVisibility();
+        };
+
+        // 2. INTERSECCIÓN VISUAL (FADE IN)
+        function checkVisibility() {
+            const elements = document.querySelectorAll('.fade-in-section');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+                if (rect.top <= windowHeight * 0.9) {
+                    el.classList.add('is-visible');
+                }
+            });
+        }
+        // Ejecutar al inicio
+        checkVisibility();
+        
+        // 3. DIAGRAMA DE FLUJO ANIMADO
+        function animateFlow(step) {
+            // Reset
+            document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+            document.querySelectorAll('.arrow').forEach(a => a.classList.remove('active'));
+            document.getElementById('node-feedback').style.opacity = '0.3';
+            document.getElementById('node-feedback').style.color = 'var(--danger)';
+
+            if (step === 'input') {
+                document.getElementById('node-input').classList.add('active');
+            } else if (step === 'process') {
+                document.getElementById('node-input').classList.add('active');
+                document.getElementById('arrow-1').classList.add('active');
+                setTimeout(() => document.getElementById('node-process').classList.add('active'), 400);
+            } else if (step === 'output') {
+                document.getElementById('node-input').classList.add('active');
+                document.getElementById('arrow-1').classList.add('active');
+                document.getElementById('node-process').classList.add('active');
+                document.getElementById('arrow-2').classList.add('active');
+                setTimeout(() => document.getElementById('node-output').classList.add('active'), 800);
+            } else if (step === 'feedback') {
+                // Activar todo el ciclo primero
+                animateFlow('output');
+                // Luego activar feedback
+                setTimeout(() => {
+                    const fb = document.getElementById('node-feedback');
+                    fb.style.opacity = '1';
+                    fb.style.color = 'var(--success)';
+                    fb.classList.add('animate__animated', 'animate__flash');
+                }, 1200);
+            }
+        }
+    </script>
+</body>
+</html>

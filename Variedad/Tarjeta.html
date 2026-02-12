@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para el Amor de mi Vida</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-bone: #fdfbf7;
+            --blood-red: #8a0303;
+            --wood: #3e2723;
+        }
+
+        body {
+            background-color: var(--bg-bone);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            margin: 0; padding: 0;
+            height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .main-card {
+            width: 95%; max-width: 1200px; height: 90vh;
+            background: #fffefb; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(138, 3, 3, 0.1);
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .main-card { flex-direction: row; }
+        }
+
+        /* --- INTRODUCCIÓN --- */
+        #intro-overlay {
+            position: absolute; inset: 0;
+            background-color: var(--bg-bone);
+            z-index: 50;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            transition: opacity 1.5s ease;
+        }
+
+        .heart-btn {
+            width: 80px; height: 80px;
+            background-color: var(--blood-red);
+            position: absolute; /* Cambiado a absolute para control total */
+            top: 50%; left: 50%; /* Centrado verticalmente */
+            transform: translate(-50%, -50%) rotate(-45deg);
+            cursor: pointer;
+            animation: heartbeat 1.5s infinite;
+            box-shadow: 0 0 30px rgba(138, 3, 3, 0.5);
+            transition: transform 0.3s ease;
+            z-index: 60;
+        }
+
+        .heart-btn::before, .heart-btn::after {
+            content: ""; width: 80px; height: 80px;
+            background-color: var(--blood-red);
+            border-radius: 50%; position: absolute;
+        }
+        .heart-btn::before { top: -40px; left: 0; }
+        .heart-btn::after { left: 40px; top: 0; }
+
+        .heart-btn:hover { transform: translate(-50%, -50%) rotate(-45deg) scale(1.1); }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: translate(-50%, -50%) rotate(-45deg) scale(1); }
+            50% { transform: translate(-50%, -50%) rotate(-45deg) scale(1.1); }
+        }
+
+        .click-text {
+            position: absolute;
+            /* Posicionado ARRIBA del corazón */
+            top: 38%; left: 50%; 
+            transform: translate(-50%, -50%);
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem; /* Tamaño grande y legible */
+            color: var(--blood-red); /* Color rojo para destacar sobre el fondo hueso */
+            pointer-events: none;
+            z-index: 65;
+            animation: fadeIn 2s infinite alternate;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+
+        /* --- TEXTO IZQUIERDA --- */
+        .text-section {
+            flex: 1; padding: 3rem;
+            display: flex; flex-direction: column; justify-content: center;
+            opacity: 0; transform: translateY(20px);
+            transition: all 1.5s ease 1s;
+            z-index: 10;
+        }
+        .visible-text { opacity: 1; transform: translateY(0); }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            color: var(--blood-red);
+            /* AUMENTADO SIGNIFICATIVAMENTE */
+            font-size: 12rem; 
+            line-height: 1.1; margin-bottom: 2rem;
+        }
+
+        .love-letter {
+            font-family: 'Playfair Display', serif;
+            color: #2c1810;
+            font-size: 1.25rem;
+            line-height: 1.6;
+            min-height: 180px;
+            font-style: italic;
+        }
+
+        .timer-container {
+            margin-top: 3rem;
+            border-top: 2px solid rgba(138,3,3, 0.1);
+            padding-top: 1.5rem;
+        }
+
+        .timer {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--blood-red);
+            font-size: 1.8rem;
+            display: flex; gap: 15px; flex-wrap: wrap;
+        }
+
+        /* --- CANVAS DERECHA --- */
+        .canvas-section {
+            flex: 1.3; position: relative;
+            background: linear-gradient(to top, #fffdf5 0%, #fff 100%);
+            overflow: hidden;
+            display: flex; justify-content: center; align-items: flex-end;
+        }
+
+        canvas { width: 100%; height: 100%; z-index: 5; }
+
+        /* Línea de suelo animada */
+        #ground {
+            position: absolute;
+            bottom: 50px; left: 50%;
+            width: 0%; height: 4px;
+            background-color: var(--wood);
+            transform: translateX(-50%);
+            border-radius: 4px;
+            transition: width 2s cubic-bezier(0.22, 1, 0.36, 1);
+            opacity: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .expand-ground { width: 85% !important; opacity: 1 !important; }
+
+        .cursor::after { content: '|'; animation: blink 1s infinite; color: var(--blood-red); }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        @media (max-width: 768px) {
+            /* AUMENTADO TAMAÑO MOVIL */
+            h1 { font-size: 4.5rem; margin-bottom: 1rem; } 
+            .love-letter { font-size: 1rem; min-height: 120px; }
+            .timer { font-size: 1.2rem; gap: 8px; }
+            .text-section { padding: 1.5rem; flex: 0 0 auto; }
+            .canvas-section { flex: 1; }
+            /* Ajuste posición texto "Tócame" en móvil */
+            .click-text { font-size: 2rem; top: 35%; } 
+            .heart-btn { top: 50%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-overlay">
+        <!-- Contenedor relativo para posicionar elementos absolutos -->
+        <div style="position: relative; width: 100%; height: 100%;">
+            <!-- El texto está ahora ARRIBA del corazón -->
+            <p class="click-text" id="hint-text">Tócame</p>
+            <div id="heart-trigger" class="heart-btn"></div>
+        </div>
+    </div>
+
+    <div class="main-card">
+        <div class="text-section" id="text-panel">
+            <h1>Para el amor de mi vida...</h1>
+            <div class="love-letter">
+                <span id="typewriter"></span><span class="cursor"></span>
+            </div>
+            <div class="timer-container">
+                <p class="text-sm text-gray-500 uppercase tracking-widest mb-2 font-bold">Nuestro tiempo:</p>
+                <div class="timer" id="timer-display">00d 00h 00m 00s</div>
+                <p class="text-xs text-gray-400 mt-2 italic font-semibold">Desde el 12 de Diciembre de 2022</p>
+            </div>
+        </div>
+
+        <div class="canvas-section" id="canvas-container">
+            <div id="ground"></div>
+            <canvas id="treeCanvas"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const START_DATE = new Date('2022-12-12T00:00:00');
+        const MESSAGE = `Si pudiera elegir un lugar seguro, sería a tu lado.
+
+Cuanto más tiempo estoy contigo, más descubro que mi hogar eres tú.
+
+— Te Amo Muchoteee!`;
+
+        const heartBtn = document.getElementById('heart-trigger');
+        const hintText = document.getElementById('hint-text');
+        const introOverlay = document.getElementById('intro-overlay');
+        const ground = document.getElementById('ground');
+        const textPanel = document.getElementById('text-panel');
+        const canvas = document.getElementById('treeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height, treeBaseY;
+        let particles = []; 
+        let groundParticles = []; 
+        let foliage = []; 
+        let branches = [];
+        let trunkProgress = 0;
+        let animationRunning = false;
+
+        // --- INICIO DE LA ANIMACIÓN ---
+        heartBtn.addEventListener('click', () => {
+            // Desvanecer el texto inmediatamente
+            hintText.style.transition = 'opacity 0.3s ease';
+            hintText.style.opacity = '0';
+            
+            heartBtn.style.animation = 'none';
+
+            const canvasRect = document.querySelector('.canvas-section').getBoundingClientRect();
+            const targetX = canvasRect.left + canvasRect.width / 2;
+            const targetY = canvasRect.bottom - 55;
+
+            heartBtn.style.transition = "top 1.2s ease-in, left 1.2s ease-in, transform 1.2s ease-in, opacity 1s ease-in 0.2s";
+            heartBtn.style.zIndex = "100";
+            
+            // Mover el corazón
+            heartBtn.style.top = targetY + "px";
+            heartBtn.style.left = targetX + "px";
+            // Nota: Al usar top/left directos, el transform original (-50%, -50%) sigue aplicando
+            // Ajustamos la escala y rotación final
+            heartBtn.style.transform = "translate(-50%, -50%) rotate(-45deg) scale(0.5)";
+            heartBtn.style.opacity = "0";
+
+            setTimeout(() => {
+                ground.classList.add('expand-ground');
+            }, 900);
+
+            setTimeout(() => {
+                introOverlay.style.opacity = '0';
+                introOverlay.style.pointerEvents = 'none';
+                initTree();
+                setTimeout(() => {
+                    textPanel.classList.add('visible-text');
+                    startTypewriter();
+                }, 500);
+            }, 1200);
+        });
+
+        // --- REDIMENSIONAR CANVAS ---
+        function resize() {
+            const container = document.getElementById('canvas-container');
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            width = canvas.width;
+            height = canvas.height;
+            treeBaseY = height - 50;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // --- DIBUJAR CORAZÓN ---
+        function drawElegantHeart(x, y, s, color, alpha, rot = 0) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rot);
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.bezierCurveTo(-s * 0.8, -s * 1.1, -s * 1.6, s * 0.5, 0, s * 1.5);
+            ctx.bezierCurveTo(s * 1.6, s * 0.5, s * 0.8, -s * 1.1, 0, 0);
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // --- INICIALIZAR ARBOL ---
+        function initTree() {
+            animationRunning = true;
+            generateFoliagePositions();
+            animateLoop();
+        }
+
+        // --- GENERAR POSICIONES ---
+        function generateFoliagePositions() {
+            const cx = width / 2;
+            const cy = treeBaseY - height * 0.42; 
+            const scale = width < 500 ? 12 : 15; 
+
+            for (let i = 0; i < 2000; i++) {
+                let inside = false;
+                while (!inside) {
+                    const tx = (Math.random() - 0.5) * 50; 
+                    const ty = (Math.random() - 0.6) * 50;
+                    const nx = tx / 16;
+                    const ny = -ty / 16; 
+                    
+                    if (Math.pow(nx*nx + ny*ny - 1, 3) - nx*nx * Math.pow(ny, 3) <= 0) {
+                        foliage.push({
+                            x: cx + tx * scale,
+                            y: cy + ty * scale,
+                            targetSize: Math.random() * 6 + 4,
+                            currentSize: 0,
+                            color: ['#8b0000', '#b71c1c', '#d32f2f', '#f06292'][Math.floor(Math.random()*4)],
+                            delay: Math.random() * 100 
+                        });
+                        inside = true;
+                    }
+                }
+            }
+        }
+
+        function animateLoop() {
+            if (!animationRunning) return;
+            ctx.clearRect(0, 0, width, height);
+
+            if (trunkProgress < 1) trunkProgress += 0.008;
+            
+            const cx = width / 2;
+            const trunkHeight = height * 0.55;
+            const currentH = trunkHeight * trunkProgress;
+
+            // Tronco
+            const grd = ctx.createLinearGradient(cx - 20, treeBaseY, cx + 20, treeBaseY);
+            grd.addColorStop(0, '#3e2723');
+            grd.addColorStop(0.5, '#5d4037');
+            grd.addColorStop(1, '#3e2723');
+
+            ctx.fillStyle = grd;
+            ctx.beginPath();
+            ctx.moveTo(cx - 15, treeBaseY); 
+            ctx.quadraticCurveTo(cx - 5, treeBaseY - currentH / 2, cx - 2, treeBaseY - currentH);
+            ctx.lineTo(cx + 2, treeBaseY - currentH);
+            ctx.quadraticCurveTo(cx + 5, treeBaseY - currentH / 2, cx + 15, treeBaseY);
+            ctx.fill();
+
+            // Ramas
+            if (trunkProgress > 0.6) {
+                ctx.strokeStyle = '#3e2723';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(cx, treeBaseY - trunkHeight * 0.5); 
+                ctx.quadraticCurveTo(cx - 30, treeBaseY - trunkHeight * 0.7, cx - 50, treeBaseY - trunkHeight * 0.8);
+                ctx.moveTo(cx, treeBaseY - trunkHeight * 0.6);
+                ctx.quadraticCurveTo(cx + 30, treeBaseY - trunkHeight * 0.75, cx + 50, treeBaseY - trunkHeight * 0.85);
+                ctx.stroke();
+            }
+
+            // Follaje
+            if (trunkProgress > 0.7) {
+                foliage.forEach(leaf => {
+                    if (leaf.delay > 0) {
+                        leaf.delay--;
+                    } else if (leaf.currentSize < leaf.targetSize) {
+                        leaf.currentSize += 0.2;
+                    }
+                    if (leaf.currentSize > 0) {
+                        drawElegantHeart(leaf.x, leaf.y, leaf.currentSize, leaf.color, 1);
+                    }
+                });
+            }
+
+            // Lluvia
+            if (trunkProgress >= 1 && Math.random() < 0.08) {
+                particles.push({
+                    x: cx + (Math.random() - 0.5) * 200,
+                    y: treeBaseY - trunkHeight * 0.8,
+                    vx: (Math.random() - 0.5) * 1.5,
+                    vy: 1 + Math.random() * 1.5,
+                    rot: Math.random() * Math.PI,
+                    rotSpeed: (Math.random() - 0.5) * 0.1,
+                    size: Math.random() * 4 + 3,
+                    color: ['#ff80ab', '#ff4081', '#f50057'][Math.floor(Math.random()*3)]
+                });
+            }
+
+            // Animación caída
+            for (let i = particles.length - 1; i >= 0; i--) {
+                let p = particles[i];
+                p.x += p.vx + Math.sin(Date.now() * 0.003);
+                p.y += p.vy;
+                p.rot += p.rotSpeed;
+
+                drawElegantHeart(p.x, p.y, p.size, p.color, 0.8, p.rot);
+
+                if (p.y > treeBaseY - 5) {
+                    groundParticles.push({
+                        x: p.x,
+                        y: treeBaseY + Math.random() * 5,
+                        size: p.size,
+                        color: p.color,
+                        rot: p.rot
+                    });
+                    particles.splice(i, 1);
+                }
+            }
+
+            groundParticles.forEach(p => {
+                drawElegantHeart(p.x, p.y, p.size, p.color, 0.6, p.rot);
+            });
+
+            if (groundParticles.length > 250) groundParticles.shift();
+
+            requestAnimationFrame(animateLoop);
+        }
+
+        // --- MAQUINA DE ESCRIBIR ---
+        function startTypewriter() {
+            const el = document.getElementById('typewriter');
+            let i = 0;
+            function type() {
+                if (i < MESSAGE.length) {
+                    el.innerHTML += MESSAGE.charAt(i) === '\n' ? '<br>' : MESSAGE.charAt(i);
+                    i++;
+                    setTimeout(type, 50);
+                } else {
+                    document.querySelector('.cursor').style.display = 'none';
+                }
+            }
+            type();
+        }
+
+        // --- RELOJ ---
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - START_DATE;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / (1000 * 60)) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+            document.getElementById('timer-display').innerText = 
+                `${d}d ${h.toString().padStart(2,'0')}h ${m.toString().padStart(2,'0')}m ${s.toString().padStart(2,'0')}s`;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentos C++: Turing, Paridad Dinámica y Archivos</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Roboto:wght@300;400;500&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-darker: #1e1b4b;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #06b6d4;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --info: #06b6d4;
+            --success: #2ecc71;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body { background-color: #f1f5f9; color: #334155; line-height: 1.7; overflow-x: hidden; }
+        h1, h2, h3, h4, h5 { font-family: 'Montserrat', sans-serif; }
+
+        #scrollProgress {
+            position: fixed; top: 0; left: 0; height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+            width: 0%; z-index: 9999;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+            border-bottom: 5px solid var(--accent-purple);
+            color: var(--text-light); padding: 80px 0; position: relative;
+        }
+
+        .master-icon { font-size: 4rem; color: var(--accent-cyan); }
+
+        .elite-card {
+            background: white; border: none; border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease; height: 100%; border-left: 4px solid transparent;
+        }
+        .elite-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .elite-card.border-purple { border-left-color: var(--accent-purple); }
+        .elite-card.border-success { border-left-color: var(--success); }
+        .elite-card.border-info { border-left-color: var(--info); }
+        .elite-card.border-warning { border-left-color: var(--warning); }
+
+        .terminal {
+            background: #1e1e1e; border-radius: 10px; overflow: hidden;
+            font-family: 'Source Code Pro', monospace; color: #d4d4d4; margin: 1.5rem 0;
+        }
+        .terminal-header { background: #2d2d2d; padding: 10px 15px; display: flex; align-items: center; }
+        .mac-buttons span { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; }
+        .terminal-body { padding: 15px; font-size: 0.9rem; max-height: 400px; overflow-y: auto; }
+        
+        .code-keyword { color: #569cd6; }
+        .code-func { color: #dcdcaa; }
+        .code-var { color: #9cdcfe; }
+        .code-string { color: #ce9178; }
+        .code-comment { color: #6a9955; font-style: italic; }
+
+        .turing-tape-container { overflow-x: auto; padding: 40px 0; text-align: center; white-space: nowrap; }
+        .turing-cell {
+            display: inline-flex; width: 45px; height: 55px; border: 2px solid #cbd5e1;
+            align-items: center; justify-content: center; font-size: 1.2rem;
+            font-family: 'Source Code Pro', monospace; background: white; margin: 0 2px;
+            position: relative; border-radius: 4px;
+        }
+        .turing-cell.active-head {
+            border-color: var(--accent-cyan); background: rgba(6, 182, 212, 0.1);
+            transform: scale(1.1); font-weight: bold;
+        }
+        .turing-cell.active-head::after {
+            content: '▲'; position: absolute; bottom: -25px; color: var(--accent-purple);
+        }
+
+        .color-p { color: var(--accent-purple); font-weight: bold; }
+        .color-i { color: var(--danger); font-weight: bold; }
+
+        footer { background: var(--bg-dark); color: white; padding: 2rem 0; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div id="scrollProgress"></div>
+
+    <header class="hero-section text-center">
+        <div class="container">
+            <i class="bi bi-cpu-fill master-icon mb-3 d-block"></i>
+            <h1 class="display-5 fw-bold">Máquina de Turing: Lógica, Paridad y Archivos</h1>
+            <p class="lead opacity-75">Entendiendo el transporte de datos y la persistencia en C++</p>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        
+        <!-- SECCIÓN 1: INTRODUCCIÓN DETALLADA -->
+        <section class="mb-5">
+            <h2 class="fw-bold"><i class="bi bi-info-circle-fill me-2 text-primary"></i>¿Qué estamos construyendo?</h2>
+            <div class="elite-card p-4 border-purple">
+                <p>Para alguien que desconoce este mundo, una <strong>Máquina de Turing</strong> es simplemente un modelo matemático que simula cómo una computadora procesa información. Imagina una cinta de papel infinita dividida en celdas. En cada celda hay un símbolo (como un '1' o un blanco '_').</p>
+                <p>Nuestro programa hará lo siguiente:</p>
+                <ol>
+                    <li>Recorrerá la cinta buscando el número <strong>1</strong>.</li>
+                    <li>Al encontrarlo, mirará en qué <strong>posición (índice)</strong> está parado el cabezal.</li>
+                    <li>Si la posición es <strong>Par</strong>, marcará el lugar con una <code>P</code>. Si es <strong>Impar</strong>, con una <code>I</code>.</li>
+                    <li>Luego, "transportará" ese '1' al final de la cinta (después de tres espacios en blanco <code>___</code>) y regresará por el siguiente.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: LÓGICA DE MOVIMIENTO -->
+        <section class="mb-5">
+            <h2 class="fw-bold"><i class="bi bi-arrows-move me-2 text-info"></i>1. El Motor: Movimiento del Cabezal</h2>
+            <p>El cabezal es nuestro "dedo" que señala qué parte de la memoria estamos leyendo. En C++, esto es una variable entera llamada <code>posicionCabezal</code>.</p>
+            
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="mac-buttons"><span style="background:#ff5f56"></span><span style="background:#ffbd2e"></span><span style="background:#27c93f"></span></div>
+                    <div class="terminal-title">movimientos.cpp</div>
+                </div>
+                <div class="terminal-body">
+<pre><code><span class="code-keyword">void</span> <span class="code-func">mover_derecha</span>() {
+    <span class="code-var">posicionCabezal</span>++;
+    <span class="code-func">extender_cinta</span>(); <span class="code-comment">// Si llegamos al final, agregamos más espacio '_'</span>
+}
+
+<span class="code-comment">// RETO: Completa la función de la izquierda</span>
+<span class="code-keyword">void</span> <span class="code-func">mover_izquierda</span>() {
+    <span class="code-keyword">if</span> (<span class="code-var">posicionCabezal</span> > <span class="code-number">0</span>) {
+        <span class="code-var">posicionCabezal</span>--;
+    }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: PARIDAD DINÁMICA -->
+        <section class="mb-5">
+            <h2 class="fw-bold"><i class="bi bi-calculator me-2 text-danger"></i>2. Lógica de Paridad en Tiempo Real</h2>
+            <p>No contamos todos los unos al principio. La máquina decide qué rastro dejar <strong>según dónde encuentra el dato</strong>. Usamos la función <code>es_par</code> pasando la posición actual.</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="elite-card p-4 border-danger">
+                        <h5>¿Cómo sabe si es par?</h5>
+                        <p>Usamos el operador <strong>módulo (%)</strong>. Este operador nos da el resto de una división.</p>
+                        <ul>
+                            <li>Si <code>posicion % 2 == 0</code>: El resto es cero, por tanto es <strong>PAR</strong>.</li>
+                            <li>Si no: Es <strong>IMPAR</strong>.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="terminal m-0">
+                        <div class="terminal-body">
+<pre><code><span class="code-keyword">bool</span> <span class="code-func">es_par</span>(<span class="code-keyword">int</span> <span class="code-var">pos</span>) {
+    <span class="code-keyword">return</span> (<span class="code-var">pos</span> % <span class="code-number">2</span> == <span class="code-number">0</span>);
+}
+
+<span class="code-comment">// Ejemplo de uso en la máquina:</span>
+<span class="code-keyword">char</span> <span class="code-var">marca</span> = <span class="code-func">es_par</span>(<span class="code-var">posicionCabezal</span>) ? <span class="code-string">'P'</span> : <span class="code-string">'I'</span>;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: SIMULADOR INTERACTIVO -->
+        <section class="mb-5 text-center">
+            <h2 class="fw-bold mb-4"><i class="bi bi-play-btn-fill me-2 text-success"></i>3. Ejecución Dinámica del Algoritmo</h2>
+            <div class="card shadow-sm border-0">
+                <div class="card-body py-4">
+                    <div class="badge bg-dark mb-3 p-2">Posición: <span id="ui-pos">0</span></div>
+                    <div class="turing-tape-container" id="tape-container"></div>
+                    <div id="ui-log" class="text-muted mb-3 italic">Esperando inicio...</div>
+                    <button class="btn btn-primary btn-lg" onclick="iniciarMaquina()">Iniciar Algoritmo de Transporte</button>
+                    <button class="btn btn-outline-secondary btn-lg" onclick="reset()">Reiniciar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: ESCRITURA DE ARCHIVOS -->
+        <section class="mb-5">
+            <h2 class="fw-bold"><i class="bi bi-file-earmark-arrow-down-fill me-2 text-primary"></i>4. Persistencia: Guardando resultados (ofstream)</h2>
+            <p>Para que los resultados no se pierdan al apagar la computadora, usamos archivos. En C++, la librería <code>&lt;fstream&gt;</code> nos permite crear un "puente" hacia el disco duro.</p>
+            
+            <div class="terminal">
+                <div class="terminal-header"><div class="terminal-title">escritura_archivo.cpp</div></div>
+                <div class="terminal-body">
+<pre><code><span class="code-keyword">#include</span> &lt;fstream&gt;
+
+<span class="code-keyword">void</span> <span class="code-func">guardar_registro</span>(<span class="code-keyword">string</span> <span class="code-var">resultado</span>) {
+    <span class="code-keyword">ofstream</span> <span class="code-var">archivo</span>(<span class="code-string">"registro_turing.txt"</span>); <span class="code-comment">// Modo salida (escritura)</span>
+    <span class="code-keyword">if</span> (<span class="code-var">archivo</span>.<span class="code-func">is_open</span>()) {
+        <span class="code-var">archivo</span> << <span class="code-string">"Resultado final de la cinta: "</span> << <span class="code-var">resultado</span> << endl;
+        <span class="code-var">archivo</span>.<span class="code-func">close</span>(); 
+        cout << <span class="code-string">"Datos guardados con éxito."</span> << endl;
+    }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: LECTURA DE ARCHIVOS -->
+        <section class="mb-5">
+            <h2 class="fw-bold"><i class="bi bi-file-earmark-arrow-up-fill me-2 text-info"></i>5. Recuperación: Leer archivos (ifstream)</h2>
+            <p>De nada sirve guardar datos si no podemos leerlos de vuelta. <code>ifstream</code> nos permite abrir un archivo existente y procesar su contenido línea por línea.</p>
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="terminal">
+                        <div class="terminal-header"><div class="terminal-title">lectura_archivo.cpp</div></div>
+                        <div class="terminal-body">
+<pre><code><span class="code-keyword">void</span> <span class="code-func">leer_historial</span>() {
+    <span class="code-keyword">ifstream</span> <span class="code-var">archivoLectura</span>(<span class="code-string">"registro_turing.txt"</span>); <span class="code-comment">// Modo entrada (lectura)</span>
+    <span class="code-keyword">string</span> <span class="code-var">linea</span>;
+    
+    <span class="code-keyword">if</span> (<span class="code-var">archivoLectura</span>.<span class="code-func">is_open</span>()) {
+        <span class="code-keyword">while</span> (<span class="code-func">getline</span>(<span class="code-var">archivoLectura</span>, <span class="code-var">linea</span>)) {
+            cout << <span class="code-string">"Leído del disco: "</span> << <span class="code-var">linea</span> << endl;
+        }
+        <span class="code-var">archivoLectura</span>.<span class="code-func">close</span>();
+    } <span class="code-keyword">else</span> {
+        cout << <span class="code-string">"No se pudo encontrar el archivo."</span> << endl;
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 7: TRY CATCH -->
+        <section class="mb-5">
+            <h2 class="fw-bold"><i class="bi bi-shield-exclamation me-2 text-warning"></i>6. Seguridad: Gestión de Errores con Try-Catch</h2>
+            <p>A veces las cosas fallan (el disco está lleno, el archivo no existe o no tenemos permisos). En lugar de que el programa se "cierre" abruptamente, usamos <strong>Excepciones</strong>.</p>
+            
+            <div class="elite-card p-4 border-warning mb-4">
+                <p>El bloque <strong>try</strong> contiene el código "peligroso", y el bloque <strong>catch</strong> captura el error si ocurre, permitiéndonos informar al usuario de forma amigable.</p>
+            </div>
+
+            <div class="terminal">
+                <div class="terminal-header"><div class="terminal-title">manejo_errores.cpp</div></div>
+                <div class="terminal-body">
+<pre><code><span class="code-keyword">#include</span> &lt;stdexcept&gt; <span class="code-comment">// Librería para excepciones estándar</span>
+
+<span class="code-keyword">void</span> <span class="code-func">operacion_segura</span>() {
+    <span class="code-keyword">try</span> {
+        <span class="code-comment">// Intentamos una operación que podría fallar</span>
+        <span class="code-keyword">ifstream</span> <span class="code-var">archivo</span>;
+        <span class="code-var">archivo</span>.<span class="code-func">exceptions</span>(ifstream::failbit | ifstream::badbit); <span class="code-comment">// Activa errores críticos</span>
+        <span class="code-var">archivo</span>.<span class="code-func">open</span>(<span class="code-string">"archivo_inexistente.txt"</span>);
+        
+        <span class="code-comment">// ... procesar archivo ...</span>
+        
+    } <span class="code-keyword">catch</span> (<span class="code-keyword">const</span> exception& <span class="code-var">e</span>) {
+        <span class="code-comment">// Si algo sale mal, saltamos aquí</span>
+        cerr << <span class="code-string">"⚠ ERROR DETECTADO: "</span> << <span class="code-var">e</span>.<span class="code-func">what</span>() << endl;
+        cout << <span class="code-string">"No te preocupes, el programa sigue funcionando."</span> << endl;
+    }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p class="mb-0 fw-bold text-uppercase" style="letter-spacing: 2px;">Luis Garcia 2026 - Fundamentos de Programación C++</p>
+    </footer>
+
+    <script>
+        let cinta = ['_', '_', '_', '1', '1', '1', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'];
+        let cabezal = 0;
+        let isRunning = false;
+
+        function render() {
+            const container = document.getElementById('tape-container');
+            container.innerHTML = '';
+            cinta.forEach((s, i) => {
+                const cell = document.createElement('div');
+                cell.className = `turing-cell ${i === cabezal ? 'active-head' : ''}`;
+                if (s === 'P') cell.classList.add('color-p');
+                if (s === 'I') cell.classList.add('color-i');
+                cell.innerText = s;
+                container.appendChild(cell);
+            });
+            document.getElementById('ui-pos').innerText = cabezal;
+        }
+
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+        async function iniciarMaquina() {
+            if(isRunning) return;
+            isRunning = true;
+            
+            const log = (msg) => document.getElementById('ui-log').innerText = msg;
+
+            // Fase 1: Buscar inicio
+            cabezal = 0;
+            while(cinta[cabezal] !== '1') {
+                log("Buscando inicio...");
+                cabezal++;
+                render();
+                await sleep(200);
+                if(cabezal >= cinta.length) break;
+            }
+
+            // Fase 2: Procesar
+            while(cabezal < cinta.length && cinta[cabezal] === '1') {
+                let marca = (cabezal % 2 === 0) ? 'P' : 'I';
+                let posOriginal = cabezal;
+
+                log(`Encontrado '1' en pos ${posOriginal} (${marca}). Marcando...`);
+                cinta[cabezal] = marca;
+                render();
+                await sleep(500);
+
+                log("Viajando al separador ___...");
+                while(!(cinta[cabezal] === '_' && cinta[cabezal+1] === '_' && cinta[cabezal+2] === '_')) {
+                    cabezal++;
+                    render();
+                    await sleep(100);
+                }
+
+                log("Saltando separador...");
+                cabezal += 3;
+                render();
+                await sleep(300);
+
+                while(cinta[cabezal] === '1') {
+                    cabezal++;
+                    render();
+                    await sleep(100);
+                    if(cabezal >= cinta.length) cinta.push('_');
+                }
+
+                log("Colocando '1' en el área de resultado.");
+                cinta[cabezal] = '1';
+                render();
+                await sleep(500);
+
+                log(`Regresando a la marca ${marca}...`);
+                while(cinta[cabezal] !== marca) {
+                    cabezal--;
+                    render();
+                    await sleep(100);
+                }
+
+                cabezal++;
+                render();
+                await sleep(300);
+            }
+
+            log("Simulación finalizada. Cinta procesada según paridad de posición.");
+            isRunning = false;
+        }
+
+        function reset() {
+            cinta = ['_', '_', '_', '1', '1', '1', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_'];
+            cabezal = 0;
+            isRunning = false;
+            document.getElementById('ui-log').innerText = "Esperando inicio...";
+            render();
+        }
+
+        render();
+    </script>
+</body>
+</html>
